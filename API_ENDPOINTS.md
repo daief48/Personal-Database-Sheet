@@ -69,7 +69,7 @@
         "title": "",
         "slu": "",
         "icon": ,
-    }....],
+    },{}....],
     "authorisation": {
         "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ",
         "type": "bearer"
