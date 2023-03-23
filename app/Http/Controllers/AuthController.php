@@ -22,7 +22,7 @@ class AuthController extends Controller
 
   /**
     * @OA\Post(
-    * path="/pdsBackend/api/auth/login",
+    * path="/pds-backend/api/auth/login",
     * operationId="Login",
     * tags={"Authentication"},
     * summary="User Login",
@@ -97,7 +97,7 @@ class AuthController extends Controller
 
    /**
     * @OA\Post(
-    * path="/pdsBackend/api/auth/register",
+    * path="/pds-backend/api/auth/register",
     * operationId="Register",
     * tags={"Authentication"},
     * summary="User Register",
@@ -174,7 +174,7 @@ class AuthController extends Controller
 
    /**
      * @OA\POST(
-     *     path="/pdsBackend/api/auth/logout",
+     *     path="/pds-backend/api/auth/logout",
      *     tags={"Authentication"},
      *     summary="Logout",
      *     description="Logout",

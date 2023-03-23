@@ -5,7 +5,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/pdsBackend/api/auth/login": {
+        "/pds-backend/api/auth/login": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -73,7 +73,7 @@
                 }
             }
         },
-        "/pdsBackend/api/auth/register": {
+        "/pds-backend/api/auth/register": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -154,14 +154,14 @@
                 }
             }
         },
-        "/pdsBackend/api/auth/logout": {
+        "/pds-backend/api/auth/logout": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Logout",
                 "description": "Logout",
-                "operationId": "c920efae4978cafc341dab477ff4b8ce",
+                "operationId": "5d2a173d2b681c62b8b23d1cb758eae4",
                 "responses": {
                     "200": {
                         "description": "Logout"
@@ -398,7 +398,7 @@
                 }
             }
         },
-        "/pdsBackend/api/users": {
+        "/pds-backend/api/users": {
             "get": {
                 "tags": [
                     "User Management"
@@ -419,7 +419,7 @@
                 }
             }
         },
-        "/pdsBackend/api/addUser": {
+        "/pds-backend/api/addUser": {
             "post": {
                 "tags": [
                     "User Management"
@@ -485,7 +485,7 @@
                 }
             }
         },
-        "/pdsBackend/api/users/{id}": {
+        "/pds-backend/api/users/{id}": {
             "get": {
                 "tags": [
                     "User Management"
