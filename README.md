@@ -1,5 +1,6 @@
 # pds-backend
 
+<img src="./public/images/thumbnail.png" width="100%">
 
 
 ## Getting started
