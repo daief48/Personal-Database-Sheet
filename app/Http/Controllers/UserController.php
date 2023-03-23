@@ -22,7 +22,7 @@ class UserController extends Controller
   /**
     * @OA\Get(
     * tags={"User Management"},
-    * path= "/pdsBackend/api/users",
+    * path= "/pds-backend/api/users",
     * operationId="getUsers",
     * summary="User List",
     * description="User List",
@@ -78,7 +78,7 @@ class UserController extends Controller
     /**
     * @OA\Post(
     * tags={"User Management"},
-    * path="/pdsBackend/api/addUser",
+    * path="/pds-backend/api/addUser",
     * operationId="addUser",
     * summary="Add New User",
     * description="Add New User",
@@ -146,7 +146,7 @@ class UserController extends Controller
     /**
     * @OA\Get(
     * tags={"User Management"},
-    * path="/pdsBackend/api/users/{id}",
+    * path="/pds-backend/api/users/{id}",
     * operationId="userDetail",
     * summary="User Detail",
     * description="",
@@ -181,7 +181,7 @@ class UserController extends Controller
     /**
     * @OA\Put(
     * tags={"User Management"},
-    * path="/pdsBackend/api/users/{id}",
+    * path="/pds-backend/api/users/{id}",
     * operationId="updateUser",
     * summary="Update User",
     * @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
@@ -243,7 +243,7 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/pdsBackend/api/users/{id}",
+     *     path="/pds-backend/api/users/{id}",
      *     tags={"User Management"},
      *     summary="Delete User",
      *     description="Delete User With Valid ID",
