@@ -18,7 +18,7 @@
   "header": {...},
   "meta": {},
   "body": {
-    "status": "success",
+    "status": "Success",
     "message": "User created successfully",
     "user": {
         "name": "",
@@ -29,6 +29,47 @@
         "created_at": "2023-03-23T06:54:24.000000Z",
         "id": 52
     },
+    "authorisation": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ",
+        "type": "bearer"
+    } 
+    }
+}
+```
+
+### pds-backend/api/auth/login 
+#### POST
+##### Input 
+```json
+{
+  "header": {...},
+  "meta": {},
+  "body": {
+    "phone": '',
+    "password": ''
+  }
+}
+```
+##### Output
+```json
+{
+  "header": {...},
+  "meta": {},
+  "body": {
+    "status": "Success",
+    "message": "Logedin successfully",
+    "user": {
+        "name": "",
+        "phone": "",
+        "status": ,
+        "role_id": ,
+        "id": 
+    },
+    "menu": [{
+        "title": "",
+        "slu": "",
+        "icon": ,
+    }....],
     "authorisation": {
         "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ",
         "type": "bearer"
