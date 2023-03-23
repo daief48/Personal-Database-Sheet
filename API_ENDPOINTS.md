@@ -1,11 +1,14 @@
-### bank-customer/v1/profile 
-#### GET
+### pds-backend/api/auth/register 
+#### POST
 ##### Input 
 ```json
 {
   "header": {...},
   "meta": {},
   "body": {
+    "name": '',
+    "phone": '',
+    "password": ''
   }
 }
 ```
@@ -15,8 +18,22 @@
   "header": {...},
   "meta": {},
   "body": {
-      &CustomerSearchResultDto
-  }
+    "status": "success",
+    "message": "User created successfully",
+    "user": {
+        "name": "",
+        "phone": "",
+        "status": 0,
+        "role_id": 2,
+        "updated_at": "2023-03-23T06:54:24.000000Z",
+        "created_at": "2023-03-23T06:54:24.000000Z",
+        "id": 52
+    },
+    "authorisation": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ",
+        "type": "bearer"
+    } 
+    }
 }
 ```
 ##### Functionality
