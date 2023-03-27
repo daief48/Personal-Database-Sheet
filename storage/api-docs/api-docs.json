@@ -154,6 +154,72 @@
                 }
             }
         },
+        "/pds-backend/api/auth/otpVerify": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User Otp Verification",
+                "description": "User Otp Verification",
+                "operationId": "otpVerify",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "otp"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "text"
+                                    },
+                                    "otp": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Register Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Register Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/auth/logout": {
             "post": {
                 "tags": [
@@ -175,14 +241,25 @@
                 }
             }
         },
-        "/asfBackend/api/getSpeaker": {
+        "/pds-backend/api/user/getprofile/{id}": {
             "get": {
                 "tags": [
-                    "ASF Speaker"
+                    "PDS User Profile [Users]"
                 ],
-                "summary": "Get Speakers List",
-                "description": "Get Speaker Details",
-                "operationId": "getSpeaker",
+                "summary": "Get User Profile List",
+                "operationId": "getprofile",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -196,43 +273,112 @@
                 }
             }
         },
-        "/asfBackend/api/addSpeaker": {
+        "/pds-backend/api/user/addProfile": {
             "post": {
                 "tags": [
-                    "ASF Speaker"
+                    "PDS User Profile [Users]"
                 ],
-                "summary": "Add Speaker",
-                "description": "Add Speaker",
-                "operationId": "addSpeaker",
+                "summary": "Add User Profile",
+                "description": "Add User Profile",
+                "operationId": "addProfile",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "status"
-                                ],
+                                "required": [],
                                 "properties": {
-                                    "name": {
+                                    "user_id": {
                                         "type": "text"
                                     },
                                     "image": {
                                         "type": "text"
                                     },
-                                    "occupation": {
+                                    "name": {
                                         "type": "text"
                                     },
-                                    "organization": {
+                                    "mobile_number": {
                                         "type": "text"
                                     },
-                                    "social_link": {
+                                    "email": {
                                         "type": "text"
                                     },
-                                    "bio": {
+                                    "designation": {
                                         "type": "text"
                                     },
-                                    "status": {
-                                        "type": "integer"
+                                    "present_addr_houseno": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_roadno": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_area": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_upazila": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_district": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_postcode": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_houseno": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_roadno": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_area": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_upazila": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_district": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_postcode": {
+                                        "type": "text"
+                                    },
+                                    "department": {
+                                        "type": "text"
+                                    },
+                                    "job_location": {
+                                        "type": "text"
+                                    },
+                                    "joining_date": {
+                                        "type": "text"
+                                    },
+                                    "education_history": {
+                                        "type": "text"
+                                    },
+                                    "father_name": {
+                                        "type": "text"
+                                    },
+                                    "mother_name": {
+                                        "type": "text"
+                                    },
+                                    "spouse_name": {
+                                        "type": "text"
+                                    },
+                                    "number_of_cheild": {
+                                        "type": "text"
+                                    },
+                                    "emergency_name": {
+                                        "type": "text"
+                                    },
+                                    "emergency_relation": {
+                                        "type": "text"
+                                    },
+                                    "emergency_email": {
+                                        "type": "text"
+                                    },
+                                    "emergency_addr": {
+                                        "type": "text"
+                                    },
+                                    "emergency_distict": {
+                                        "type": "text"
                                     }
                                 },
                                 "type": "object"
@@ -245,7 +391,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Speaker Added Successfully",
+                        "description": "User Profile Added Successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -261,25 +407,151 @@
                 }
             }
         },
-        "/asfBackend/api/getSpeakerDetail/{id}": {
+        "/pds-backend/api/user/updateProfile": {
+            "post": {
+                "tags": [
+                    "PDS User Profile [Users]"
+                ],
+                "summary": "Update User Profile",
+                "description": "Update User Profile",
+                "operationId": "updateProfile",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "id": {
+                                        "type": "text"
+                                    },
+                                    "user_id": {
+                                        "type": "text"
+                                    },
+                                    "image": {
+                                        "type": "text"
+                                    },
+                                    "name": {
+                                        "type": "text"
+                                    },
+                                    "mobile_number": {
+                                        "type": "text"
+                                    },
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "designation": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_houseno": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_roadno": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_area": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_upazila": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_district": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_postcode": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_houseno": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_roadno": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_area": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_upazila": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_district": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_postcode": {
+                                        "type": "text"
+                                    },
+                                    "department": {
+                                        "type": "text"
+                                    },
+                                    "job_location": {
+                                        "type": "text"
+                                    },
+                                    "joining_date": {
+                                        "type": "text"
+                                    },
+                                    "education_history": {
+                                        "type": "text"
+                                    },
+                                    "father_name": {
+                                        "type": "text"
+                                    },
+                                    "mother_name": {
+                                        "type": "text"
+                                    },
+                                    "spouse_name": {
+                                        "type": "text"
+                                    },
+                                    "number_of_cheild": {
+                                        "type": "text"
+                                    },
+                                    "emergency_name": {
+                                        "type": "text"
+                                    },
+                                    "emergency_relation": {
+                                        "type": "text"
+                                    },
+                                    "emergency_email": {
+                                        "type": "text"
+                                    },
+                                    "emergency_addr": {
+                                        "type": "text"
+                                    },
+                                    "emergency_distict": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated Guest Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getTransferList": {
             "get": {
                 "tags": [
-                    "ASF Speaker"
+                    "PDS User Transfer"
                 ],
-                "summary": "Get Specific Speaker Detail",
-                "operationId": "getSpeakerDetail",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
+                "summary": "Transfer List",
+                "description": "Total Transfer List",
+                "operationId": "getTransferList",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -293,63 +565,61 @@
                 }
             }
         },
-        "/asfBackend/api/updateSpeaker/{id}": {
-            "put": {
+        "/pds-backend/api/addTransferRecord": {
+            "post": {
                 "tags": [
-                    "ASF Speaker"
+                    "PDS User Transfer"
                 ],
-                "summary": "Update Speaker",
-                "operationId": "updateSpeaker",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id, eg; 1",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
+                "summary": "Add New Transfer Record",
+                "description": "Add New New Transfer Record",
+                "operationId": "addTransferRecord",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "status"
-                                ],
+                                "required": [],
                                 "properties": {
-                                    "name": {
-                                        "type": "string"
+                                    "to_office": {
+                                        "type": "text"
                                     },
-                                    "image": {
-                                        "type": "string"
+                                    "department": {
+                                        "type": "text"
                                     },
-                                    "occupation": {
-                                        "type": "string"
+                                    "designation": {
+                                        "type": "text"
                                     },
-                                    "organization": {
-                                        "type": "string"
+                                    "transfer_order": {
+                                        "type": "text"
                                     },
-                                    "social_link": {
-                                        "type": "string"
+                                    "transfer_type": {
+                                        "type": "text"
                                     },
-                                    "bio": {
-                                        "type": "string"
+                                    "transfer_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "join_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "transfer_letter": {
+                                        "type": "text"
                                     },
                                     "status": {
-                                        "type": "integer"
+                                        "type": "text"
                                     }
                                 },
                                 "type": "object"
                             }
+                        },
+                        "application/json": {
+                            "schema": {}
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Speaker Updated Successfully",
+                        "description": "Added  Transfer Record Successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -365,14 +635,87 @@
                 }
             }
         },
-        "/asfBackend/api/deleteSpeaker/{id}": {
+        "/pds-backend/api/updateTransferRecord": {
+            "post": {
+                "tags": [
+                    "PDS User Transfer"
+                ],
+                "summary": "Update Transfer Record",
+                "description": "Update Transfer Record",
+                "operationId": "updateTransferRecord",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "id": {
+                                        "type": "text"
+                                    },
+                                    "to_office": {
+                                        "type": "text"
+                                    },
+                                    "department": {
+                                        "type": "text"
+                                    },
+                                    "designation": {
+                                        "type": "text"
+                                    },
+                                    "transfer_order": {
+                                        "type": "text"
+                                    },
+                                    "transfer_type": {
+                                        "type": "text"
+                                    },
+                                    "transfer_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "join_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "transfer_letter": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated Guest Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteTransferRecord/{id}": {
             "delete": {
                 "tags": [
-                    "ASF Speaker"
+                    "PDS User Transfer"
                 ],
-                "summary": "Delete Speaker",
-                "description": "Delete Speaker ID",
-                "operationId": "deleteSpeaker",
+                "summary": "Delete Transfer Record",
+                "description": "Delete  Transfer Record With Valid ID",
+                "operationId": "deleteTransferRecord",
                 "parameters": [
                     {
                         "name": "id",
@@ -380,14 +723,80 @@
                         "description": "id",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "example": 1
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully, Delete Employee"
+                        "description": "Successfully, Delete Album"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeTransferRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User Transfer"
+                ],
+                "summary": "Active Transfer Record",
+                "description": "Active Specific Transfer Record With Valid ID",
+                "operationId": "activeTransferRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Album"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveTransferRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User Transfer"
+                ],
+                "summary": "In-active Transfer Record",
+                "description": "In-active Specific Al Transfer Recordbum With Valid ID",
+                "operationId": "inactiveTransferRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Album"
                     },
                     "400": {
                         "description": "Bad Request"
