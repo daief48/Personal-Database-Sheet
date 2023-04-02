@@ -16,6 +16,36 @@ class ProfileController extends Controller
         $this->responseRepository = $rr;
     }
 
+    /**
+     * @OA\Get(
+     * tags={"PDS User Profile [Users]"},
+     * path= "/pds-backend/api/user/getAllProfile",
+     * operationId="getAllProfile",
+     * summary="Get All Profile List",
+     * description="Get All Profile List",
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
+
+     public function getAllProfile(){
+        try {
+
+            $getAllProfile = Profile::orderBy('id', 'desc')->get();
+            return response()->json([
+                'status' => 'success',
+                'data' => $getAllProfile,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 401);
+        }
+    }
 
     /**
     * @OA\Get(
@@ -286,6 +316,6 @@ class ProfileController extends Controller
         }
     }
 
-
+    
 
 }

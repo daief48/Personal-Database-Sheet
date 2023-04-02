@@ -81,6 +81,14 @@ class AuthController extends Controller
             }
 
             $user = Auth::user();
+
+            if($token && $user->otp_verified == 0) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Not verified.',
+                ], 402);
+            }
+
             return response()->json([
                 'status' => 'success',
                 'user' => $user,
@@ -187,7 +195,7 @@ class AuthController extends Controller
                     'role_id' => 2,
                     'password' => Hash::make($request->password),
                     'otp' => $otp,
-                    'otp_expire_at' => Carbon::now()->addMinutes(3),
+                    'otp_expire_at' => Carbon::now()->addMinutes(1),
                     'otp_verified' => 0
     
                 ]);
@@ -268,6 +276,13 @@ class AuthController extends Controller
                 }
 
                 if($userInfo->otp == $request->otp) {
+                    if(Carbon::now()->isAfter($userInfo->otp_expire_at)){
+                        return response()->json([
+                            'status' => 'expird',
+                            'message' => 'OTP has a expired..',
+                        ],401); 
+                    }
+
                     User::where('id',$request->user_id)->update([
                         'otp_verified' => 1
                     ]);
