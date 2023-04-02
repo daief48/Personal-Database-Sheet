@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\RequestException;
 
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
@@ -15,7 +18,7 @@ class AuthController extends Controller
     protected $responseRepository;
     public function __construct(ResponseRepository $rr,)
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        //$this->middleware('auth:api', ['except' => ['login','register']]);
         $this->responseRepository = $rr;
     }
 
@@ -78,6 +81,14 @@ class AuthController extends Controller
             }
 
             $user = Auth::user();
+
+            if($token && $user->otp_verified == 0) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Not verified.',
+                ], 402);
+            }
+
             return response()->json([
                 'status' => 'success',
                 'user' => $user,
@@ -142,35 +153,163 @@ class AuthController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'phone' => 'required|numeric|unique:users',
+                //'email' => 'required|string|email|max:255|unique:users',
+                //'phone' => 'required|numeric|unique:users',
+                'phone' => 'required|numeric',
                 'password' => 'required|string|min:6',
             ]);
 
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone, 
-                'status' => 1, 
-                'role_id' => 2,
-                'password' => Hash::make($request->password),
-            ]);
+            if(User::where('phone',$request->phone)->where('otp_verified',1)->exists()) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'User already registred',
+                ], 500);
+            }
 
-            $token = Auth::login($user);
+            if(User::where('phone',$request->phone)->where('otp_verified',0)->exists()) {
+                $user = User::where('phone',$request->phone)->first();
+                User::where('phone',$request->phone)->update([
+                    'otp' => rand(123456, 999999),
+                    'otp_expire_at' => Carbon::now()->addMinutes(3)
+                ]);
+                $url = env("MESSAGE_OTP_API", "http");
+                $response = Http::withToken('token')->post($url, [
+                    'mobileNumber' => $request->phone,
+                    'message' => $otp,
+                ])->throw(function (Response $response, RequestException $e) {
+
+                })->json();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Otp have been updated.',
+                    'user' => $user->id,
+                ]);
+            }else {
+                $otp = rand(123456, 999999);
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone, 
+                    'status' => 0,
+                    'role_id' => 2,
+                    'password' => Hash::make($request->password),
+                    'otp' => $otp,
+                    'otp_expire_at' => Carbon::now()->addMinutes(1),
+                    'otp_verified' => 0
+    
+                ]);
+
+                $url = env("MESSAGE_OTP_API", "http");
+                $response = Http::withToken('token')->post($url, [
+                    'mobileNumber' => $request->phone,
+                    'message' => $otp,
+                ])->throw(function (Response $response, RequestException $e) {
+
+                })->json();
+
+                if ($response['status'] == "FAILED") {
+                    User::where("id",$user->id)->delete();
+                }
+            }
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'User created successfully',
-                'user' => $user,
-                'authorisation' => [
-                    'token' => $token,
-                    'type' => 'bearer',
-                ]
+                'user' => $user->id,
             ]);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+    * @OA\Post(
+    * path="/pds-backend/api/auth/otpVerify",
+    * operationId="otpVerify",
+    * tags={"Authentication"},
+    * summary="User Otp Verification",
+    * description="User Otp Verification",
+    *     @OA\RequestBody(
+    *         @OA\JsonContent(),
+    *         @OA\MediaType(
+    *            mediaType="multipart/form-data",
+    *            @OA\Schema(
+    *               type="object",
+    *               required={"user_id","otp"},
+    *               @OA\Property(property="user_id", type="text"),
+    *               @OA\Property(property="otp", type="text"),
+    *            ),
+    *        ),
+    *    ),
+    *      @OA\Response(
+    *          response=201,
+    *          description="Register Successfully",
+    *          @OA\JsonContent()
+    *       ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Register Successfully",
+    *          @OA\JsonContent()
+    *       ),
+    *      @OA\Response(
+    *          response=422,
+    *          description="Unprocessable Entity",
+    *          @OA\JsonContent()
+    *       ),
+    *      @OA\Response(response=400, description="Bad request"),
+    *      @OA\Response(response=404, description="Resource Not Found"),
+    * )
+    */
+
+    public function otpVerify(Request $request)
+    {
+        try {
+            $userInfo = User::where("id", $request->user_id)->firstOrFail();
+
+            if($userInfo) {
+                if($userInfo->otp_verified == 1) {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'User Already Verified.',
+                    ]);  
+                }
+
+                if($userInfo->otp == $request->otp) {
+                    if(Carbon::now()->isAfter($userInfo->otp_expire_at)){
+                        return response()->json([
+                            'status' => 'expird',
+                            'message' => 'OTP has a expired..',
+                        ],401); 
+                    }
+
+                    User::where('id',$request->user_id)->update([
+                        'otp_verified' => 1
+                    ]);
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'OTP Verified Successfully.',
+                        'user' => $userInfo,
+                    ]);               
+                }
+                else{
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Invalid OTP.',
+                    ]);  
+                }
+            }else{
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'User not found',
+                ]); 
+            }
+
+            return $this->responseRepository->ResponseSuccess(null, 'Fail to Verified Otp.');
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
    /**
      * @OA\POST(
