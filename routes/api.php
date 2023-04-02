@@ -7,7 +7,15 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransferController;
-
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\TrainingSetupController;
+use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\LeaveController; 
+use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\AcrController;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -32,6 +40,7 @@ Route::group(['prefix'=>''], function(){
 
 //User Profile Information v1
 
+Route::get('/user/getAllProfile', [ProfileController::class, 'getAllProfile']);
 Route::get('/user/getprofile/{id}', [ProfileController::class, 'getprofile']);
 Route::post('/user/addProfile', [ProfileController::class, 'addProfile']);
 Route::post('/user/updateProfile', [ProfileController::class, 'updateProfile']);
@@ -44,6 +53,93 @@ Route::post('/updateTransferRecord', [TransferController::class, 'updateTransfer
 Route::delete('/deleteTransferRecord/{id}', [TransferController::class, 'deleteTransferRecord']);
 Route::patch('/activeTransferRecord/{id}', [TransferController::class, 'activeTransferRecord']);
 Route::patch('/inactiveTransferRecord/{id}', [TransferController::class, 'inactiveTransferRecord']);
+Route::get('/specificUserTransferRecord/{id}', [TransferController::class, 'specificUserTransferRecord']);
+
+
+//User Training Information v1
+
+Route::get('/getTrainingList', [TrainingController::class, 'getTrainingList']);
+Route::post('/addTrainingRecord', [TrainingController::class, 'addTrainingRecord']); 
+Route::put('/updateTrainingRecord/{id}', [TrainingController::class, 'updateTrainingRecord']); 
+Route::delete('/deleteTrainingRecord/{id}', [TrainingController::class, 'deleteTrainingRecord']); 
+Route::patch('/activeTrainingRecord/{id}', [TrainingController::class, 'activeTrainingRecord']); 
+Route::get('/specificUserTraining/{id}', [TrainingController::class, 'specificUserTraining']); 
+
+//User Promotion Information v1
+
+Route::get('/getPromotion', [PromotionController::class, 'getPromotion']);
+Route::post('/addPromotion', [PromotionController::class, 'addPromotion']); 
+Route::put('/updatePromotion/{id}', [PromotionController::class, 'updatePromotion']); 
+Route::delete('/deletePromotion/{id}', [PromotionController::class, 'deletePromotion']); 
+Route::patch('/activePromotionRecord/{id}', [PromotionController::class, 'activePromotionRecord']); 
+Route::patch('/inactivePromotionRecord/{id}', [PromotionController::class, 'inactivePromotionRecord']); 
+Route::get('/specificUserPromotion/{id}', [PromotionController::class, 'specificUserPromotion']); 
+
+//Admin Setup Department v1
+
+Route::get('/getDepartment', [DepartmentController::class, 'getDepartment']);
+Route::post('/addDepartment', [DepartmentController::class, 'addDepartment']);
+Route::put('/updateDepartment/{id}', [DepartmentController::class, 'updateDepartment']);
+Route::delete('/deleteDepartment/{id}', [DepartmentController::class, 'deleteDepartment']);
+Route::patch('/activeDeptRecord/{id}', [DepartmentController::class, 'activeDeptRecord']);
+Route::patch('/inactiveDeptRecord/{id}', [DepartmentController::class, 'inactiveDeptRecord']);
+Route::get('/specificDeptSetup/{id}', [DepartmentController::class, 'specificDeptSetup']);
+
+//Training Setup v1
+
+Route::get('/getTrainingMgt', [TrainingSetupController::class, 'getTrainingMgt']);
+Route::post('/addTrainingMgt', [TrainingSetupController::class, 'addTrainingMgt']);
+Route::put('/updateTrainingMgt/{id}', [TrainingSetupController::class, 'updateTrainingMgt']);
+Route::delete('/deleteTrainingMgt/{id}', [TrainingSetupController::class, 'deleteTrainingMgt']);
+Route::patch('/activeTrainingMgtRecord/{id}', [TrainingSetupController::class, 'activeTrainingMgtRecord']);
+Route::patch('/inactiveTrainingMgtRecord/{id}', [TrainingSetupController::class, 'inactiveTrainingMgtRecord']);
+Route::get('/specificTrainingSetup/{id}', [TrainingSetupController::class, 'specificTrainingSetup']);
+
+//Office Setup v1
+
+Route::get('/getOfficeMgt', [OfficeController::class, 'getOfficeMgt']);
+Route::post('/addOfficeMgt', [OfficeController::class, 'addOfficeMgt']);
+Route::put('/updateOfficeMgt/{id}', [OfficeController::class, 'updateOfficeMgt']);
+Route::delete('/deleteOfficeMgt/{id}', [OfficeController::class, 'deleteOfficeMgt']);
+Route::patch('/activeOfficeMgtRecord/{id}', [OfficeController::class, 'activeOfficeMgtRecord']);
+Route::patch('/inactiveOfficeMgtRecord/{id}', [OfficeController::class, 'inactiveOfficeMgtRecord']);
+Route::get('/specificOfficeSetup/{id}', [OfficeController::class, 'specificOfficeSetup']);
+
+//Designation Setup v1
+
+Route::get('/getDesignationMgt', [DesignationController::class, 'getDesignationMgt']);
+Route::post('/addDesignationMgt', [DesignationController::class, 'addDesignationMgt']);
+Route::put('/updateDesignationMgt/{id}', [DesignationController::class, 'updateDesignationMgt']);
+Route::delete('/deleteDesignationMgt/{id}', [DesignationController::class, 'deleteDesignationMgt']);
+Route::patch('/activeDesignationMgtRecord/{id}', [DesignationController::class, 'activeDesignationMgtRecord']);
+Route::patch('/inactiveDesignationMgtRecord/{id}', [DesignationController::class, 'inactiveDesignationMgtRecord']);
+
+//Leave management v1
+
+Route::get('/getLeaveMgt', [LeaveController::class, 'getLeaveMgt']);
+Route::post('/addLeaveMgt', [LeaveController::class, 'addLeaveMgt']);
+Route::put('/updateLeaveMgt/{id}', [LeaveController::class, 'updateLeaveMgt']);
+Route::delete('/deleteLeaveMgt/{id}', [LeaveController::class, 'deleteLeaveMgt']);
+Route::patch('/activeLeaveMgtRecord/{id}', [LeaveController::class, 'activeLeaveMgtRecord']);
+Route::patch('/inactiveLeaveMgtRecord/{id}', [LeaveController::class, 'inactiveLeaveMgtRecord']);
+
+//Leave Type Setup v1
+
+Route::get('/getLeaveType', [LeaveTypeController::class, 'getLeaveType']);
+Route::post('/addLeaveType', [LeaveTypeController::class, 'addLeaveType']);
+Route::put('/updateLeaveType/{id}', [LeaveTypeController::class, 'updateLeaveType']);
+Route::delete('/deleteLeaveType/{id}', [LeaveTypeController::class, 'deleteLeaveType']);
+Route::patch('/activeLeaveTypeRecord/{id}', [LeaveTypeController::class, 'activeLeaveTypeRecord']);
+Route::patch('/inactiveLeaveTypeRecord/{id}', [LeaveTypeController::class, 'inactiveLeaveTypeRecord']);
+Route::get('/specificLeaveType/{id}', [LeaveTypeController::class, 'specificLeaveType']);
+
+//Annual Confidential Report v1
+
+Route::get('/getAcr', [AcrController::class, 'getAcr']);
+Route::post('/addacr', [AcrController::class, 'addacr']);
+Route::put('/updateAcrMgt/{id}', [AcrController::class, 'updateAcrMgt']);
+Route::get('/specificAcrInfo/{id}', [AcrController::class, 'specificAcrInfo']);
+
 
 // Mail Controller
 

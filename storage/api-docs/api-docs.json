@@ -5,6 +5,222 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/pds-backend/api/getAcr": {
+            "get": {
+                "tags": [
+                    "PDS Annual Confidential Report Management"
+                ],
+                "summary": "PDS Annual Confidential Report List",
+                "description": "Total Leave Type List",
+                "operationId": "getAcr",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addacr": {
+            "post": {
+                "tags": [
+                    "PDS Annual Confidential Report Management"
+                ],
+                "summary": "Add New ACR Mgt",
+                "description": "Add New ACR Mgt",
+                "operationId": "addacr",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "emp_id": {
+                                        "type": "text"
+                                    },
+                                    "emp_name": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "designation": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "department": {
+                                        "type": "text"
+                                    },
+                                    "office_name": {
+                                        "type": "text"
+                                    },
+                                    "acr_year": {
+                                        "type": "text"
+                                    },
+                                    "score": {
+                                        "type": "text"
+                                    },
+                                    "file": {
+                                        "type": "text"
+                                    },
+                                    "remarks": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added ACR Mgt Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateAcrMgt/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Annual Confidential Report Management"
+                ],
+                "summary": "Update ACR Mgt Setup",
+                "operationId": "updateAcrMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "emp_id": {
+                                        "type": "text",
+                                        "example": "2"
+                                    },
+                                    "emp_name": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "Yeasin"
+                                    },
+                                    "designation": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2"
+                                    },
+                                    "department": {
+                                        "type": "text",
+                                        "example": "2"
+                                    },
+                                    "office_name": {
+                                        "type": "text",
+                                        "example": "2"
+                                    },
+                                    "acr_year": {
+                                        "type": "text",
+                                        "example": "2023"
+                                    },
+                                    "score": {
+                                        "type": "text",
+                                        "example": "4"
+                                    },
+                                    "file": {
+                                        "type": "text",
+                                        "example": "file_update"
+                                    },
+                                    "remarks": {
+                                        "type": "text",
+                                        "example": "remark_update"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ACR Mgt Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificAcrInfo/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Annual Confidential Report Management"
+                ],
+                "summary": "Specific Acr Info Detail",
+                "description": "",
+                "operationId": "specificAcrInfo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/auth/login": {
             "post": {
                 "tags": [
@@ -231,6 +447,1296 @@
                 "responses": {
                     "200": {
                         "description": "Logout"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getDepartment": {
+            "get": {
+                "tags": [
+                    "PDS Department Setup"
+                ],
+                "summary": "Department List",
+                "description": "Total Promotion List",
+                "operationId": "getDepartment",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addDepartment": {
+            "post": {
+                "tags": [
+                    "PDS Department Setup"
+                ],
+                "summary": "Add New Department",
+                "description": "Add New Department",
+                "operationId": "addDepartment",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "dept_name": {
+                                        "type": "text"
+                                    },
+                                    "create_at": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Department Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateDepartment/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Department Setup"
+                ],
+                "summary": "Update Department Setup",
+                "operationId": "updateDepartment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "dept_name": {
+                                        "type": "text",
+                                        "example": "xyz"
+                                    },
+                                    "create_at": {
+                                        "type": "text",
+                                        "example": "2023-03-23"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Department Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteDepartment/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Department Setup"
+                ],
+                "summary": "Delete Department Record",
+                "description": "Delete Department Record With Valid ID",
+                "operationId": "deleteDepartment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Department Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeDeptRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Department Setup"
+                ],
+                "summary": "Active Department Record",
+                "description": "Active Specific Department Record With Valid ID",
+                "operationId": "activeDeptRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Department Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveDeptRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Department Setup"
+                ],
+                "summary": "In-active Department Record",
+                "description": "In-active Specific Department Record With Valid ID",
+                "operationId": "inactiveDeptRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Promotion Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificDeptSetup/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Department Setup"
+                ],
+                "summary": "Specific Dept Setup",
+                "description": "",
+                "operationId": "specificDeptSetup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getDesignationMgt": {
+            "get": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "Designation Mgt List",
+                "description": "Total Designation Mgt List",
+                "operationId": "getDesignationMgt",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addDesignationMgt": {
+            "post": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "Add New Designation Mgt",
+                "description": "Add New Designation Mgt",
+                "operationId": "addDesignationMgt",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "designation_name": {
+                                        "type": "text"
+                                    },
+                                    "create_at": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Designation Mgt Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateDesignationMgt/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "Update Designation Mgt Setup",
+                "operationId": "updateDesignationMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "designation_name": {
+                                        "type": "text",
+                                        "example": "xyz"
+                                    },
+                                    "create_at": {
+                                        "type": "text",
+                                        "example": "2023-03-23"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Designation Mgt Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteDesignationMgt/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "Delete Designation Mgt Record",
+                "description": "Delete Designation Mgt Record With Valid ID",
+                "operationId": "deleteDesignationMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Office Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveDesignationMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "In-active Designation Mgt Record",
+                "description": "In-active Specific Designation Mgt Record With Valid ID",
+                "operationId": "inactiveDesignationMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Designation Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeDesignationMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "Active Designation Mgt Record",
+                "description": "Active Specific Designation Mgt Record With Valid ID",
+                "operationId": "activeDesignationMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Designation Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getLeaveMgt": {
+            "get": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Leave Mgt List",
+                "description": "Total Leave Mgt List",
+                "operationId": "getLeaveMgt",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addLeaveMgt": {
+            "post": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Add New Leave Mgt",
+                "description": "Add New Leave Mgt",
+                "operationId": "addLeaveMgt",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "leave_type": {
+                                        "type": "text"
+                                    },
+                                    "from_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "to_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "day": {
+                                        "type": "text"
+                                    },
+                                    "description": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Leave Mgt Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateLeaveMgt/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Update Leave Mgt Setup",
+                "operationId": "updateLeaveMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "leave_type": {
+                                        "type": "text",
+                                        "example": "2"
+                                    },
+                                    "from_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-03-23"
+                                    },
+                                    "to_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-03-23"
+                                    },
+                                    "day": {
+                                        "type": "text",
+                                        "example": "2"
+                                    },
+                                    "description": {
+                                        "type": "text",
+                                        "example": "update_des"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Leave Mgt Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteLeaveMgt/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Delete Leave Mgt Record",
+                "description": "Delete Leave Mgt Record With Valid ID",
+                "operationId": "deleteLeaveMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Leave Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveLeaveMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "In-active Leave Mgt Record",
+                "description": "In-active Specific Leave Mgt Record With Valid ID",
+                "operationId": "inactiveLeaveMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Leave Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeLeaveMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Active Leave Mgt Record",
+                "description": "Active Specific Office Mgt Record With Valid ID",
+                "operationId": "activeLeaveMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Leave Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getLeaveType": {
+            "get": {
+                "tags": [
+                    "PDS Leave Type Setup"
+                ],
+                "summary": "Leave Type List",
+                "description": "Total Leave Type List",
+                "operationId": "getLeaveType",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addLeaveType": {
+            "post": {
+                "tags": [
+                    "PDS Leave Type Setup"
+                ],
+                "summary": "Add New Leave Type",
+                "description": "Add New Leave Type",
+                "operationId": "addLeaveType",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "leave_type": {
+                                        "type": "text"
+                                    },
+                                    "create_at": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Leave Type Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateLeaveType/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Leave Type Setup"
+                ],
+                "summary": "Update Leave Type Setup",
+                "operationId": "updateLeaveType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "leave_type": {
+                                        "type": "text",
+                                        "example": "xyz"
+                                    },
+                                    "create_at": {
+                                        "type": "text",
+                                        "example": "2023-03-23"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Leave Type Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteLeaveType/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Leave Type Setup"
+                ],
+                "summary": "Delete Leave Type Record",
+                "description": "Delete Leave Type Record With Valid ID",
+                "operationId": "deleteLeaveType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Leave Type Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeLeaveTypeRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Leave Type Setup"
+                ],
+                "summary": "Active Leave Type Record",
+                "description": "Active Specific Leave Type Record With Valid ID",
+                "operationId": "activeLeaveTypeRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Leave Type Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveLeaveTypeRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Leave Type Setup"
+                ],
+                "summary": "In-active Leave Type Record",
+                "description": "In-active Specific Leave Type Record With Valid ID",
+                "operationId": "inactiveLeaveTypeRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Leave Type Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificLeaveType/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Leave Type Setup"
+                ],
+                "summary": "Specific Leave Type Info",
+                "description": "Specific Leave Type Info",
+                "operationId": "specificLeaveType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getOfficeMgt": {
+            "get": {
+                "tags": [
+                    "PDS Office Setup"
+                ],
+                "summary": "Office Mgt List",
+                "description": "Total Office Mgt List",
+                "operationId": "getOfficeMgt",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addOfficeMgt": {
+            "post": {
+                "tags": [
+                    "PDS Office Setup"
+                ],
+                "summary": "Add New Office Mgt",
+                "description": "Add New Office Mgt",
+                "operationId": "addOfficeMgt",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "office_name": {
+                                        "type": "text"
+                                    },
+                                    "create_at": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Training Mgt Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateOfficeMgt/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Office Setup"
+                ],
+                "summary": "Update Office Mgt Setup",
+                "operationId": "updateOfficeMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "office_name": {
+                                        "type": "text",
+                                        "example": "xyz"
+                                    },
+                                    "create_at": {
+                                        "type": "text",
+                                        "example": "2023-03-23"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Office Mgt Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteOfficeMgt/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Office Setup"
+                ],
+                "summary": "Delete Office Mgt Record",
+                "description": "Delete Office Mgt Record With Valid ID",
+                "operationId": "deleteOfficeMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Office Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveOfficeMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Office Setup"
+                ],
+                "summary": "In-active Office Mgt Record",
+                "description": "In-active Specific Office Mgt Record With Valid ID",
+                "operationId": "inactiveOfficeMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Office Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeOfficeMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Office Setup"
+                ],
+                "summary": "Active Office Mgt Record",
+                "description": "Active Specific Office Mgt Record With Valid ID",
+                "operationId": "activeOfficeMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Office Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificOfficeSetup/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Office Setup"
+                ],
+                "summary": "Specific Office Setup",
+                "description": "Specific Office Setup",
+                "operationId": "specificOfficeSetup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/user/getAllProfile": {
+            "get": {
+                "tags": [
+                    "PDS User Profile [Users]"
+                ],
+                "summary": "Get All Profile List",
+                "description": "Get All Profile List",
+                "operationId": "getAllProfile",
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -544,6 +2050,844 @@
                 }
             }
         },
+        "/pds-backend/api/getPromotion": {
+            "get": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "Promotion List",
+                "description": "Total Promotion List",
+                "operationId": "getPromotion",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addPromotion": {
+            "post": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "Add New Promotion",
+                "description": "Add New Promotion",
+                "operationId": "addPromotion",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "name": {
+                                        "type": "text"
+                                    },
+                                    "promotion_ref_number": {
+                                        "type": "text"
+                                    },
+                                    "promoted_designation": {
+                                        "type": "text"
+                                    },
+                                    "promotion_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    },
+                                    "description": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Promotion Record Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updatePromotion/{id}": {
+            "put": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "Update Promotion Record",
+                "operationId": "updatePromotion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "example": "mr.jons"
+                                    },
+                                    "promotion_ref_number": {
+                                        "type": "text",
+                                        "example": "2211"
+                                    },
+                                    "promoted_designation": {
+                                        "type": "text",
+                                        "example": 2
+                                    },
+                                    "promotion_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-03-23"
+                                    },
+                                    "description": {
+                                        "type": "text",
+                                        "example": "good"
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Promotion Record Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deletePromotion/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "Delete Promotion Record",
+                "description": "Delete  Promotion Record With Valid ID",
+                "operationId": "deletePromotion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Promotion Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activePromotionRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "Active Promotion Record",
+                "description": "Active Specific Promotion Record With Valid ID",
+                "operationId": "activePromotionRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Promotion Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactivePromotionRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "In-active Promotion Record",
+                "description": "In-active Specific Promotion Record With Valid ID",
+                "operationId": "inactivePromotionRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Promotion Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificUserPromotion/{id}": {
+            "get": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "Get Specific User Promotion Record",
+                "description": "",
+                "operationId": "specificUserPromotion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getTrainingList": {
+            "get": {
+                "tags": [
+                    "PDS User Training"
+                ],
+                "summary": "Training List",
+                "description": "Total Training List",
+                "operationId": "getTrainingList",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addTrainingRecord": {
+            "post": {
+                "tags": [
+                    "PDS User Training"
+                ],
+                "summary": "Add New Training Record",
+                "description": "Add New Training Record",
+                "operationId": "addTrainingRecord",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "training_center_name": {
+                                        "type": "text"
+                                    },
+                                    "training_score": {
+                                        "type": "text"
+                                    },
+                                    "training_feedback": {
+                                        "type": "text"
+                                    },
+                                    "training_strt_date": {
+                                        "type": "text"
+                                    },
+                                    "training_end_date": {
+                                        "type": "text"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added  Training Record Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateTrainingRecord/{id}": {
+            "put": {
+                "tags": [
+                    "PDS User Training"
+                ],
+                "summary": "Update Training Record",
+                "operationId": "updateTrainingRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "training_center_name": {
+                                        "type": "text",
+                                        "example": 1
+                                    },
+                                    "training_score": {
+                                        "type": "text",
+                                        "example": "80"
+                                    },
+                                    "training_feedback": {
+                                        "type": "text",
+                                        "example": "better"
+                                    },
+                                    "training_strt_date": {
+                                        "type": "text",
+                                        "example": "2023-03-23"
+                                    },
+                                    "training_end_date": {
+                                        "type": "text",
+                                        "example": "2023-03-23"
+                                    },
+                                    "description": {
+                                        "type": "text",
+                                        "example": "good"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Training Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteTrainingRecord/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS User Training"
+                ],
+                "summary": "Delete Training Record",
+                "description": "Delete Training Record With Valid ID",
+                "operationId": "deleteTrainingRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Training Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeTrainingRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User Training"
+                ],
+                "summary": "Active Training Record",
+                "description": "Active Specific Training Record With Valid ID",
+                "operationId": "activeTrainingRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Training Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveTrainingRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User Training"
+                ],
+                "summary": "In-active Training Record",
+                "description": "In-active Specific Training Record With Valid ID",
+                "operationId": "inactiveTrainingRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Training Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificUserTraining/{id}": {
+            "get": {
+                "tags": [
+                    "PDS User Training"
+                ],
+                "summary": "Get Specific Training Record",
+                "description": "",
+                "operationId": "specificUserTraining",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getTrainingMgt": {
+            "get": {
+                "tags": [
+                    "PDS Training Setup"
+                ],
+                "summary": "Training Mgt List",
+                "description": "Total Training Mgt List",
+                "operationId": "getTrainingMgt",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addTrainingMgt": {
+            "post": {
+                "tags": [
+                    "PDS Training Setup"
+                ],
+                "summary": "Add New Training Mgt",
+                "description": "Add New Training Mgt",
+                "operationId": "addTrainingMgt",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "training_name": {
+                                        "type": "text"
+                                    },
+                                    "create_at": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Training Mgt Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateTrainingMgt/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Training Setup"
+                ],
+                "summary": "Update Training Mgt Setup",
+                "operationId": "updateTrainingMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "training_name": {
+                                        "type": "text",
+                                        "example": "xyz"
+                                    },
+                                    "create_at": {
+                                        "type": "text",
+                                        "example": "2023-03-23"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Training Mgt Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteTrainingMgt/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Training Setup"
+                ],
+                "summary": "Delete Training Mgt Record",
+                "description": "Delete  Training Mgt  Record With Valid ID",
+                "operationId": "deleteTrainingMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Training Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeTrainingMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Training Setup"
+                ],
+                "summary": "Active Training Mgt Record",
+                "description": "Active Specific Training Mgt Record With Valid ID",
+                "operationId": "activeTrainingMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Training Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveTrainingMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Training Setup"
+                ],
+                "summary": "In-active Training Mgt Record",
+                "description": "In-active Specific Training Mgt Record With Valid ID",
+                "operationId": "inactiveTrainingMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Training Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificTrainingSetup/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Training Setup"
+                ],
+                "summary": "Specific Training Setup",
+                "description": "Specific Training Setup",
+                "operationId": "specificTrainingSetup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/getTransferList": {
             "get": {
                 "tags": [
@@ -797,6 +3141,39 @@
                 "responses": {
                     "200": {
                         "description": "Successfully, In-active Album"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificUserTransferRecord/{id}": {
+            "get": {
+                "tags": [
+                    "PDS User Transfer"
+                ],
+                "summary": "Get Specific User Transfer Record",
+                "description": "",
+                "operationId": "specificUserTransferRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"

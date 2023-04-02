@@ -40,6 +40,7 @@ class Profile extends Model
         'emergency_phn_number',
         'emergency_email',
         'emergency_addr',
-        'emergency_distict'
+        'emergency_distict',
+        'status'
     ];
 }
