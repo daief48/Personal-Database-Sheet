@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Profile;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
@@ -76,7 +77,7 @@ class AuthController extends Controller
             if (!$token) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Unauthorized',
+                    'message' => 'Invalid phone or Password!',
                 ], 401);
             }
 
@@ -89,6 +90,81 @@ class AuthController extends Controller
                 ], 402);
             }
 
+            if($token && $user->status == 0) {
+                return response()->json([
+                    'status' => 'inactive',
+                    'message' => 'Not active yet',
+                ], 400);
+            }
+
+            $menu = [];
+
+            if($user->role_id == 1){
+                $menu = [
+                    [
+                        'title'=>'Profile',
+                        'slug'=>'profile',
+                    ],
+                    [
+                        'title'=>'Transfer',
+                        'slug'=>'Profile',
+                    ],
+                    [
+                        'title'=>'Training',
+                        'slug'=>'training',
+                    ],
+                    [
+                        'title'=>'Promotion',
+                        'slug'=>'promotion',
+                    ],
+                    [
+                        'title'=>'Leave',
+                        'slug'=>'leave',
+                    ],
+                    [
+                        'title'=>'ACR',
+                        'slug'=>'acr',
+                    ],
+                    [
+                        'title'=>'Report',
+                        'slug'=>'report',
+                    ]
+                ];
+            }
+            if($user->role_id == 2){
+                $menu = [
+                    [
+                        'title'=>'Profile',
+                        'slug'=>'profile',
+                    ],
+                    [
+                        'title'=>'Transfer',
+                        'slug'=>'Profile',
+                    ],
+                    [
+                        'title'=>'Training',
+                        'slug'=>'training',
+                    ],
+                    [
+                        'title'=>'Promotion',
+                        'slug'=>'promotion',
+                    ],
+                    [
+                        'title'=>'Leave',
+                        'slug'=>'leave',
+                    ],
+                    [
+                        'title'=>'ACR',
+                        'slug'=>'acr',
+                    ],
+                    [
+                        'title'=>'Report',
+                        'slug'=>'report',
+                    ]
+                ];
+            }
+
+            $user['menu'] = $menu;
             return response()->json([
                 'status' => 'success',
                 'user' => $user,
@@ -155,7 +231,7 @@ class AuthController extends Controller
                 'name' => 'required|string|max:255',
                 //'email' => 'required|string|email|max:255|unique:users',
                 //'phone' => 'required|numeric|unique:users',
-                'phone' => 'required|numeric',
+                'phone' => 'required|numeric|unique:users',
                 'password' => 'required|string|min:6',
             ]);
 
@@ -168,9 +244,10 @@ class AuthController extends Controller
 
             if(User::where('phone',$request->phone)->where('otp_verified',0)->exists()) {
                 $user = User::where('phone',$request->phone)->first();
+                $otp = rand(123456, 999999);
                 User::where('phone',$request->phone)->update([
-                    'otp' => rand(123456, 999999),
-                    'otp_expire_at' => Carbon::now()->addMinutes(3)
+                    'otp' => $otp,
+                    'otp_expire_at' => Carbon::now()->addMinutes(2)
                 ]);
                 $url = env("MESSAGE_OTP_API", "http");
                 $response = Http::withToken('token')->post($url, [
@@ -190,14 +267,13 @@ class AuthController extends Controller
                 $user = User::create([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'phone' => $request->phone, 
+                    'phone' => $request->phone,
                     'status' => 0,
                     'role_id' => 2,
                     'password' => Hash::make($request->password),
                     'otp' => $otp,
-                    'otp_expire_at' => Carbon::now()->addMinutes(1),
+                    'otp_expire_at' => Carbon::now()->addMinutes(2),
                     'otp_verified' => 0
-    
                 ]);
 
                 $url = env("MESSAGE_OTP_API", "http");
@@ -216,7 +292,8 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'User created successfully',
-                'user' => $user->id,
+                'userId' => $user->id,
+                'otp' => $otp,
             ]);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -272,7 +349,7 @@ class AuthController extends Controller
                     return response()->json([
                         'status' => 'success',
                         'message' => 'User Already Verified.',
-                    ]);  
+                    ]);
                 }
 
                 if($userInfo->otp == $request->otp) {
@@ -280,29 +357,31 @@ class AuthController extends Controller
                         return response()->json([
                             'status' => 'expird',
                             'message' => 'OTP has a expired..',
-                        ],401); 
+                        ],401);
                     }
 
                     User::where('id',$request->user_id)->update([
                         'otp_verified' => 1
                     ]);
+                    
+                    Profile::create(['user_id'=>$request->user_id, 'name'=>$userInfo->name, 'mobile_number'=>$userInfo->phone]);
+                    
                     return response()->json([
                         'status' => 'success',
                         'message' => 'OTP Verified Successfully.',
                         'user' => $userInfo,
-                    ]);               
-                }
-                else{
+                    ]);
+                }else{
                     return response()->json([
-                        'status' => 'success',
+                        'status' => 'unauthorized',
                         'message' => 'Invalid OTP.',
-                    ]);  
+                    ],400);
                 }
             }else{
                 return response()->json([
                     'status' => 'fail',
                     'message' => 'User not found',
-                ]); 
+                ]);
             }
 
             return $this->responseRepository->ResponseSuccess(null, 'Fail to Verified Otp.');

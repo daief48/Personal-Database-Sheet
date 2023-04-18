@@ -6,13 +6,14 @@ use App\Models\Profile;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Image;
+use File;
 
 class ProfileController extends Controller
 {
     protected $responseRepository;
     public function __construct(ResponseRepository $rr,)
     {
-       // $this->middleware('auth:api', ['except' => []]);
+       $this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rr;
     }
 
@@ -61,9 +62,14 @@ class ProfileController extends Controller
     * security={{"bearer_token":{}}}
     */
 
-    public function getprofile(Request $request){
+    public function getprofile(Request $request, $id){
         try {
-            $getProfile = Profile::findOrFail($request->id);
+
+            $getProfile = Profile::leftJoin('designations', 'designations.id', '=', 'profiles.designation')
+            ->leftJoin('departments', 'departments.id', '=', 'profiles.department')
+            ->select('profiles.*', 'designations.id as designation_id', 'designations.designation_name as designation'
+            , 'departments.id as department_id', 'departments.dept_name as department')
+            ->where('profiles.user_id',$id)->first();
 
             return response()->json([
                 'status' => 'success',
@@ -106,7 +112,7 @@ class ProfileController extends Controller
     *               @OA\Property(property="present_addr_postcode", type="text"),
     *               @OA\Property(property="permanent_addr_houseno", type="text"),
     *               @OA\Property(property="permanent_addr_roadno", type="text"),
-    *               @OA\Property(property="permanent_addr_area", type="text"),    
+    *               @OA\Property(property="permanent_addr_area", type="text"),
     *               @OA\Property(property="permanent_addr_upazila", type="text"),
     *               @OA\Property(property="permanent_addr_district", type="text"),
     *               @OA\Property(property="permanent_addr_postcode", type="text"),
@@ -119,7 +125,7 @@ class ProfileController extends Controller
     *               @OA\Property(property="spouse_name", type="text"),
     *               @OA\Property(property="number_of_cheild", type="text"),
     *               @OA\Property(property="emergency_name", type="text"),
-    *               @OA\Property(property="emergency_relation", type="text"),    
+    *               @OA\Property(property="emergency_relation", type="text"),
     *               @OA\Property(property="emergency_email", type="text"),
     *               @OA\Property(property="emergency_addr", type="text"),
     *               @OA\Property(property="emergency_distict", type="text"),
@@ -146,34 +152,34 @@ class ProfileController extends Controller
             $addProfile->image = $request->image ?? '';
             $addProfile->name = $request->name ?? '';
             $addProfile->mobile_number = $request->mobile_number ?? 0;
-            $addProfile->email = $request->email ?? 'null';
+            $addProfile->email = $request->email ?? '';
             $addProfile->designation = $request->designation;
             $addProfile->present_addr_houseno = $present_addr_houseno ?? 0;
             $addProfile->present_addr_roadno = $request->present_addr_roadno ?? 0;
-            $addProfile->present_addr_area = $request->present_addr_area ?? 'null';
-            $addProfile->present_addr_upazila = $request->present_addr_upazila ?? 'null';
-            $addProfile->present_addr_district = $request->present_addr_district ?? 'null';
+            $addProfile->present_addr_area = $request->present_addr_area ?? '';
+            $addProfile->present_addr_upazila = $request->present_addr_upazila ?? '';
+            $addProfile->present_addr_district = $request->present_addr_district ?? '';
             $addProfile->present_addr_postcode = $request->present_addr_postcode ?? 0;
             $addProfile->permanent_addr_houseno = $request->permanent_addr_houseno ?? 0;
             $addProfile->permanent_addr_roadno = $request->permanent_addr_roadno ?? 0;
-            $addProfile->permanent_addr_area = $request->permanent_addr_area ?? 'null';         
-            $addProfile->permanent_addr_upazila = $request->permanent_addr_upazila ?? 'null';
-            $addProfile->permanent_addr_district = $request->permanent_addr_district ?? 'null';
+            $addProfile->permanent_addr_area = $request->permanent_addr_area ?? '';
+            $addProfile->permanent_addr_upazila = $request->permanent_addr_upazila ?? '';
+            $addProfile->permanent_addr_district = $request->permanent_addr_district ?? '';
             $addProfile->permanent_addr_postcode = $request->permanent_addr_postcode ?? 0;
             $addProfile->department = $request->department ?? 0;
-            $addProfile->job_location = $request->job_location ?? 'null';
+            $addProfile->job_location = $request->job_location ?? '';
             $addProfile->joining_date = $request->joining_date ?? '2000-02-22';
-            $addProfile->education_history = $request->education_history ?? 'null';
-            $addProfile->father_name = $request->father_name ?? 'null';
-            $addProfile->mother_name = $request->mother_name ?? 'null';
-            $addProfile->spouse_name = $request->spouse_name ?? 'null';
+            $addProfile->education_history = $request->education_history ?? '';
+            $addProfile->father_name = $request->father_name ?? '';
+            $addProfile->mother_name = $request->mother_name ?? '';
+            $addProfile->spouse_name = $request->spouse_name ?? '';
             $addProfile->number_of_cheild = $request->number_of_cheild ?? 0;
-            $addProfile->emergency_name = $request->emergency_name ?? 'null';
-            $addProfile->emergency_relation = $request->emergency_relation ?? 'null';
+            $addProfile->emergency_name = $request->emergency_name ?? '';
+            $addProfile->emergency_relation = $request->emergency_relation ?? '';
             $addProfile->emergency_phn_number = $request->emergency_phn_number ?? 0;
-            $addProfile->emergency_email = $request->emergency_email ?? 'null';
-            $addProfile->emergency_addr = $request->emergency_addr ?? 'null';
-            $addProfile->emergency_distict = $request->emergency_distict ?? 'null';
+            $addProfile->emergency_email = $request->emergency_email ?? '';
+            $addProfile->emergency_addr = $request->emergency_addr ?? '';
+            $addProfile->emergency_distict = $request->emergency_distict ?? '';
 
 
             // if ($request->image) {
@@ -220,7 +226,7 @@ class ProfileController extends Controller
     *               @OA\Property(property="present_addr_postcode", type="text"),
     *               @OA\Property(property="permanent_addr_houseno", type="text"),
     *               @OA\Property(property="permanent_addr_roadno", type="text"),
-    *               @OA\Property(property="permanent_addr_area", type="text"),    
+    *               @OA\Property(property="permanent_addr_area", type="text"),
     *               @OA\Property(property="permanent_addr_upazila", type="text"),
     *               @OA\Property(property="permanent_addr_district", type="text"),
     *               @OA\Property(property="permanent_addr_postcode", type="text"),
@@ -233,7 +239,7 @@ class ProfileController extends Controller
     *               @OA\Property(property="spouse_name", type="text"),
     *               @OA\Property(property="number_of_cheild", type="text"),
     *               @OA\Property(property="emergency_name", type="text"),
-    *               @OA\Property(property="emergency_relation", type="text"),    
+    *               @OA\Property(property="emergency_relation", type="text"),
     *               @OA\Property(property="emergency_email", type="text"),
     *               @OA\Property(property="emergency_addr", type="text"),
     *               @OA\Property(property="emergency_distict", type="text"),
@@ -255,54 +261,59 @@ class ProfileController extends Controller
 
         try {
 
-            $target = Profile::find($request->id);
+            $profile =Profile::where('user_id', $request->user_id)->first();
+            $target = Profile::find($profile->id);
 
             $image = $target->image ?? '';
 
-            // if(!empty($request->image)){
-            //     $fileName = 'photo-'.uniqid().'-'.date("Y-M-D").".png";
-            //     Image::make($request->image)->resize(300, null, function ($constraint) {
-            //         $constraint->aspectRatio();
-            //     })->save(public_path('/uploads/images/photos/'.$fileName));
-            //     $photo = $fileName;
-            // }
+            if(!empty($request->image)){
+                $fileName = 'photo-'.uniqid().'-'.date("Y-M-D").".png";
+                Image::make($request->image)->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(public_path('/images/'.$fileName));
+                $image = $fileName;
+
+                if (File::exists(public_path('/images/'.$target->image))) {
+                    File::delete(public_path('/images/'.$target->image));
+                }
+            }
 
             $updateArr = [
-                'image' => $request->image ?? '',
-                'name' => $request->name ?? '',
+                'image' => $image ?? $target->image,
+                'name' => $request->name ?? $target->name,
                 'user_id' => $request->user_id ?? 0,
-                'mobile_number' => $request->mobile_number ?? 0,
-                'email' => $request->email ?? 'null',
-                'designation' => $request->designation,
-                'present_addr_houseno' => $present_addr_houseno ?? 0,
-                'present_addr_roadno' => $request->present_addr_roadno ?? 0,
-                'present_addr_area' => $request->present_addr_area ?? 'null',
-                'present_addr_upazila' => $request->present_addr_upazila ?? 'null',
-                'present_addr_district' => $request->present_addr_district ?? 'null',
-                'present_addr_postcode' => $request->present_addr_postcode ?? 0,
-                'permanent_addr_houseno' => $request->permanent_addr_houseno ?? 0,
-                'permanent_addr_roadno' => $request->permanent_addr_roadno ?? 0,
-                'permanent_addr_area' => $request->permanent_addr_area ?? 'null',         
-                'permanent_addr_upazila' => $request->permanent_addr_upazila ?? 'null',
-                'permanent_addr_district' => $request->permanent_addr_district ?? 'null',
-                'permanent_addr_postcode' => $request->permanent_addr_postcode ?? 0,
-                'department' => $request->department ?? 0,
-                'job_location' => $request->job_location ?? 'null',
-                'joining_date' => $request->joining_date ?? '2000-02-22',
-                'education_history' => $request->education_history ?? 'null',
-                'father_name' => $request->father_name ?? 'null',
-                'mother_name' => $request->mother_name ?? 'null',
-                'spouse_name' => $request->spouse_name ?? 'null',
-                'number_of_cheild' => $request->number_of_cheild ?? 0,
-                'emergency_name' => $request->emergency_name ?? 'null',
-                'emergency_relation' => $request->emergency_relation ?? 'null',
-                'emergency_phn_number' => $request->emergency_phn_number ?? 0,
-                'emergency_email' => $request->emergency_email ?? 'null',
-                'emergency_addr' => $request->emergency_addr ?? 'null',
-                'emergency_distict' => $request->emergency_distict ?? 'null',
+                'mobile_number' => $request->mobile_number ?? $target->mobile_number,
+                'email' => $request->email ?? $target->email,
+                'designation' => $request->designation ?? $target->designation,
+                'present_addr_houseno' => $request->present_addr_houseno ?? $target->present_addr_houseno,
+                'present_addr_roadno' => $request->present_addr_roadno ?? $target->present_addr_roadno,
+                'present_addr_area' => $request->present_addr_area ?? $target->present_addr_area,
+                'present_addr_upazila' => $request->present_addr_upazila ?? $target->present_addr_upazila,
+                'present_addr_district' => $request->present_addr_district ?? $target->present_addr_district,
+                'present_addr_postcode' => $request->present_addr_postcode ?? $target->present_addr_postcode,
+                'permanent_addr_houseno' => $request->permanent_addr_houseno ?? $target->permanent_addr_houseno,
+                'permanent_addr_roadno' => $request->permanent_addr_roadno ?? $target->permanent_addr_roadno,
+                'permanent_addr_area' => $request->permanent_addr_area ?? $target->permanent_addr_area,
+                'permanent_addr_upazila' => $request->permanent_addr_upazila ?? $target->permanent_addr_upazila,
+                'permanent_addr_district' => $request->permanent_addr_district ?? $target->permanent_addr_district,
+                'permanent_addr_postcode' => $request->permanent_addr_postcode ?? $target->permanent_addr_postcode,
+                'department' => $request->department ?? $target->department,
+                'job_location' => $request->job_location ?? $target->job_location,
+                'joining_date' => $request->joining_date ?? $target->joining_date,
+                'education_history' => $request->education_history ?? $target->education_history,
+                'father_name' => $request->father_name ?? $target->father_name,
+                'mother_name' => $request->mother_name ?? $target->mother_name,
+                'spouse_name' => $request->spouse_name ?? $target->spouse_name,
+                'number_of_child' => $request->number_of_child ?? $target->number_of_child,
+                'emergency_name' => $request->emergency_name ?? $target->emergency_name,
+                'emergency_relation' => $request->emergency_relation ?? $target->emergency_relation,
+                'emergency_phn_number' => $request->emergency_phn_number ?? $target->emergency_phn_number,
+                'emergency_email' => $request->emergency_email ?? $target->emergency_email,
+                'emergency_addr' => $request->emergency_addr ?? $target->emergency_addr,
+                'emergency_district' => $request->emergency_district ?? $target->emergency_district,
             ];
 
-            $updateProfile = Profile::where('id', $request->id)->update($updateArr);
+            $updateProfile = Profile::where('id', $profile->id)->update($updateArr);
 
             return response()->json([
                 'status'  => true,
@@ -316,6 +327,6 @@ class ProfileController extends Controller
         }
     }
 
-    
+
 
 }
