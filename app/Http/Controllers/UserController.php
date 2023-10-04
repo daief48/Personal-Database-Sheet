@@ -12,7 +12,7 @@ class UserController extends Controller
 {
 
     protected $responseRepository;
-    public function __construct(ResponseRepository $rr,)   
+    public function __construct(ResponseRepository $rr,)
     {
         $this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rr;
@@ -55,6 +55,7 @@ class UserController extends Controller
             $perPage = isset($request->perPage) ? intval($request->perPage) : 8;
             $data =  User::where('name', 'like', '%' .$request->search. '%')
                 ->orWhere('email', 'like', '%' . $request->search . '%')
+                ->orWhere('phone', 'like', '%' . $request->search . '%')
                 ->orWhere('role_id', 'like', '%' . $request->search . '%')
                 ->orderBy('id', 'desc')
                 ->paginate($perPage);
@@ -115,7 +116,7 @@ class UserController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                //'email' => 'required|string|email|max:255|unique:users',
                 'phone' => 'required|string|phone|max:100',
                 'password' => 'required|string|min:6',
                 'role_id' => 'required|integer',
@@ -123,7 +124,7 @@ class UserController extends Controller
 
             $user = User::create([
                 'name' => $request->name,
-                'email' => $request->email,
+                'email' => $request->email ?? '',
                 'phone' => $request->phone,
                 'role_id' => $request->role_id,
                 'status' => $request->status,
@@ -132,7 +133,7 @@ class UserController extends Controller
 
             return response()->json([
                 'status'  => true,
-                'message' => "user created successfully",'phone' => 'required|string|phone|max:100',
+                'message' => "user created successfully",
                 'errors'  => null,
                 'data'    => $user,
             ], 200);
@@ -209,19 +210,21 @@ class UserController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|unique:users,email,'.$id,
-                'phone' => 'required|string|max:100',
+                //'email' => 'required|unique:users,email,'.$id,
+                'phone' => 'required|max:11|unique:users,phone,'.$id,
                 'role_id' => 'required',
                 'status' => 'required'
             ]);
 
             $user = User::findOrFail($id);
             $user->name = $request->name;
-            $user->email = $request->email;
-            $phone->phone = $request->phone;
+            $user->email = $request->email ?? '';
+            $user->phone = $request->phone;
             $user->role_id = $request->role_id;
             $user->status = $request->status;
-            $user->password = Hash::make($request->password);
+            if(!empty($user->password)){
+                $user->password = Hash::make($request->password);
+            }
             $user->save();
 
             return response()->json([

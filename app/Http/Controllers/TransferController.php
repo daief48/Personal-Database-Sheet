@@ -37,10 +37,19 @@ class TransferController extends Controller
     public function getTransferList(){
         try {
 
-            $getTransferList = Transfer::orderBy('id', 'desc')->get();
+            $getTransferList = Transfer::leftJoin('transfer_types', 'transfers.transfer_type', '=', 'transfer_types.id')
+                ->leftJoin('designations', 'transfers.designation', '=', 'designations.id')
+                ->leftJoin('departments', 'transfers.department', '=', 'departments.id')
+                ->leftJoin('offices', 'transfers.to_office', '=', 'offices.id')
+                ->leftJoin('employees', 'employees.id', '=', 'transfers.employee_id')
+                ->select('transfers.id', 'employees.name as employee_name', 'departments.dept_name as dept_name', 'designations.designation_name as designation'
+                , 'transfer_types.title as t_type', 'transfers.transfer_order', 'offices.office_name as to_office', 'transfers.from_office', 'transfers.transfer_date'
+                , 'transfers.join_date')
+                ->get();
+
             return response()->json([
-                'status' => 'success',
-                'list' => $getTransferList,
+
+                'data' => $getTransferList,
             ]);
 
         } catch (\Exception $e) {
