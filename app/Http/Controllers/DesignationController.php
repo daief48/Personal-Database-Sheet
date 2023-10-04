@@ -39,7 +39,7 @@ class DesignationController extends Controller
             $getDesignationSetup = Designation::orderBy('id', 'desc')->get();
             return response()->json([
                 'status' => 'success',
-                'list' => $getDesignationSetup,
+                'data' => $getDesignationSetup,
             ]);
 
         } catch (\Exception $e) {
@@ -170,14 +170,14 @@ class DesignationController extends Controller
          try {
              $designationMgt =  Designation::findOrFail($id);
              $designationMgt->delete();
- 
+
              return response()->json([
                  'status'  => true,
                  'message' => "Designation Mgt Record Deleted Successfully",
                  'errors'  => null,
                  'data'    => $designationMgt,
              ], 200);
- 
+
          } catch (\Exception $e) {
              return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
          }
@@ -202,7 +202,7 @@ class DesignationController extends Controller
      {
          try {
              $designationMgtInfo =  Designation::find($id);
- 
+
              if (!($designationMgtInfo === null)) {
                  $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 0]);
                  return response()->json([
@@ -258,5 +258,5 @@ class DesignationController extends Controller
 
 
 
-   
+
 }

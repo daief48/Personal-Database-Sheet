@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Repositories\ResponseRepository;
-use App\Models\Profile;
+use App\Models\Employee;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Image;
 use File;
 
-class ProfileController extends Controller
+class EmployeeController extends Controller
 {
     protected $responseRepository;
     public function __construct(ResponseRepository $rr,)
@@ -19,11 +19,11 @@ class ProfileController extends Controller
 
     /**
      * @OA\Get(
-     * tags={"PDS User Profile [Users]"},
-     * path= "/pds-backend/api/user/getAllProfile",
-     * operationId="getAllProfile",
-     * summary="Get All Profile List",
-     * description="Get All Profile List",
+     * tags={"PDS User Employee [Users]"},
+     * path= "/pds-backend/api/getEmployeesList",
+     * operationId="getEmployeesList",
+     * summary="Get All Employee List",
+     * description="Get All Employee List",
      * @OA\Response(response=200, description="Success" ),
      * @OA\Response(response=400, description="Bad Request"),
      * @OA\Response(response=404, description="Resource Not Found"),
@@ -31,13 +31,25 @@ class ProfileController extends Controller
      * security={{"bearer_token":{}}}
      */
 
-     public function getAllProfile(){
+     public function getEmployeesList(Request $request){
         try {
+            $employeeList = Employee::leftJoin('users', 'users.id', '=', 'employees.user_id')
+            ->leftJoin('departments', 'departments.id', '=', 'employees.department')
+            ->leftJoin('designations', 'designations.id', '=', 'employees.designation')
+            ->select('employees.*', 'departments.dept_name as department_name','designations.designation_name as designation_name')
+            ->orderBy('employees.id', 'desc');
 
-            $getAllProfile = Profile::orderBy('id', 'desc')->get();
+            if(!empty($request->search)){
+                $employeeList = $employeeList->where('employees.name', 'like', '%'.$request->search.'%')
+                ->orWhere('employees.email', 'like', '%'.$request->search.'%')
+                ->orWhere('employees.mobile_number', 'like', '%'.$request->search.'%')
+                ->orWhere('departments.dept_name', 'like', '%'.$request->search.'%')
+                ->orWhere('designations.designation_name', 'like', '%'.$request->search.'%');
+            }
+            $employeeList = $employeeList->paginate(10);
             return response()->json([
                 'status' => 'success',
-                'data' => $getAllProfile,
+                'data' => $employeeList,
             ]);
 
         } catch (\Exception $e) {
@@ -50,10 +62,10 @@ class ProfileController extends Controller
 
     /**
     * @OA\Get(
-    * tags={"PDS User Profile [Users]"},
+    * tags={"PDS User Employee [Users]"},
     * path="/pds-backend/api/user/getprofile/{id}",
     * operationId="getprofile",
-    * summary="Get User Profile List",
+    * summary="Get User Employee List",
     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
     * @OA\Response(response=200, description="Success" ),
     * @OA\Response(response=400, description="Bad Request"),
@@ -65,11 +77,11 @@ class ProfileController extends Controller
     public function getprofile(Request $request, $id){
         try {
 
-            $getProfile = Profile::leftJoin('designations', 'designations.id', '=', 'profiles.designation')
-            ->leftJoin('departments', 'departments.id', '=', 'profiles.department')
-            ->select('profiles.*', 'designations.id as designation_id', 'designations.designation_name as designation'
+            $getProfile = Employee::leftJoin('designations', 'designations.id', '=', 'employees.designation')
+            ->leftJoin('departments', 'departments.id', '=', 'employees.department')
+            ->select('employees.*', 'designations.id as designation_id', 'designations.designation_name as designation'
             , 'departments.id as department_id', 'departments.dept_name as department')
-            ->where('profiles.user_id',$id)->first();
+            ->where('employees.user_id',$id)->first();
 
             return response()->json([
                 'status' => 'success',
@@ -86,11 +98,11 @@ class ProfileController extends Controller
 
    /**
     * @OA\Post(
-    * tags={"PDS User Profile [Users]"},
+    * tags={"PDS User Employee [Users]"},
     * path="/pds-backend/api/user/addProfile",
     * operationId="addProfile",
-    * summary="Add User Profile",
-    * description="Add User Profile",
+    * summary="Add User Employee",
+    * description="Add User Employee",
     *     @OA\RequestBody(
     *         @OA\JsonContent(),
     *         @OA\MediaType(
@@ -134,7 +146,7 @@ class ProfileController extends Controller
     *    ),
     *      @OA\Response(
     *          response=200,
-    *          description="User Profile Added Successfully",
+    *          description="User Employee Added Successfully",
     *          @OA\JsonContent()
     *       ),
     *      @OA\Response(response=400, description="Bad request"),
@@ -147,7 +159,7 @@ class ProfileController extends Controller
 
         try {
 
-            $addProfile = new Profile;
+            $addProfile = new Employee;
             $addProfile->user_id = $request->user_id ?? 0;
             $addProfile->image = $request->image ?? '';
             $addProfile->name = $request->name ?? '';
@@ -169,7 +181,7 @@ class ProfileController extends Controller
             $addProfile->department = $request->department ?? 0;
             $addProfile->job_location = $request->job_location ?? '';
             $addProfile->joining_date = $request->joining_date ?? '2000-02-22';
-            $addProfile->education_history = $request->education_history ?? '';
+            $addProfile->education_history = $request->education_history ?? [];
             $addProfile->father_name = $request->father_name ?? '';
             $addProfile->mother_name = $request->mother_name ?? '';
             $addProfile->spouse_name = $request->spouse_name ?? '';
@@ -189,7 +201,7 @@ class ProfileController extends Controller
             // }
             $addProfile->save();
 
-            return $this->responseRepository->ResponseSuccess($addProfile, "Success","User Profile Saved successfully.", 200);
+            return $this->responseRepository->ResponseSuccess($addProfile, "Success","User Employee Saved successfully.", 200);
 
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -199,11 +211,11 @@ class ProfileController extends Controller
 
     /**
     * @OA\Post(
-    * tags={"PDS User Profile [Users]"},
+    * tags={"PDS User Employee [Users]"},
     * path="/pds-backend/api/user/updateProfile",
     * operationId="updateProfile",
-    * summary="Update User Profile",
-    * description="Update User Profile",
+    * summary="Update User Employee",
+    * description="Update User Employee",
     *     @OA\RequestBody(
     *         @OA\JsonContent(),
     *         @OA\MediaType(
@@ -261,8 +273,8 @@ class ProfileController extends Controller
 
         try {
 
-            $profile =Profile::where('user_id', $request->user_id)->first();
-            $target = Profile::find($profile->id);
+            $Employee =Employee::where('user_id', $request->user_id)->first();
+            $target = Employee::find($Employee->id);
 
             $image = $target->image ?? '';
 
@@ -280,8 +292,8 @@ class ProfileController extends Controller
 
             $updateArr = [
                 'image' => $image ?? $target->image,
-                'name' => $request->name ?? $target->name,
-                'user_id' => $request->user_id ?? 0,
+                'name' => $request->name,
+                'user_id' => $request->user_id,
                 'mobile_number' => $request->mobile_number ?? $target->mobile_number,
                 'email' => $request->email ?? $target->email,
                 'designation' => $request->designation ?? $target->designation,
@@ -300,7 +312,7 @@ class ProfileController extends Controller
                 'department' => $request->department ?? $target->department,
                 'job_location' => $request->job_location ?? $target->job_location,
                 'joining_date' => $request->joining_date ?? $target->joining_date,
-                'education_history' => $request->education_history ?? $target->education_history,
+                'education_history' => $request->education_history ?? [],
                 'father_name' => $request->father_name ?? $target->father_name,
                 'mother_name' => $request->mother_name ?? $target->mother_name,
                 'spouse_name' => $request->spouse_name ?? $target->spouse_name,
@@ -313,11 +325,11 @@ class ProfileController extends Controller
                 'emergency_district' => $request->emergency_district ?? $target->emergency_district,
             ];
 
-            $updateProfile = Profile::where('id', $profile->id)->update($updateArr);
+            $updateProfile = Employee::where('id', $Employee->id)->update($updateArr);
 
             return response()->json([
                 'status'  => true,
-                'message' => "Profile Update Successfully",
+                'message' => "Employee Update Successfully",
                 'errors'  => null,
                 'data'    => $updateProfile,
             ], 200);

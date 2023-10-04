@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Profile;
+use App\Models\Employee;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
@@ -101,65 +101,115 @@ class AuthController extends Controller
 
             if($user->role_id == 1){
                 $menu = [
-                    [
-                        'title'=>'Profile',
-                        'slug'=>'profile',
+        	        [
+                        'title'=>'Dashboard',
+                        'slug'=>'/dashboard',
+                        'icon'=>'fa fa-tachometer',
                     ],
                     [
-                        'title'=>'Transfer',
-                        'slug'=>'Profile',
+                        'title'=>'User List',
+                        'slug'=>'/users',
+                        'icon'=>'fa fa-users nav-icon',
                     ],
                     [
-                        'title'=>'Training',
-                        'slug'=>'training',
+                        'title'=>'Employee List',
+                        'slug'=>'/employees',
+                        'icon'=>'fa fa-users nav-icon',
+                    ],
+                    [
+                        'title'=>'Transfer List',
+                        'slug'=>'/transfer-list',
+                        'icon'=>'fa fa-exchange nav-icon',
                     ],
                     [
                         'title'=>'Promotion',
-                        'slug'=>'promotion',
+                        'slug'=>'/promotion-list',
+                        'icon'=>'fa fa-trophy nav-icon',
                     ],
                     [
-                        'title'=>'Leave',
-                        'slug'=>'leave',
+                        'title'=>'Training List',
+                        'slug'=>'/training-list',
+                        'icon'=>'fa fa-file nav-icon',
                     ],
+                    [
+                        'title'=>'SMS Send',
+                        'slug'=>'/sms-send',
+                        'icon'=>'fa fa-graduation-cap nav-icon',
+                    ],
+                    [
+                        'title'=>'Departments Setup',
+                        'slug'=>'/department-setup',
+                        'icon'=>'fa fa-graduation-cap nav-icon',
+                    ],
+                    [
+                        'title'=>'Training Setup',
+                        'slug'=>'/training-setup',
+                        'icon'=>'fa fa-graduation-cap nav-icon',
+                    ],
+                    [
+                        'title'=>'Office Setup',
+                        'slug'=>'/office-setup',
+                        'icon'=>'fa fa-graduation-cap nav-icon',
+                    ],
+
                     [
                         'title'=>'ACR',
-                        'slug'=>'acr',
+                        'slug'=>'/acr',
+                        'icon'=>'fa fa-newspaper-o nav-icon',
                     ],
                     [
                         'title'=>'Report',
-                        'slug'=>'report',
-                    ]
+                        'slug'=>'/report',
+                        'icon'=>'fa fa-file nav-icon',
+                    ],
+                    [
+                        'title'=>'Leave',
+                        'slug'=>'/leave',
+                        'icon'=>'fa fa-snowflake-o nav-icon',
+                    ],
                 ];
             }
             if($user->role_id == 2){
                 $menu = [
                     [
+                        'title'=>'Dashboard',
+                        'slug'=>'/dashboard',
+                        'icon'=>'fa fa-tachometer',
+                    ],
+                    [
                         'title'=>'Profile',
-                        'slug'=>'profile',
+                        'slug'=>'/profile',
+                        'icon'=>'fa fa-tachometer',
                     ],
                     [
                         'title'=>'Transfer',
-                        'slug'=>'Profile',
+                        'slug'=>'/transfers',
+                        'icon'=>'fa fa-users nav-icon',
                     ],
                     [
                         'title'=>'Training',
-                        'slug'=>'training',
+                        'slug'=>'/training',
+                        'icon'=>'fa fa-graduation-cap nav-icon',
                     ],
                     [
                         'title'=>'Promotion',
-                        'slug'=>'promotion',
+                        'slug'=>'/promotion',
+                        'icon'=>'fa fa-trophy nav-icon',
                     ],
                     [
                         'title'=>'Leave',
-                        'slug'=>'leave',
+                        'slug'=>'/leave',
+                        'icon'=>'fa fa-file nav-icon',
                     ],
                     [
                         'title'=>'ACR',
-                        'slug'=>'acr',
+                        'slug'=>'/acr',
+                        'icon'=>'fa fa-newspaper-o nav-icon',
                     ],
                     [
                         'title'=>'Report',
-                        'slug'=>'report',
+                        'slug'=>'/report',
+                        'icon'=>'fa fa-newspaper-o nav-icon',
                     ]
                 ];
             }
@@ -363,9 +413,9 @@ class AuthController extends Controller
                     User::where('id',$request->user_id)->update([
                         'otp_verified' => 1
                     ]);
-                    
-                    Profile::create(['user_id'=>$request->user_id, 'name'=>$userInfo->name, 'mobile_number'=>$userInfo->phone]);
-                    
+
+                    Employee::create(['user_id'=>$request->user_id, 'name'=>$userInfo->name, 'mobile_number'=>$userInfo->phone]);
+
                     return response()->json([
                         'status' => 'success',
                         'message' => 'OTP Verified Successfully.',

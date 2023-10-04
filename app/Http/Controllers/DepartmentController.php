@@ -15,7 +15,7 @@ class DepartmentController extends Controller
     protected $responseRepository;
     public function __construct(ResponseRepository $rp,)
     {
-        //$this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rp;
     }
 
@@ -39,7 +39,7 @@ class DepartmentController extends Controller
             $getDepartment = Department::orderBy('id', 'desc')->get();
             return response()->json([
                 'status' => 'success',
-                'list' => $getDepartment,
+                'data' => $getDepartment,
             ]);
 
         } catch (\Exception $e) {
@@ -175,14 +175,14 @@ class DepartmentController extends Controller
          try {
              $department =  Department::findOrFail($id);
              $department->delete();
- 
+
              return response()->json([
                  'status'  => true,
                  'message' => "Department Record Deleted Successfully",
                  'errors'  => null,
                  'data'    => $department,
              ], 200);
- 
+
          } catch (\Exception $e) {
              return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
          }
@@ -244,7 +244,7 @@ class DepartmentController extends Controller
      {
          try {
              $deptInfo =  Department::find($id);
- 
+
              if (!($deptInfo === null)) {
                  $deptInfo = Department::where('id', '=', $id)->update(['status' => 0]);
                  return response()->json([
@@ -291,5 +291,5 @@ class DepartmentController extends Controller
             ], 401);
         }
     }
- 
+
 }

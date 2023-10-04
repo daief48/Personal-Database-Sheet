@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\PromotionController;
@@ -13,7 +13,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\TrainingSetupController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\LeaveController; 
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\AcrController;
 
@@ -38,17 +38,17 @@ Route::group(['prefix'=>''], function(){
     Route::delete('users/{id}', [UserController::class, 'deleteUser']);
 });
 
-//User Profile Information v1
+//User Employee Information v1
 
-Route::get('/user/getAllProfile', [ProfileController::class, 'getAllProfile']);
-Route::get('/user/getprofile/{id}', [ProfileController::class, 'getprofile']);
-Route::post('/user/addProfile', [ProfileController::class, 'addProfile']);
-Route::post('/user/updateProfile', [ProfileController::class, 'updateProfile']);
+Route::get('/getEmployeesList', [EmployeeController::class, 'getEmployeesList']);
+Route::get('/user/getprofile/{id}', [EmployeeController::class, 'getprofile']);
+Route::post('/user/addProfile', [EmployeeController::class, 'addProfile']);
+Route::post('/user/updateProfile', [EmployeeController::class, 'updateProfile']);
 
 //User Transfer Information v1
 
 Route::get('/getTransferList', [TransferController::class, 'getTransferList']);
-Route::post('/addTransferRecord', [TransferController::class, 'addTransferRecord']);   
+Route::post('/addTransferRecord', [TransferController::class, 'addTransferRecord']);
 Route::post('/updateTransferRecord', [TransferController::class, 'updateTransferRecord']);
 Route::delete('/deleteTransferRecord/{id}', [TransferController::class, 'deleteTransferRecord']);
 Route::patch('/activeTransferRecord/{id}', [TransferController::class, 'activeTransferRecord']);
@@ -59,21 +59,21 @@ Route::get('/specificUserTransferRecord/{id}', [TransferController::class, 'spec
 //User Training Information v1
 
 Route::get('/getTrainingList', [TrainingController::class, 'getTrainingList']);
-Route::post('/addTrainingRecord', [TrainingController::class, 'addTrainingRecord']); 
-Route::put('/updateTrainingRecord/{id}', [TrainingController::class, 'updateTrainingRecord']); 
-Route::delete('/deleteTrainingRecord/{id}', [TrainingController::class, 'deleteTrainingRecord']); 
-Route::patch('/activeTrainingRecord/{id}', [TrainingController::class, 'activeTrainingRecord']); 
-Route::get('/specificUserTraining/{id}', [TrainingController::class, 'specificUserTraining']); 
+Route::post('/addTrainingRecord', [TrainingController::class, 'addTrainingRecord']);
+Route::put('/updateTrainingRecord/{id}', [TrainingController::class, 'updateTrainingRecord']);
+Route::delete('/deleteTrainingRecord/{id}', [TrainingController::class, 'deleteTrainingRecord']);
+Route::patch('/activeTrainingRecord/{id}', [TrainingController::class, 'activeTrainingRecord']);
+Route::get('/specificUserTraining/{id}', [TrainingController::class, 'specificUserTraining']);
 
 //User Promotion Information v1
 
 Route::get('/getPromotion', [PromotionController::class, 'getPromotion']);
-Route::post('/addPromotion', [PromotionController::class, 'addPromotion']); 
-Route::put('/updatePromotion/{id}', [PromotionController::class, 'updatePromotion']); 
-Route::delete('/deletePromotion/{id}', [PromotionController::class, 'deletePromotion']); 
-Route::patch('/activePromotionRecord/{id}', [PromotionController::class, 'activePromotionRecord']); 
-Route::patch('/inactivePromotionRecord/{id}', [PromotionController::class, 'inactivePromotionRecord']); 
-Route::get('/specificUserPromotion/{id}', [PromotionController::class, 'specificUserPromotion']); 
+Route::post('/addPromotion', [PromotionController::class, 'addPromotion']);
+Route::put('/updatePromotion/{id}', [PromotionController::class, 'updatePromotion']);
+Route::delete('/deletePromotion/{id}', [PromotionController::class, 'deletePromotion']);
+Route::patch('/activePromotionRecord/{id}', [PromotionController::class, 'activePromotionRecord']);
+Route::patch('/inactivePromotionRecord/{id}', [PromotionController::class, 'inactivePromotionRecord']);
+Route::get('/specificUserPromotion/{id}', [PromotionController::class, 'specificUserPromotion']);
 
 //Admin Setup Department v1
 
