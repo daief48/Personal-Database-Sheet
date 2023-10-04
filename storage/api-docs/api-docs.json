@@ -948,6 +948,330 @@
                 }
             }
         },
+        "/pds-backend/api/user/getAllProfile": {
+            "get": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Get All Employee List",
+                "description": "Get All Employee List",
+                "operationId": "getAllProfile",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/user/getprofile/{id}": {
+            "get": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Get User Employee List",
+                "operationId": "getprofile",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/user/addProfile": {
+            "post": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Add User Employee",
+                "description": "Add User Employee",
+                "operationId": "addProfile",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "text"
+                                    },
+                                    "image": {
+                                        "type": "text"
+                                    },
+                                    "name": {
+                                        "type": "text"
+                                    },
+                                    "mobile_number": {
+                                        "type": "text"
+                                    },
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "designation": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_houseno": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_roadno": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_area": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_upazila": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_district": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_postcode": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_houseno": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_roadno": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_area": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_upazila": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_district": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_postcode": {
+                                        "type": "text"
+                                    },
+                                    "department": {
+                                        "type": "text"
+                                    },
+                                    "job_location": {
+                                        "type": "text"
+                                    },
+                                    "joining_date": {
+                                        "type": "text"
+                                    },
+                                    "education_history": {
+                                        "type": "text"
+                                    },
+                                    "father_name": {
+                                        "type": "text"
+                                    },
+                                    "mother_name": {
+                                        "type": "text"
+                                    },
+                                    "spouse_name": {
+                                        "type": "text"
+                                    },
+                                    "number_of_cheild": {
+                                        "type": "text"
+                                    },
+                                    "emergency_name": {
+                                        "type": "text"
+                                    },
+                                    "emergency_relation": {
+                                        "type": "text"
+                                    },
+                                    "emergency_email": {
+                                        "type": "text"
+                                    },
+                                    "emergency_addr": {
+                                        "type": "text"
+                                    },
+                                    "emergency_distict": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Employee Added Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/user/updateProfile": {
+            "post": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Update User Employee",
+                "description": "Update User Employee",
+                "operationId": "updateProfile",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "id": {
+                                        "type": "text"
+                                    },
+                                    "user_id": {
+                                        "type": "text"
+                                    },
+                                    "image": {
+                                        "type": "text"
+                                    },
+                                    "name": {
+                                        "type": "text"
+                                    },
+                                    "mobile_number": {
+                                        "type": "text"
+                                    },
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "designation": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_houseno": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_roadno": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_area": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_upazila": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_district": {
+                                        "type": "text"
+                                    },
+                                    "present_addr_postcode": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_houseno": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_roadno": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_area": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_upazila": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_district": {
+                                        "type": "text"
+                                    },
+                                    "permanent_addr_postcode": {
+                                        "type": "text"
+                                    },
+                                    "department": {
+                                        "type": "text"
+                                    },
+                                    "job_location": {
+                                        "type": "text"
+                                    },
+                                    "joining_date": {
+                                        "type": "text"
+                                    },
+                                    "education_history": {
+                                        "type": "text"
+                                    },
+                                    "father_name": {
+                                        "type": "text"
+                                    },
+                                    "mother_name": {
+                                        "type": "text"
+                                    },
+                                    "spouse_name": {
+                                        "type": "text"
+                                    },
+                                    "number_of_cheild": {
+                                        "type": "text"
+                                    },
+                                    "emergency_name": {
+                                        "type": "text"
+                                    },
+                                    "emergency_relation": {
+                                        "type": "text"
+                                    },
+                                    "emergency_email": {
+                                        "type": "text"
+                                    },
+                                    "emergency_addr": {
+                                        "type": "text"
+                                    },
+                                    "emergency_distict": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated Guest Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/getLeaveMgt": {
             "get": {
                 "tags": [
@@ -1719,330 +2043,6 @@
                     },
                     "400": {
                         "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    }
-                }
-            }
-        },
-        "/pds-backend/api/user/getAllProfile": {
-            "get": {
-                "tags": [
-                    "PDS User Profile [Users]"
-                ],
-                "summary": "Get All Profile List",
-                "description": "Get All Profile List",
-                "operationId": "getAllProfile",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    }
-                }
-            }
-        },
-        "/pds-backend/api/user/getprofile/{id}": {
-            "get": {
-                "tags": [
-                    "PDS User Profile [Users]"
-                ],
-                "summary": "Get User Profile List",
-                "operationId": "getprofile",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    }
-                }
-            }
-        },
-        "/pds-backend/api/user/addProfile": {
-            "post": {
-                "tags": [
-                    "PDS User Profile [Users]"
-                ],
-                "summary": "Add User Profile",
-                "description": "Add User Profile",
-                "operationId": "addProfile",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [],
-                                "properties": {
-                                    "user_id": {
-                                        "type": "text"
-                                    },
-                                    "image": {
-                                        "type": "text"
-                                    },
-                                    "name": {
-                                        "type": "text"
-                                    },
-                                    "mobile_number": {
-                                        "type": "text"
-                                    },
-                                    "email": {
-                                        "type": "text"
-                                    },
-                                    "designation": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_houseno": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_roadno": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_area": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_upazila": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_district": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_postcode": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_houseno": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_roadno": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_area": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_upazila": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_district": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_postcode": {
-                                        "type": "text"
-                                    },
-                                    "department": {
-                                        "type": "text"
-                                    },
-                                    "job_location": {
-                                        "type": "text"
-                                    },
-                                    "joining_date": {
-                                        "type": "text"
-                                    },
-                                    "education_history": {
-                                        "type": "text"
-                                    },
-                                    "father_name": {
-                                        "type": "text"
-                                    },
-                                    "mother_name": {
-                                        "type": "text"
-                                    },
-                                    "spouse_name": {
-                                        "type": "text"
-                                    },
-                                    "number_of_cheild": {
-                                        "type": "text"
-                                    },
-                                    "emergency_name": {
-                                        "type": "text"
-                                    },
-                                    "emergency_relation": {
-                                        "type": "text"
-                                    },
-                                    "emergency_email": {
-                                        "type": "text"
-                                    },
-                                    "emergency_addr": {
-                                        "type": "text"
-                                    },
-                                    "emergency_distict": {
-                                        "type": "text"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        },
-                        "application/json": {
-                            "schema": {}
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "User Profile Added Successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    }
-                }
-            }
-        },
-        "/pds-backend/api/user/updateProfile": {
-            "post": {
-                "tags": [
-                    "PDS User Profile [Users]"
-                ],
-                "summary": "Update User Profile",
-                "description": "Update User Profile",
-                "operationId": "updateProfile",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [],
-                                "properties": {
-                                    "id": {
-                                        "type": "text"
-                                    },
-                                    "user_id": {
-                                        "type": "text"
-                                    },
-                                    "image": {
-                                        "type": "text"
-                                    },
-                                    "name": {
-                                        "type": "text"
-                                    },
-                                    "mobile_number": {
-                                        "type": "text"
-                                    },
-                                    "email": {
-                                        "type": "text"
-                                    },
-                                    "designation": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_houseno": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_roadno": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_area": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_upazila": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_district": {
-                                        "type": "text"
-                                    },
-                                    "present_addr_postcode": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_houseno": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_roadno": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_area": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_upazila": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_district": {
-                                        "type": "text"
-                                    },
-                                    "permanent_addr_postcode": {
-                                        "type": "text"
-                                    },
-                                    "department": {
-                                        "type": "text"
-                                    },
-                                    "job_location": {
-                                        "type": "text"
-                                    },
-                                    "joining_date": {
-                                        "type": "text"
-                                    },
-                                    "education_history": {
-                                        "type": "text"
-                                    },
-                                    "father_name": {
-                                        "type": "text"
-                                    },
-                                    "mother_name": {
-                                        "type": "text"
-                                    },
-                                    "spouse_name": {
-                                        "type": "text"
-                                    },
-                                    "number_of_cheild": {
-                                        "type": "text"
-                                    },
-                                    "emergency_name": {
-                                        "type": "text"
-                                    },
-                                    "emergency_relation": {
-                                        "type": "text"
-                                    },
-                                    "emergency_email": {
-                                        "type": "text"
-                                    },
-                                    "emergency_addr": {
-                                        "type": "text"
-                                    },
-                                    "emergency_distict": {
-                                        "type": "text"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        },
-                        "application/json": {
-                            "schema": {}
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Updated Guest Successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request"
                     },
                     "404": {
                         "description": "Resource Not Found"
