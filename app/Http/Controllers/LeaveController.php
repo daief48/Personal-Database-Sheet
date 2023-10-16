@@ -73,6 +73,7 @@ class LeaveController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
+     *                 @OA\Property(property="employee_id", type="integer", example=1),
      *                @OA\Property(property="leave_type", type="text"),
      *               @OA\Property(property="from_date", type="date"),
      *               @OA\Property(property="to_date", type="date"),
@@ -97,6 +98,7 @@ class LeaveController extends Controller
     {
 
         $rules = [
+            'employee_id' => 'required',
             'leave_type' => 'required',
             'from_date' => 'required',
             'to_date' => 'required',
@@ -106,6 +108,7 @@ class LeaveController extends Controller
         ];
 
         $messages = [
+            'employee_id.required' => 'The employee_id field is required',
             'leave_type.required' => 'The leave_type field is required',
             'from_date.required' => 'The from_date field is required',
             'to_date.required' => 'The to_date field is required',
@@ -122,6 +125,7 @@ class LeaveController extends Controller
         try {
 
             $leaveInfo = Leave::create([
+                'employee_id' => $request->employee_id,
                 'leave_type' => $request->leave_type,
                 'from_date' => $request->from_date,
                 'to_date' => $request->to_date,
@@ -174,15 +178,19 @@ class LeaveController extends Controller
     {
 
         $rules = [
+
             'leave_type' => 'required',
             'from_date' => 'required',
             'to_date' => 'required',
             'day' => 'required',
             'description' => 'required',
 
+
+
         ];
 
         $messages = [
+
             'leave_type.required' => 'The leave_type field is required',
             'from_date.required' => 'The from_date field is required',
             'to_date.required' => 'The to_date field is required',
