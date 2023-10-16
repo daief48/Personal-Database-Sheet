@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Leave;
+use App\Models\LeaveType;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
 
@@ -38,6 +39,7 @@ class LeaveController extends Controller
     {
 
         try {
+            $availableLeave = LeaveType::orderBy('id', 'ASC');
 
             $getLeaveSetup = Leave::select(
                 'created_at',

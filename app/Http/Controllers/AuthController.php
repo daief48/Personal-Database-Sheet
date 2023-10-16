@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -24,53 +26,54 @@ class AuthController extends Controller
     }
 
 
-  /**
-    * @OA\Post(
-    * path="/pds-backend/api/auth/login",
-    * operationId="Login",
-    * tags={"Authentication"},
-    * summary="User Login",
-    * description="User Login here",
-    *     @OA\RequestBody(
-    *         @OA\JsonContent(),
-    *         @OA\MediaType(
-    *            mediaType="multipart/form-data",
-    *            @OA\Schema(
-    *               type="object",
-    *               required={"phone", "password"},
-    *               @OA\Property(property="phone", type="text", example=""),
-    *               @OA\Property(property="password", type="password", example="")
-    *            ),
-    *        ),
-    *    ),
-    *      @OA\Response(
-    *          response=201,
-    *          description="Login Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Login Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(
-    *          response=422,
-    *          description="Unprocessable Entity",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(response=400, description="Bad request"),
-    *      @OA\Response(response=404, description="Resource Not Found"),
-    * )
-    */
+    /**
+     * @OA\Post(
+     * path="/pds-backend/api/auth/login",
+     * operationId="Login",
+     * tags={"Authentication"},
+     * summary="User Login",
+     * description="User Login here",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="multipart/form-data",
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"phone", "password"},
+     *               @OA\Property(property="phone", type="text", example=""),
+     *               @OA\Property(property="password", type="password", example="")
+     *            ),
+     *        ),
+     *    ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Login Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Login Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * )
+     */
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         try {
             $request->validate([
-             // 'email' => 'required|string|email',
+                // 'email' => 'required|string|email',
                 'phone' => 'required|numeric',
                 'password' => 'required|string'
             ]);
-          //$credentials = $request->only('email', 'password');
+            //$credentials = $request->only('email', 'password');
             $credentials = $request->only('phone', 'password');
 
             $token = Auth::attempt($credentials);
@@ -83,14 +86,14 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            if($token && $user->otp_verified == 0) {
+            if ($token && $user->otp_verified == 0) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Not verified.',
                 ], 402);
             }
 
-            if($token && $user->status == 0) {
+            if ($token && $user->status == 0) {
                 return response()->json([
                     'status' => 'inactive',
                     'message' => 'Not active yet',
@@ -99,117 +102,117 @@ class AuthController extends Controller
 
             $menu = [];
 
-            if($user->role_id == 1){
+            if ($user->role_id == 1) {
                 $menu = [
-        	        [
-                        'title'=>'Dashboard',
-                        'slug'=>'/dashboard',
-                        'icon'=>'fa fa-tachometer',
+                    [
+                        'title' => 'Dashboard',
+                        'slug' => '/dashboard',
+                        'icon' => 'fa fa-tachometer',
                     ],
                     [
-                        'title'=>'User List',
-                        'slug'=>'/users',
-                        'icon'=>'fa fa-users nav-icon',
+                        'title' => 'User List',
+                        'slug' => '/users',
+                        'icon' => 'fa fa-users nav-icon',
                     ],
                     [
-                        'title'=>'Employee List',
-                        'slug'=>'/employees',
-                        'icon'=>'fa fa-users nav-icon',
+                        'title' => 'Employee List',
+                        'slug' => '/employees',
+                        'icon' => 'fa fa-users nav-icon',
                     ],
                     [
-                        'title'=>'Transfer List',
-                        'slug'=>'/transfer-list',
-                        'icon'=>'fa fa-exchange nav-icon',
+                        'title' => 'Transfer List',
+                        'slug' => '/transfer',
+                        'icon' => 'fa fa-exchange nav-icon',
                     ],
                     [
-                        'title'=>'Promotion',
-                        'slug'=>'/promotion-list',
-                        'icon'=>'fa fa-trophy nav-icon',
+                        'title' => 'Promotion',
+                        'slug' => '/promotion-list',
+                        'icon' => 'fa fa-trophy nav-icon',
                     ],
                     [
-                        'title'=>'Training List',
-                        'slug'=>'/training-list',
-                        'icon'=>'fa fa-file nav-icon',
+                        'title' => 'Training List',
+                        'slug' => '/training-list',
+                        'icon' => 'fa fa-file nav-icon',
                     ],
                     [
-                        'title'=>'SMS Send',
-                        'slug'=>'/sms-send',
-                        'icon'=>'fa fa-graduation-cap nav-icon',
+                        'title' => 'SMS Send',
+                        'slug' => '/sms-send',
+                        'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
-                        'title'=>'Departments Setup',
-                        'slug'=>'/department-setup',
-                        'icon'=>'fa fa-graduation-cap nav-icon',
+                        'title' => 'Departments Setup',
+                        'slug' => '/department-setup',
+                        'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
-                        'title'=>'Training Setup',
-                        'slug'=>'/training-setup',
-                        'icon'=>'fa fa-graduation-cap nav-icon',
+                        'title' => 'Training Setup',
+                        'slug' => '/training-setup',
+                        'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
-                        'title'=>'Office Setup',
-                        'slug'=>'/office-setup',
-                        'icon'=>'fa fa-graduation-cap nav-icon',
+                        'title' => 'Office Setup',
+                        'slug' => '/office-setup',
+                        'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
 
                     [
-                        'title'=>'ACR',
-                        'slug'=>'/acr',
-                        'icon'=>'fa fa-newspaper-o nav-icon',
+                        'title' => 'ACR',
+                        'slug' => '/acr',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
                     ],
                     [
-                        'title'=>'Report',
-                        'slug'=>'/report',
-                        'icon'=>'fa fa-file nav-icon',
+                        'title' => 'Report',
+                        'slug' => '/report',
+                        'icon' => 'fa fa-file nav-icon',
                     ],
                     [
-                        'title'=>'Leave',
-                        'slug'=>'/leave',
-                        'icon'=>'fa fa-snowflake-o nav-icon',
+                        'title' => 'Leave',
+                        'slug' => '/leave',
+                        'icon' => 'fa fa-snowflake-o nav-icon',
                     ],
                 ];
             }
-            if($user->role_id == 2){
+            if ($user->role_id == 2) {
                 $menu = [
                     [
-                        'title'=>'Dashboard',
-                        'slug'=>'/dashboard',
-                        'icon'=>'fa fa-tachometer',
+                        'title' => 'Dashboard',
+                        'slug' => '/dashboard',
+                        'icon' => 'fa fa-tachometer',
                     ],
                     [
-                        'title'=>'Profile',
-                        'slug'=>'/profile',
-                        'icon'=>'fa fa-tachometer',
+                        'title' => 'Profile',
+                        'slug' => '/profile',
+                        'icon' => 'fa fa-tachometer',
                     ],
                     [
-                        'title'=>'Transfer',
-                        'slug'=>'/transfers',
-                        'icon'=>'fa fa-users nav-icon',
+                        'title' => 'Transfer',
+                        'slug' => '/transfer',
+                        'icon' => 'fa fa-users nav-icon',
                     ],
                     [
-                        'title'=>'Training',
-                        'slug'=>'/training',
-                        'icon'=>'fa fa-graduation-cap nav-icon',
+                        'title' => 'Training',
+                        'slug' => '/training',
+                        'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
-                        'title'=>'Promotion',
-                        'slug'=>'/promotion',
-                        'icon'=>'fa fa-trophy nav-icon',
+                        'title' => 'Promotion',
+                        'slug' => '/promotion',
+                        'icon' => 'fa fa-trophy nav-icon',
                     ],
                     [
-                        'title'=>'Leave',
-                        'slug'=>'/leave',
-                        'icon'=>'fa fa-file nav-icon',
+                        'title' => 'Leave',
+                        'slug' => '/leave',
+                        'icon' => 'fa fa-file nav-icon',
                     ],
                     [
-                        'title'=>'ACR',
-                        'slug'=>'/acr',
-                        'icon'=>'fa fa-newspaper-o nav-icon',
+                        'title' => 'ACR',
+                        'slug' => '/acr',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
                     ],
                     [
-                        'title'=>'Report',
-                        'slug'=>'/report',
-                        'icon'=>'fa fa-newspaper-o nav-icon',
+                        'title' => 'Report',
+                        'slug' => '/report',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
                     ]
                 ];
             }
@@ -223,7 +226,6 @@ class AuthController extends Controller
                     'type' => 'bearer',
                 ]
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -232,50 +234,51 @@ class AuthController extends Controller
         }
     }
 
-   /**
-    * @OA\Post(
-    * path="/pds-backend/api/auth/register",
-    * operationId="Register",
-    * tags={"Authentication"},
-    * summary="User Register",
-    * description="User Register here",
-    *     @OA\RequestBody(
-    *         @OA\JsonContent(),
-    *         @OA\MediaType(
-    *            mediaType="multipart/form-data",
-    *            @OA\Schema(
-    *               type="object",
-    *               required={"name","email", "password", "password_confirmation", "phone"},
-    *               @OA\Property(property="name", type="text"),
-    *               @OA\Property(property="email", type="text"),
-    *               @OA\Property(property="phone", type="text"),
-    *               @OA\Property(property="status", type="text"),
-    *               @OA\Property(property="password", type="password"),
-    *               @OA\Property(property="password_confirmation", type="password"),
-    *            ),
-    *        ),
-    *    ),
-    *      @OA\Response(
-    *          response=201,
-    *          description="Register Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Register Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(
-    *          response=422,
-    *          description="Unprocessable Entity",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(response=400, description="Bad request"),
-    *      @OA\Response(response=404, description="Resource Not Found"),
-    * )
-    */
+    /**
+     * @OA\Post(
+     * path="/pds-backend/api/auth/register",
+     * operationId="Register",
+     * tags={"Authentication"},
+     * summary="User Register",
+     * description="User Register here",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="multipart/form-data",
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"name","email", "password", "password_confirmation", "phone"},
+     *               @OA\Property(property="name", type="text"),
+     *               @OA\Property(property="email", type="text"),
+     *               @OA\Property(property="phone", type="text"),
+     *               @OA\Property(property="status", type="text"),
+     *               @OA\Property(property="password", type="password"),
+     *               @OA\Property(property="password_confirmation", type="password"),
+     *            ),
+     *        ),
+     *    ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Register Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Register Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * )
+     */
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
@@ -285,17 +288,17 @@ class AuthController extends Controller
                 'password' => 'required|string|min:6',
             ]);
 
-            if(User::where('phone',$request->phone)->where('otp_verified',1)->exists()) {
+            if (User::where('phone', $request->phone)->where('otp_verified', 1)->exists()) {
                 return response()->json([
                     'status' => 'Fail',
                     'message' => 'User already registred',
                 ], 500);
             }
 
-            if(User::where('phone',$request->phone)->where('otp_verified',0)->exists()) {
-                $user = User::where('phone',$request->phone)->first();
+            if (User::where('phone', $request->phone)->where('otp_verified', 0)->exists()) {
+                $user = User::where('phone', $request->phone)->first();
                 $otp = rand(123456, 999999);
-                User::where('phone',$request->phone)->update([
+                User::where('phone', $request->phone)->update([
                     'otp' => $otp,
                     'otp_expire_at' => Carbon::now()->addMinutes(2)
                 ]);
@@ -304,7 +307,6 @@ class AuthController extends Controller
                     'mobileNumber' => $request->phone,
                     'message' => $otp,
                 ])->throw(function (Response $response, RequestException $e) {
-
                 })->json();
 
                 return response()->json([
@@ -312,7 +314,7 @@ class AuthController extends Controller
                     'message' => 'Otp have been updated.',
                     'user' => $user->id,
                 ]);
-            }else {
+            } else {
                 $otp = rand(123456, 999999);
                 $user = User::create([
                     'name' => $request->name,
@@ -331,11 +333,10 @@ class AuthController extends Controller
                     'mobileNumber' => $request->phone,
                     'message' => $otp,
                 ])->throw(function (Response $response, RequestException $e) {
-
                 })->json();
 
                 if ($response['status'] == "FAILED") {
-                    User::where("id",$user->id)->delete();
+                    User::where("id", $user->id)->delete();
                 }
             }
 
@@ -351,83 +352,83 @@ class AuthController extends Controller
     }
 
     /**
-    * @OA\Post(
-    * path="/pds-backend/api/auth/otpVerify",
-    * operationId="otpVerify",
-    * tags={"Authentication"},
-    * summary="User Otp Verification",
-    * description="User Otp Verification",
-    *     @OA\RequestBody(
-    *         @OA\JsonContent(),
-    *         @OA\MediaType(
-    *            mediaType="multipart/form-data",
-    *            @OA\Schema(
-    *               type="object",
-    *               required={"user_id","otp"},
-    *               @OA\Property(property="user_id", type="text"),
-    *               @OA\Property(property="otp", type="text"),
-    *            ),
-    *        ),
-    *    ),
-    *      @OA\Response(
-    *          response=201,
-    *          description="Register Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Register Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(
-    *          response=422,
-    *          description="Unprocessable Entity",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(response=400, description="Bad request"),
-    *      @OA\Response(response=404, description="Resource Not Found"),
-    * )
-    */
+     * @OA\Post(
+     * path="/pds-backend/api/auth/otpVerify",
+     * operationId="otpVerify",
+     * tags={"Authentication"},
+     * summary="User Otp Verification",
+     * description="User Otp Verification",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="multipart/form-data",
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"user_id","otp"},
+     *               @OA\Property(property="user_id", type="text"),
+     *               @OA\Property(property="otp", type="text"),
+     *            ),
+     *        ),
+     *    ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Register Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Register Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * )
+     */
 
     public function otpVerify(Request $request)
     {
         try {
             $userInfo = User::where("id", $request->user_id)->firstOrFail();
 
-            if($userInfo) {
-                if($userInfo->otp_verified == 1) {
+            if ($userInfo) {
+                if ($userInfo->otp_verified == 1) {
                     return response()->json([
                         'status' => 'success',
                         'message' => 'User Already Verified.',
                     ]);
                 }
 
-                if($userInfo->otp == $request->otp) {
-                    if(Carbon::now()->isAfter($userInfo->otp_expire_at)){
+                if ($userInfo->otp == $request->otp) {
+                    if (Carbon::now()->isAfter($userInfo->otp_expire_at)) {
                         return response()->json([
                             'status' => 'expird',
                             'message' => 'OTP has a expired..',
-                        ],401);
+                        ], 401);
                     }
 
-                    User::where('id',$request->user_id)->update([
+                    User::where('id', $request->user_id)->update([
                         'otp_verified' => 1
                     ]);
 
-                    Employee::create(['user_id'=>$request->user_id, 'name'=>$userInfo->name, 'mobile_number'=>$userInfo->phone]);
+                    Employee::create(['user_id' => $request->user_id, 'name' => $userInfo->name, 'mobile_number' => $userInfo->phone]);
 
                     return response()->json([
                         'status' => 'success',
                         'message' => 'OTP Verified Successfully.',
                         'user' => $userInfo,
                     ]);
-                }else{
+                } else {
                     return response()->json([
                         'status' => 'unauthorized',
                         'message' => 'Invalid OTP.',
-                    ],400);
+                    ], 400);
                 }
-            }else{
+            } else {
                 return response()->json([
                     'status' => 'fail',
                     'message' => 'User not found',
@@ -440,7 +441,7 @@ class AuthController extends Controller
         }
     }
 
-   /**
+    /**
      * @OA\POST(
      *     path="/pds-backend/api/auth/logout",
      *     tags={"Authentication"},
@@ -475,6 +476,4 @@ class AuthController extends Controller
             ]
         ]);
     }
-
-
 }
