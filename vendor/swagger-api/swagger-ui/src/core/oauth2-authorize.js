@@ -3,7 +3,6 @@ import Im from "immutable"
 import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={}, currentServer } ) {
-  alert("dfsdf");
   let { schema, scopes, name, clientId } = auth
   let flow = schema.get("flow")
   let query = []

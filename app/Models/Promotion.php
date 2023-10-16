@@ -11,7 +11,7 @@ class Promotion extends Model
 
     protected $fillable = [
 
-        'name',
+        'employee_id',
         'promotion_ref_number',
         'promoted_designation',
         'promotion_date',

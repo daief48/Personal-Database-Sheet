@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Transfer;
 use App\Repositories\ResponseRepository;
+use Validator;
 use Illuminate\Http\Response;
 use File;
 
@@ -34,24 +35,32 @@ class TransferController extends Controller
      * security={{"bearer_token":{}}}
      */
 
-    public function getTransferList(){
+    public function getTransferList()
+    {
         try {
-
             $getTransferList = Transfer::leftJoin('transfer_types', 'transfers.transfer_type', '=', 'transfer_types.id')
                 ->leftJoin('designations', 'transfers.designation', '=', 'designations.id')
                 ->leftJoin('departments', 'transfers.department', '=', 'departments.id')
                 ->leftJoin('offices', 'transfers.to_office', '=', 'offices.id')
                 ->leftJoin('employees', 'employees.id', '=', 'transfers.employee_id')
-                ->select('transfers.id', 'employees.name as employee_name', 'departments.dept_name as dept_name', 'designations.designation_name as designation'
-                , 'transfer_types.title as t_type', 'transfers.transfer_order', 'offices.office_name as to_office', 'transfers.from_office', 'transfers.transfer_date'
-                , 'transfers.join_date')
+                ->select(
+
+                    'transfer_types.title as t_type',
+                    'transfers.transfer_order_number',
+                    'offices.office_name as to_office',
+                    'transfers.from_office',
+                    'departments.dept_name as dept_name',
+                    'designations.designation_name as designation',
+                    'transfers.transfer_date',
+                    'transfers.join_date',
+                    'transfers.transfer_letter'
+                )
                 ->get();
 
             return response()->json([
 
                 'data' => $getTransferList,
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -76,9 +85,11 @@ class TransferController extends Controller
      *               type="object",
      *               required={},
      *               @OA\Property(property="to_office", type="text"),
+     *                @OA\Property(property="from_office", type="text"),
      *               @OA\Property(property="department", type="text"),
      *               @OA\Property(property="designation", type="text"),
      *               @OA\Property(property="transfer_order", type="text"),
+     *                @OA\Property(property="transfer_order_number", type="text"),
      *               @OA\Property(property="transfer_type", type="text"),
      *               @OA\Property(property="transfer_date", type="date"),
      *               @OA\Property(property="join_date", type="date"),
@@ -101,69 +112,143 @@ class TransferController extends Controller
     public function addTransferRecord(Request $request)
     {
         try {
-             $addTransfer = Transfer::create([
-                 'to_office' => $request->to_office,
-                 'department' => $request->department,
-                 'designation' => $request->designation,
-                 'transfer_order' => $request->transfer_order,
-                 'transfer_type' =>$request->transfer_type,
-                 'transfer_date' =>$request->transfer_date,
-                 'join_date' =>$request->join_date,
-                 'transfer_letter' =>$request->transfer_letter,
-                 'status' => $request->status,
-             ]);
-             return $this->responseRepository->ResponseSuccess($addTransfer, 'Transfer Record Added Successfully !');
+            $rules = [
 
+                'transfer_type' => 'required',
+                'transfer_order' => 'required',
+                'transfer_order_number' => 'required',
+                'to_office' => 'required',
+                'from_office' => 'required',
+                'department' => 'required',
+                'designation' => 'required',
+                'transfer_date' => 'required',
+                'join_date' => 'required',
+                'transfer_letter' => 'required',
+                // Add validation rules for other fields here
+            ];
+
+            $messages = [
+
+                'transfer_type.required' => 'The transfer_type field is required',
+                'transfer_order.required' => 'The transfer_order field is required',
+                'transfer_order_number.required' => 'The transfer_order_number field is required',
+                'to_office.required' => ' The to_office field is required',
+                'from_office.required' => 'The from_office field is required',
+                'department.required' => 'The department field is required',
+                'designation.required' => 'The designation field is required',
+                'transfer_date.required' => 'The transfer_date field is required',
+                'join_date.unique' => 'This Join Date',
+                'transfer_letter.required' => 'The Transfer Letterfield is required',
+                // Add custom error messages for other fields if needed
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+
+            $addTransfer = Transfer::create([
+
+                'transfer_type' => $request->transfer_type,
+                'transfer_order' => $request->transfer_order,
+                'transfer_order_number' => $request->transfer_order_number,
+                'to_office' => $request->to_office,
+                'from_office' => $request->from_office,
+                'department' => $request->department,
+                'designation' => $request->designation,
+                'transfer_date' => $request->transfer_date,
+                'join_date' => $request->join_date,
+                'transfer_letter' => $request->transfer_letter,
+                'status' => $request->status,
+            ]);
+            return $this->responseRepository->ResponseSuccess($addTransfer, 'Transfer Record Added Successfully !');
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-
     /**
-    * @OA\Post(
-    * tags={"PDS User Transfer"},
-    * path="/pds-backend/api/updateTransferRecord",
-    * operationId="updateTransferRecord",
-    * summary="Update Transfer Record",
-    * description="Update Transfer Record",
-    *     @OA\RequestBody(
-    *         @OA\JsonContent(),
-    *         @OA\MediaType(
-    *            mediaType="multipart/form-data",
-    *            @OA\Schema(
-    *               type="object",
-    *               required={},
-    *               @OA\Property(property="id", type="text"),
-    *               @OA\Property(property="to_office", type="text"),
-    *               @OA\Property(property="department", type="text"),
-    *               @OA\Property(property="designation", type="text"),
-    *               @OA\Property(property="transfer_order", type="text"),
-    *               @OA\Property(property="transfer_type", type="text"),
-    *               @OA\Property(property="transfer_date", type="date"),
-    *               @OA\Property(property="join_date", type="date"),
-    *               @OA\Property(property="transfer_letter", type="text"),
-    *               @OA\Property(property="status", type="text"),
-    *            ),
-    *        ),
-    *    ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Updated Guest Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(response=400, description="Bad request"),
-    *      @OA\Response(response=404, description="Resource Not Found"),
-    * ),
-    *     security={{"bearer_token":{}}}
-    */
+     * @OA\Post(
+     * tags={"PDS User Transfer"},
+     * path="/pds-backend/api/updateTransferRecord/{id}",
+     * operationId="updateTransferRecord",
+     * summary="Update Transfer Record",
+     * description="Update Transfer Record",
+     * @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              type="object",
+     *               
+     *               @OA\Property(property="to_office", type="text",example="Dhaka"),
+     *               @OA\Property(property="from_office", type="text",example="Mymensingh"),
+     *               @OA\Property(property="department", type="text",example="3"),
+     *               @OA\Property(property="designation", type="text",example="23"),
+     *               @OA\Property(property="transfer_order", type="text",example="23"),
+     *               @OA\Property(property="transfer_order_number", type="text",example="1204"),
+     *               @OA\Property(property="transfer_type", type="text",example="2"),
+     *               @OA\Property(property="transfer_date", type="date",example="2023-10-11"),
+     *               @OA\Property(property="join_date", type="date",example="2023-10-11"),
+     *               @OA\Property(property="transfer_letter", type="text",example="ghit.pdf"),
+     *               @OA\Property(property="status", type="text",example="0"),
+     *           
+     *        ),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Updated Guest Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
 
-    public function updateTransferRecord(Request $request)
+    public function updateTransferRecord(Request $request, $id)
     {
 
         try {
 
-            $target = Transfer::find($request->id);
+            $rules = [
+
+                'transfer_type' => 'required',
+                'transfer_order' => 'required',
+                'transfer_order_number' => 'required',
+                'to_office' => 'required',
+                'from_office' => 'required',
+                'department' => 'required',
+                'designation' => 'required',
+                'transfer_date' => 'required',
+                'join_date' => 'required',
+                'transfer_letter' => 'required',
+                // Add validation rules for other fields here
+            ];
+
+            $messages = [
+
+                'transfer_type.required' => 'The transfer_type field is required',
+                'transfer_order.required' => 'The transfer_order field is required',
+                'transfer_order_number.required' => 'The transfer_order_number field is required',
+                'to_office.required' => ' The to_office field is required',
+                'from_office.required' => 'The from_office field is required',
+                'department.required' => 'The department field is required',
+                'designation.required' => 'The designation field is required',
+                'transfer_date.required' => 'The transfer_date field is required',
+                'join_date.unique' => 'This Join Date',
+                'transfer_letter.required' => 'The Transfer Letterfield is required',
+                // Add custom error messages for other fields if needed
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                // return redirect()->back()->withErrors($validator)->withInput();
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $target = Transfer::findOrFail($id);
             $transferRecord = $target->transfer_letter;
 
             // if(!empty($request->thumbnail)){
@@ -178,11 +263,13 @@ class TransferController extends Controller
             //     $thumbnail = $fileName;
             // }
 
+            $target->transfer_type = $request->transfer_type;
+            $target->transfer_order = $request->transfer_order;
+            $target->transfer_order_number = $request->transfer_order_number;
             $target->to_office = $request->to_office;
+            $target->from_office = $request->from_office;
             $target->department = $request->department;
             $target->designation = $request->designation;
-            $target->transfer_order = $request->transfer_order;
-            $target->transfer_type = $request->transfer_type;
             $target->transfer_date = $request->transfer_date;
             $target->join_date = $request->join_date;
             $target->transfer_letter = $transferRecord;
@@ -195,6 +282,9 @@ class TransferController extends Controller
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
 
     /**
      * @OA\Delete(
@@ -302,28 +392,28 @@ class TransferController extends Controller
     }
 
     /**
-    * @OA\Get(
-    * tags={"PDS User Transfer"},
-    * path="/pds-backend/api/specificUserTransferRecord/{id}",
-    * operationId="specificUserTransferRecord",
-    * summary="Get Specific User Transfer Record",
-    * description="",
-    * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
-    * @OA\Response(response=200, description="Success" ),
-    * @OA\Response(response=400, description="Bad Request"),
-    * @OA\Response(response=404, description="Resource Not Found"),
-    * ),
-    * security={{"bearer_token":{}}}
-    */
+     * @OA\Get(
+     * tags={"PDS User Transfer"},
+     * path="/pds-backend/api/specificUserTransferRecord/{id}",
+     * operationId="specificUserTransferRecord",
+     * summary="Get Specific User Transfer Record",
+     * description="",
+     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
 
-    public function specificUserTransferRecord(Request $request){
+    public function specificUserTransferRecord(Request $request)
+    {
         try {
             $specificUserTransferRecord = Transfer::findOrFail($request->id);
             return response()->json([
                 'status' => 'success',
                 'data' => $specificUserTransferRecord,
-            ],200);
-
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',

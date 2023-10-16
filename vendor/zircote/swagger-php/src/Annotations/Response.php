@@ -19,9 +19,11 @@ use OpenApi\Generator;
 class Response extends AbstractAnnotation
 {
     /**
+     * The relative or absolute path to a response.
+     *
      * @see [Using refs](https://swagger.io/docs/specification/using-ref/)
      *
-     * @var string|object
+     * @var string|class-string|object
      */
     public $ref = Generator::UNDEFINED;
 
@@ -64,7 +66,7 @@ class Response extends AbstractAnnotation
      * For responses that match multiple keys, only the most specific key is applicable;
      * e.g. <code>text/plain</code> overrides <code>text/*</code>.
      *
-     * @var MediaType|JsonContent|XmlContent|array<MediaType|JsonContent|XmlContent>
+     * @var MediaType|JsonContent|XmlContent|Attachable|array<MediaType|JsonContent|XmlContent|Attachable>
      */
     public $content = Generator::UNDEFINED;
 

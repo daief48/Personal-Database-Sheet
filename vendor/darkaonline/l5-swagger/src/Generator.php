@@ -16,6 +16,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class Generator
 {
+    public const OPEN_API_DEFAULT_SPEC_VERSION = '3.0.0';
+
     protected const SCAN_OPTION_PROCESSORS = 'processors';
     protected const SCAN_OPTION_PATTERN = 'pattern';
     protected const SCAN_OPTION_ANALYSER = 'analyser';
@@ -199,6 +201,13 @@ class Generator
     protected function createOpenApiGenerator(): OpenApiGenerator
     {
         $generator = new OpenApiGenerator();
+
+        // OpenApi spec version - only from zircote/swagger-php 4
+        if (method_exists($generator, 'setVersion')) {
+            $generator->setVersion(
+                $this->scanOptions['open_api_spec_version'] ?? self::OPEN_API_DEFAULT_SPEC_VERSION
+            );
+        }
 
         // Processors.
         $this->setProcessors($generator);

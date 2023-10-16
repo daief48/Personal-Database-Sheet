@@ -33,7 +33,8 @@ class DepartmentController extends Controller
      * security={{"bearer_token":{}}}
      */
 
-     public function getDepartment(){
+    public function getDepartment()
+    {
         try {
 
             $getDepartment = Department::orderBy('id', 'desc')->get();
@@ -41,7 +42,6 @@ class DepartmentController extends Controller
                 'status' => 'success',
                 'data' => $getDepartment,
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -51,39 +51,40 @@ class DepartmentController extends Controller
     }
 
     /**
-    * @OA\Post(
-    * tags={"PDS Department Setup"},
-    * path="/pds-backend/api/addDepartment",
-    * operationId="addDepartment",
-    * summary="Add New Department",
-    * description="Add New Department",
-    *     @OA\RequestBody(
-    *         @OA\JsonContent(),
-    *         @OA\MediaType(
-    *            mediaType="multipart/form-data",
-    *            @OA\Schema(
-    *               type="object",
-    *               required={},
-    *               @OA\Property(property="dept_name", type="text"),
-    *               @OA\Property(property="create_at", type="text"),
-    *               @OA\Property(property="status", type="text"),
-    *            ),
-    *        ),
-    *    ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Added Department Setup Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(response=400, description="Bad request"),
-    *      @OA\Response(response=404, description="Resource Not Found"),
-    * ),
-    *     security={{"bearer_token":{}}}
-    */
+     * @OA\Post(
+     * tags={"PDS Department Setup"},
+     * path="/pds-backend/api/addDepartment",
+     * operationId="addDepartment",
+     * summary="Add New Department",
+     * description="Add New Department",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="multipart/form-data",
+     *            @OA\Schema(
+     *               type="object",
+     *               required={},
+     *               @OA\Property(property="dept_name", type="text"),
+     *               @OA\Property(property="create_at", type="text"),
+     *               @OA\Property(property="status", type="text"),
+     *            ),
+     *        ),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Added Department Setup Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
 
 
 
-    public function addDepartment(Request $request){
+    public function addDepartment(Request $request)
+    {
         try {
 
             $department = Department::create([
@@ -98,7 +99,6 @@ class DepartmentController extends Controller
                 'errors'  => null,
                 'data'    => $department,
             ], 200);
-
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError("Error", $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -106,33 +106,34 @@ class DepartmentController extends Controller
 
 
     /**
-    * @OA\Put(
-    * tags={"PDS Department Setup"},
-    * path="/pds-backend/api/updateDepartment/{id}",
-    * operationId="updateDepartment",
-    * summary="Update Department Setup",
-    * @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
-    * @OA\RequestBody(
-    *          @OA\JsonContent(
-    *              type="object",
-    *              @OA\Property(property="dept_name", type="text", example="xyz"),
-    *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
-    *              @OA\Property(property="status", type="text", example=0),
-    *          ),
-    *      ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Department Setup Update Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(response=400, description="Bad request"),
-    *      @OA\Response(response=404, description="Resource Not Found"),
-    * ),
-    *     security={{"bearer_token":{}}}
-    */
+     * @OA\Put(
+     * tags={"PDS Department Setup"},
+     * path="/pds-backend/api/updateDepartment/{id}",
+     * operationId="updateDepartment",
+     * summary="Update Department Setup",
+     * @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="dept_name", type="text", example="xyz"),
+     *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
+     *              @OA\Property(property="status", type="text", example=0),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Department Setup Update Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
 
 
-    public function updateDepartment(Request $request, $id) {
+    public function updateDepartment(Request $request, $id)
+    {
 
         try {
 
@@ -148,7 +149,6 @@ class DepartmentController extends Controller
                 'errors'  => null,
                 'data'    => $department,
             ], 200);
-
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -170,23 +170,22 @@ class DepartmentController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
-     public function deleteDepartment($id)
-     {
-         try {
-             $department =  Department::findOrFail($id);
-             $department->delete();
+    public function deleteDepartment($id)
+    {
+        try {
+            $department =  Department::findOrFail($id);
+            $department->delete();
 
-             return response()->json([
-                 'status'  => true,
-                 'message' => "Department Record Deleted Successfully",
-                 'errors'  => null,
-                 'data'    => $department,
-             ], 200);
-
-         } catch (\Exception $e) {
-             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-         }
-     }
+            return response()->json([
+                'status'  => true,
+                'message' => "Department Record Deleted Successfully",
+                'errors'  => null,
+                'data'    => $department,
+            ], 200);
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * @OA\Patch(
@@ -240,50 +239,50 @@ class DepartmentController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
-     public function inactiveDeptRecord($id)
-     {
-         try {
-             $deptInfo =  Department::find($id);
+    public function inactiveDeptRecord($id)
+    {
+        try {
+            $deptInfo =  Department::find($id);
 
-             if (!($deptInfo === null)) {
-                 $deptInfo = Department::where('id', '=', $id)->update(['status' => 0]);
-                 return response()->json([
-                     'status'  => true,
-                     'message' => "Inactived Department  Record Successfully",
-                     'errors'  => null,
-                     'data'    => $deptInfo,
-                 ], 200);
-             } else {
-                 return $this->responseRepository->ResponseSuccess(null, 'Department Record Id Are Not Valid!');
-             }
-         } catch (\Exception $e) {
-             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-         }
-     }
+            if (!($deptInfo === null)) {
+                $deptInfo = Department::where('id', '=', $id)->update(['status' => 0]);
+                return response()->json([
+                    'status'  => true,
+                    'message' => "Inactived Department  Record Successfully",
+                    'errors'  => null,
+                    'data'    => $deptInfo,
+                ], 200);
+            } else {
+                return $this->responseRepository->ResponseSuccess(null, 'Department Record Id Are Not Valid!');
+            }
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
-    * @OA\Get(
-    * tags={"PDS Department Setup"},
-    * path="/pds-backend/api/specificDeptSetup/{id}",
-    * operationId="specificDeptSetup",
-    * summary="Specific Dept Setup",
-    * description="",
-    * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
-    * @OA\Response(response=200, description="Success" ),
-    * @OA\Response(response=400, description="Bad Request"),
-    * @OA\Response(response=404, description="Resource Not Found"),
-    * ),
-    * security={{"bearer_token":{}}}
-    */
+     * @OA\Get(
+     * tags={"PDS Department Setup"},
+     * path="/pds-backend/api/specificDeptSetup/{id}",
+     * operationId="specificDeptSetup",
+     * summary="Specific Dept Setup",
+     * description="",
+     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
 
-    public function specificDeptSetup(Request $request){
+    public function specificDeptSetup(Request $request)
+    {
         try {
             $specificDeptSetup = Department::findOrFail($request->id);
             return response()->json([
                 'status' => 'success',
                 'data' => $specificDeptSetup,
-            ],200);
-
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -291,5 +290,4 @@ class DepartmentController extends Controller
             ], 401);
         }
     }
-
 }

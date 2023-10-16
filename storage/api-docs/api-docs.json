@@ -948,14 +948,14 @@
                 }
             }
         },
-        "/pds-backend/api/user/getAllProfile": {
+        "/pds-backend/api/getEmployeesList": {
             "get": {
                 "tags": [
                     "PDS User Employee [Users]"
                 ],
                 "summary": "Get All Employee List",
                 "description": "Get All Employee List",
-                "operationId": "getAllProfile",
+                "operationId": "getEmployeesList",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1272,6 +1272,57 @@
                 }
             }
         },
+        "/pds-backend/api/user/delete/{empid}/{userid}": {
+            "post": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Delete User Employee",
+                "description": "Delete both the User and Employee records associated with the given IDs.",
+                "operationId": "deleteEmployee",
+                "parameters": [
+                    {
+                        "name": "empid",
+                        "in": "path",
+                        "description": "Employee ID to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "userid",
+                        "in": "path",
+                        "description": "User ID to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Employee and User deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/pds-backend/api/getLeaveMgt": {
             "get": {
                 "tags": [
@@ -1397,7 +1448,7 @@
                                     },
                                     "description": {
                                         "type": "text",
-                                        "example": "update_des"
+                                        "example": "good"
                                     },
                                     "status": {
                                         "type": "text",
@@ -2085,8 +2136,9 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "name": {
-                                        "type": "text"
+                                    "employee_id": {
+                                        "type": "text",
+                                        "example": 1
                                     },
                                     "promotion_ref_number": {
                                         "type": "text"
@@ -2154,17 +2206,17 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "name": {
-                                        "type": "text",
-                                        "example": "mr.jons"
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
                                     },
                                     "promotion_ref_number": {
                                         "type": "text",
                                         "example": "2211"
                                     },
                                     "promoted_designation": {
-                                        "type": "text",
-                                        "example": 2
+                                        "type": "integer",
+                                        "example": "1"
                                     },
                                     "promotion_date": {
                                         "type": "string",
@@ -2370,6 +2422,9 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "training_name": {
+                                        "type": "text"
+                                    },
                                     "training_center_name": {
                                         "type": "text"
                                     },
@@ -2442,9 +2497,13 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "training_name": {
+                                        "type": "text",
+                                        "example": "Food"
+                                    },
                                     "training_center_name": {
                                         "type": "text",
-                                        "example": 1
+                                        "example": "Mymensingh"
                                     },
                                     "training_score": {
                                         "type": "text",
@@ -2926,6 +2985,9 @@
                                     "to_office": {
                                         "type": "text"
                                     },
+                                    "from_office": {
+                                        "type": "text"
+                                    },
                                     "department": {
                                         "type": "text"
                                     },
@@ -2933,6 +2995,9 @@
                                         "type": "text"
                                     },
                                     "transfer_order": {
+                                        "type": "text"
+                                    },
+                                    "transfer_order_number": {
                                         "type": "text"
                                     },
                                     "transfer_type": {
@@ -2979,7 +3044,7 @@
                 }
             }
         },
-        "/pds-backend/api/updateTransferRecord": {
+        "/pds-backend/api/updateTransferRecord/{id}": {
             "post": {
                 "tags": [
                     "PDS User Transfer"
@@ -2987,50 +3052,71 @@
                 "summary": "Update Transfer Record",
                 "description": "Update Transfer Record",
                 "operationId": "updateTransferRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
-                                "required": [],
                                 "properties": {
-                                    "id": {
-                                        "type": "text"
-                                    },
                                     "to_office": {
-                                        "type": "text"
+                                        "type": "text",
+                                        "example": "Dhaka"
+                                    },
+                                    "from_office": {
+                                        "type": "text",
+                                        "example": "Mymensingh"
                                     },
                                     "department": {
-                                        "type": "text"
+                                        "type": "text",
+                                        "example": "3"
                                     },
                                     "designation": {
-                                        "type": "text"
+                                        "type": "text",
+                                        "example": "23"
                                     },
                                     "transfer_order": {
-                                        "type": "text"
+                                        "type": "text",
+                                        "example": "23"
+                                    },
+                                    "transfer_order_number": {
+                                        "type": "text",
+                                        "example": "1204"
                                     },
                                     "transfer_type": {
-                                        "type": "text"
+                                        "type": "text",
+                                        "example": "2"
                                     },
                                     "transfer_date": {
                                         "type": "string",
-                                        "format": "date"
+                                        "format": "date",
+                                        "example": "2023-10-11"
                                     },
                                     "join_date": {
                                         "type": "string",
-                                        "format": "date"
+                                        "format": "date",
+                                        "example": "2023-10-11"
                                     },
                                     "transfer_letter": {
-                                        "type": "text"
+                                        "type": "text",
+                                        "example": "ghit.pdf"
                                     },
                                     "status": {
-                                        "type": "text"
+                                        "type": "text",
+                                        "example": "0"
                                     }
                                 },
                                 "type": "object"
                             }
-                        },
-                        "application/json": {
-                            "schema": {}
                         }
                     }
                 },

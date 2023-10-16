@@ -12,9 +12,11 @@ class Transfer extends Model
     protected $fillable = [
 
         'to_office',
+        'from_office',
         'department',
         'designation',
         'transfer_order',
+        'transfer_order_number',
         'transfer_type',
         'transfer_date',
         'join_date',

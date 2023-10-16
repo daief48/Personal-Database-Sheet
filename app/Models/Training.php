@@ -11,6 +11,7 @@ class Training extends Model
 
     protected $fillable = [
 
+        'training_name',
         'training_center_name',
         'training_score',
         'training_feedback',

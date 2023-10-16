@@ -24,11 +24,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('auth/logout', 'logout');
     Route::post('auth/refresh', 'refresh');
     Route::post('auth/otpVerify', 'otpVerify');
-
 });
 
 
-Route::group(['prefix'=>''], function(){
+Route::group(['prefix' => ''], function () {
 
     Route::get('users', [UserController::class, 'getUsers']);
     Route::get('users/search', [UserController::class, 'search']);
@@ -49,7 +48,8 @@ Route::post('/user/updateProfile', [EmployeeController::class, 'updateProfile'])
 
 Route::get('/getTransferList', [TransferController::class, 'getTransferList']);
 Route::post('/addTransferRecord', [TransferController::class, 'addTransferRecord']);
-Route::post('/updateTransferRecord', [TransferController::class, 'updateTransferRecord']);
+
+Route::post('/updateTransferRecord/{id}', [TransferController::class, 'updateTransferRecord']);
 Route::delete('/deleteTransferRecord/{id}', [TransferController::class, 'deleteTransferRecord']);
 Route::patch('/activeTransferRecord/{id}', [TransferController::class, 'activeTransferRecord']);
 Route::patch('/inactiveTransferRecord/{id}', [TransferController::class, 'inactiveTransferRecord']);
@@ -144,6 +144,3 @@ Route::get('/specificAcrInfo/{id}', [AcrController::class, 'specificAcrInfo']);
 // Mail Controller
 
 Route::post('/send-reply', [MailController::class, 'sendReply']);
-
-
-
