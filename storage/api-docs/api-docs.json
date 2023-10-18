@@ -3471,7 +3471,9 @@
                         "description": "Resource Not Found"
                     }
                 }
-            },
+            }
+        },
+        "/pds-backend/api/users/{id}/{empid}": {
             "delete": {
                 "tags": [
                     "User Management"
