@@ -369,7 +369,7 @@ class EmployeeController extends Controller
     /**
      * @OA\Post(
      *     tags={"PDS User Employee [Users]"},
-     *     path="/pds-backend/api/user/delete/{empid}/{userid}",
+     *     path="/pds-backend/api/user/deleteEmployee/{empid}/{userid}",
      *     operationId="deleteEmployee",
      *     summary="Delete User Employee",
      *     description="Delete both the User and Employee records associated with the given IDs.",

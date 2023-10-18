@@ -1272,7 +1272,7 @@
                 }
             }
         },
-        "/pds-backend/api/user/delete/{empid}/{userid}": {
+        "/pds-backend/api/user/deleteEmployee/{empid}/{userid}": {
             "post": {
                 "tags": [
                     "PDS User Employee [Users]"
@@ -1616,6 +1616,12 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "text"
+                                    },
+                                    "days": {
+                                        "type": "text"
+                                    },
                                     "leave_type": {
                                         "type": "text"
                                     },
@@ -2990,6 +2996,10 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "to_office": {
                                         "type": "text"
                                     },

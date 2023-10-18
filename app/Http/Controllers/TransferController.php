@@ -44,6 +44,8 @@ class TransferController extends Controller
                 ->leftJoin('offices', 'transfers.to_office', '=', 'offices.id')
                 ->leftJoin('employees', 'employees.id', '=', 'transfers.employee_id')
                 ->select(
+                    'transfers.*',
+                    'employees.name as employee_name',
                     'transfer_types.title as t_type',
                     'transfers.transfer_order_number',
                     'offices.office_name as to_office',
@@ -83,6 +85,7 @@ class TransferController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
+     *                @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="to_office", type="text"),
      *                @OA\Property(property="from_office", type="text"),
      *               @OA\Property(property="department", type="text"),
@@ -113,6 +116,7 @@ class TransferController extends Controller
         try {
             $rules = [
 
+                'employee_id' => 'required',
                 'transfer_type' => 'required',
                 'transfer_order' => 'required',
                 'transfer_order_number' => 'required',
@@ -128,6 +132,7 @@ class TransferController extends Controller
 
             $messages = [
 
+                'employee_id.required' => 'The employee_id field is required',
                 'transfer_type.required' => 'The transfer_type field is required',
                 'transfer_order.required' => 'The transfer_order field is required',
                 'transfer_order_number.required' => 'The transfer_order_number field is required',

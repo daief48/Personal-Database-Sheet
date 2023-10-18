@@ -34,7 +34,7 @@ Route::group(['prefix' => ''], function () {
     Route::post('addUser', [UserController::class, 'addUser']);
     Route::get('users/{id}', [UserController::class, 'userDetail']);
     Route::put('users/{id}', [UserController::class, 'updateUser']);
-    Route::delete('users/{id}', [UserController::class, 'deleteUser']);
+    Route::delete('users/{id}/{empid}', [UserController::class, 'deleteUser']);
 });
 
 //User Employee Information v1
@@ -43,6 +43,7 @@ Route::get('/getEmployeesList', [EmployeeController::class, 'getEmployeesList'])
 Route::get('/user/getprofile/{id}', [EmployeeController::class, 'getprofile']);
 Route::post('/user/addProfile', [EmployeeController::class, 'addProfile']);
 Route::post('/user/updateProfile', [EmployeeController::class, 'updateProfile']);
+Route::post('/user/deleteEmployee/{empid}/{userid}', [EmployeeController::class, 'deleteEmployee']);
 
 //User Transfer Information v1
 

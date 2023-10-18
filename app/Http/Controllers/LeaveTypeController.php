@@ -64,7 +64,9 @@ class LeaveTypeController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *               @OA\Property(property="leave_type", type="text"),
+     *               @OA\Property(property="employee_id", type="text"),
+     *                @OA\Property(property="days", type="text"),
+     *                @OA\Property(property="leave_type", type="text"),
      *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
@@ -88,7 +90,9 @@ class LeaveTypeController extends Controller
         try {
 
             $leaveType = LeaveType::create([
+                'employee_id' => $request->employee_id,
                 'leave_type' => $request->leave_type,
+                'days' => $request->days,
                 'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
