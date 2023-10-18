@@ -44,7 +44,6 @@ class TransferController extends Controller
                 ->leftJoin('offices', 'transfers.to_office', '=', 'offices.id')
                 ->leftJoin('employees', 'employees.id', '=', 'transfers.employee_id')
                 ->select(
-
                     'transfer_types.title as t_type',
                     'transfers.transfer_order_number',
                     'offices.office_name as to_office',

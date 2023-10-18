@@ -1358,6 +1358,10 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "leave_type": {
                                         "type": "text"
                                     },
@@ -2137,7 +2141,7 @@
                                 "required": [],
                                 "properties": {
                                     "employee_id": {
-                                        "type": "text",
+                                        "type": "integer",
                                         "example": 1
                                     },
                                     "promotion_ref_number": {
@@ -2422,6 +2426,10 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "training_name": {
                                         "type": "text"
                                     },
