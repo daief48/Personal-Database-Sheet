@@ -16,7 +16,7 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\AcrController;
-
+use App\Http\Controllers\TransferTypeController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('auth/login', 'login');
@@ -56,6 +56,9 @@ Route::patch('/activeTransferRecord/{id}', [TransferController::class, 'activeTr
 Route::patch('/inactiveTransferRecord/{id}', [TransferController::class, 'inactiveTransferRecord']);
 Route::get('/specificUserTransferRecord/{id}', [TransferController::class, 'specificUserTransferRecord']);
 
+//Transfer Type 
+
+Route::get('getTransferType', [TransferTypeController::class, 'TransferTypeController']);
 
 //User Training Information v1
 

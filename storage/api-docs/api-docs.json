@@ -3288,6 +3288,27 @@
                 }
             }
         },
+        "/pds-backend/api/getTransferType": {
+            "get": {
+                "tags": [
+                    "PDS Transfer Type"
+                ],
+                "summary": "Transfer Type List",
+                "description": "Transfer Type List",
+                "operationId": "getTransferType",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/users": {
             "get": {
                 "tags": [

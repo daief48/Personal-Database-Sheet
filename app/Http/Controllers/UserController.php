@@ -163,7 +163,10 @@ class UserController extends Controller
     public function userDetail(Request $request)
     {
         try {
-            $userDetail = User::findOrFail($request->id);
+            $userDetail = User::leftJoin('employees', 'users.id', '=', 'employees.user_id')->select(
+                'users.*',
+                'employees.id as employee_id',
+            )->findOrFail($request->id);
             return response()->json([
                 'status' => 'success',
                 'userDetail' => $userDetail,
@@ -244,7 +247,7 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/pds-backend/api/users/{id}/{empid}",
+     *     path="/pds-backend/api/users/{id}",
      *     tags={"User Management"},
      *     summary="Delete User",
      *     description="Delete User With Valid ID",
@@ -257,14 +260,11 @@ class UserController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
-    public function deleteUser($id, $empid)
+    public function deleteUser($id)
     {
         try {
             $user =  User::findOrFail($id);
             $user->delete();
-
-            $employee =  User::findOrFail($empid);
-            $employee->delete();
 
             return response()->json([
                 'status'  => true,
