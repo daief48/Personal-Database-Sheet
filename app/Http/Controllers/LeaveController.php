@@ -40,14 +40,14 @@ class LeaveController extends Controller
     {
 
         try {
-            // $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
+            $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
 
-            // $takenLeavesArray = LeaveType::where('employee_id', '=', '1')->where('status', 1)
-            //     ->groupBy('leave_type')
-            //     ->select('leave_type', DB::raw('sum(days) as total_days'))
-            //     ->pluck('total_days', 'leave_type')->toArray();
-            // // dd($takenLeavesArray);
-            // // exit;
+            $takenLeavesArray = LeaveType::where('employee_id', '=', '1')->where('status', 1)
+                ->groupBy('leave_type')
+                ->select('leave_type', DB::raw('sum(days) as total_days'))
+                ->pluck('total_days', 'leave_type')->toArray();
+            // dd($takenLeavesArray);
+            // exit;
 
 
             $getLeaveSetup = Leave::leftJoin('leave_types', 'leaves.leave_type', '=', 'leave_types.id')
