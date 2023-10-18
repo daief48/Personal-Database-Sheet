@@ -8,7 +8,8 @@ use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\DB;
+use OpenApi\Annotations\Get;
 use Validator;
 
 class LeaveController extends Controller
@@ -39,15 +40,29 @@ class LeaveController extends Controller
     {
 
         try {
-            $availableLeave = LeaveType::orderBy('id', 'ASC');
+            // $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
 
-            $getLeaveSetup = Leave::select(
-                'created_at',
-                'leave_type',
-                'from_date',
-                'to_date',
-                'day',
-            )->orderBy('id', 'desc')->get();
+            // $takenLeavesArray = LeaveType::where('employee_id', '=', '1')->where('status', 1)
+            //     ->groupBy('leave_type')
+            //     ->select('leave_type', DB::raw('sum(days) as total_days'))
+            //     ->pluck('total_days', 'leave_type')->toArray();
+            // // dd($takenLeavesArray);
+            // // exit;
+
+
+            $getLeaveSetup = Leave::leftJoin('leave_types', 'leaves.leave_type', '=', 'leave_types.id')
+                ->select(
+                    'leave_types.days',
+                    'leave_types.leave_type as leave_type_name',
+                    'leaves.created_at',
+                    'leaves.leave_type',
+                    'leaves.from_date',
+                    'leaves.to_date',
+                    'leaves.day',
+
+                )->get();
+
+
 
             return response()->json([
                 'status' => 'success',
@@ -59,6 +74,16 @@ class LeaveController extends Controller
                 'message' => $e->getMessage(),
             ], 401);
         }
+    }
+    public function availableLeaves()
+    {
+
+        $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
+
+        $takenLeavesArray = Leave::where('employee_id', '=', '1')->where('status', 1)
+            ->groupBy('type')
+            ->select('type', DB::raw('sum(days) as total_days'))
+            ->pluck('total_days', 'type')->toArray();
     }
 
     /**

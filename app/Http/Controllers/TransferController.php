@@ -84,6 +84,7 @@ class TransferController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
+     *                @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="to_office", type="text"),
      *                @OA\Property(property="from_office", type="text"),
      *               @OA\Property(property="department", type="text"),
@@ -114,6 +115,7 @@ class TransferController extends Controller
         try {
             $rules = [
 
+                'employee_id' => 'required',
                 'transfer_type' => 'required',
                 'transfer_order' => 'required',
                 'transfer_order_number' => 'required',
@@ -129,6 +131,7 @@ class TransferController extends Controller
 
             $messages = [
 
+                'employee_id.required' => 'The employee_id field is required',
                 'transfer_type.required' => 'The transfer_type field is required',
                 'transfer_order.required' => 'The transfer_order field is required',
                 'transfer_order_number.required' => 'The transfer_order_number field is required',

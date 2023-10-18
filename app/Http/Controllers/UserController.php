@@ -244,7 +244,7 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/pds-backend/api/users/{id}",
+     *     path="/pds-backend/api/users/{id}/{empid}",
      *     tags={"User Management"},
      *     summary="Delete User",
      *     description="Delete User With Valid ID",
@@ -257,11 +257,14 @@ class UserController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
-    public function deleteUser($id)
+    public function deleteUser($id, $empid)
     {
         try {
             $user =  User::findOrFail($id);
             $user->delete();
+
+            $employee =  User::findOrFail($empid);
+            $employee->delete();
 
             return response()->json([
                 'status'  => true,
