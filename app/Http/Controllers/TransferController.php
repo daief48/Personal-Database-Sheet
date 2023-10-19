@@ -155,6 +155,7 @@ class TransferController extends Controller
 
             $addTransfer = Transfer::create([
 
+                'employee_id' => $request->employee_id,
                 'transfer_type' => $request->transfer_type,
                 'transfer_order' => $request->transfer_order,
                 'transfer_order_number' => $request->transfer_order_number,

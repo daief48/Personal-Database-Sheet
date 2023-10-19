@@ -11,6 +11,7 @@ class TransferType extends Model
 
     protected $fillable = [
 
+        'employee_id',
         'title',
         'status',
     ];

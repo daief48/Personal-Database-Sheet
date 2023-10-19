@@ -10,7 +10,7 @@ class Training extends Model
     use HasFactory;
 
     protected $fillable = [
-
+        'employee_id',
         'training_name',
         'training_center_name',
         'training_score',

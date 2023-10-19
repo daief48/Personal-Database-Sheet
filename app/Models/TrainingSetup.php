@@ -9,6 +9,7 @@ class TrainingSetup extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'employee_id',
         'training_name',
         'create_at',
         'status',
