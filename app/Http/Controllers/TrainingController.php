@@ -94,6 +94,7 @@ class TrainingController extends Controller
         try {
 
             $rules = [
+                'employee_id' => 'required',
                 'training_name' => 'required',
                 'training_center_name' => 'required',
                 'training_score' => 'required',
@@ -101,10 +102,11 @@ class TrainingController extends Controller
                 'training_strt_date' => 'required',
                 'training_end_date' => 'required',
                 'description' => 'required',
-                'employee_id' => 'required',
+
             ];
 
             $messages = [
+                'employee_id.required' => 'The employee_id field is required',
                 'training_name.required' => 'The training_name field is required',
                 'training_center_name.required' => 'The training_center_name field is required',
                 'training_score.required' => 'The training_score field is required',
@@ -125,6 +127,7 @@ class TrainingController extends Controller
 
 
             $addTraining = Training::create([
+                'employee_id' => $request->employee_id,
                 'training_name' => $request->training_name,
                 'training_center_name' => $request->training_center_name,
                 'training_score' => $request->training_score,
@@ -150,6 +153,7 @@ class TrainingController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
+     *              @OA\Property(property="employee_id", type="integer",example=1),
      *              @OA\Property(property="training_name", type="text", example="Food"),
      *              @OA\Property(property="training_center_name", type="text", example="Mymensingh"),
      *              @OA\Property(property="training_score", type="text", example="80"),
@@ -176,6 +180,7 @@ class TrainingController extends Controller
         try {
 
             $rules = [
+                'employee_id' => 'required',
                 'training_name' => 'required',
                 'training_center_name' => 'required',
                 'training_score' => 'required',
@@ -186,6 +191,7 @@ class TrainingController extends Controller
             ];
 
             $messages = [
+                'employee_id.required' => 'The employee_id field is required',
                 'training_name.required' => 'The training_name field is required',
                 'training_center_name.required' => 'The training_center_name field is required',
                 'training_score.required' => 'The training_score field is required',
@@ -203,6 +209,7 @@ class TrainingController extends Controller
             }
 
             $training = Training::findOrFail($id);
+            $training->employee_id = $request->employee_id;
             $training->training_name = $request->training_name;
             $training->training_center_name = $request->training_center_name;
             $training->training_score = $request->training_score;

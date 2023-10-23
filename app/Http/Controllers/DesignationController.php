@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Designation;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
+use Validator;
 
 
 class DesignationController extends Controller
@@ -33,7 +34,8 @@ class DesignationController extends Controller
      * security={{"bearer_token":{}}}
      */
 
-     public function getDesignationMgt(){
+    public function getDesignationMgt()
+    {
         try {
 
             $getDesignationSetup = Designation::orderBy('id', 'desc')->get();
@@ -41,7 +43,6 @@ class DesignationController extends Controller
                 'status' => 'success',
                 'data' => $getDesignationSetup,
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -51,40 +52,64 @@ class DesignationController extends Controller
     }
 
     /**
-    * @OA\Post(
-    * tags={"PDS Designation Setup"},
-    * path="/pds-backend/api/addDesignationMgt",
-    * operationId="addDesignationMgt",
-    * summary="Add New Designation Mgt",
-    * description="Add New Designation Mgt",
-    *     @OA\RequestBody(
-    *         @OA\JsonContent(),
-    *         @OA\MediaType(
-    *            mediaType="multipart/form-data",
-    *            @OA\Schema(
-    *               type="object",
-    *               required={},
-    *               @OA\Property(property="designation_name", type="text"),
-    *               @OA\Property(property="create_at", type="text"),
-    *               @OA\Property(property="status", type="text"),
-    *            ),
-    *        ),
-    *    ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Added Designation Mgt Setup Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(response=400, description="Bad request"),
-    *      @OA\Response(response=404, description="Resource Not Found"),
-    * ),
-    *     security={{"bearer_token":{}}}
-    */
+     * @OA\Post(
+     * tags={"PDS Designation Setup"},
+     * path="/pds-backend/api/addDesignationMgt",
+     * operationId="addDesignationMgt",
+     * summary="Add New Designation Mgt",
+     * description="Add New Designation Mgt",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="multipart/form-data",
+     *            @OA\Schema(
+     *               type="object",
+     *               required={},
+     *               @OA\Property(property="employee_id", type="integer"),
+     *               @OA\Property(property="designation_name", type="text"),
+     *               @OA\Property(property="create_at", type="text"),
+     *               @OA\Property(property="status", type="text"),
+     *            ),
+     *        ),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Added Designation Mgt Setup Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
 
-    public function addDesignationMgt(Request $request){
+    public function addDesignationMgt(Request $request)
+    {
         try {
 
+            $rules = [
+                'employee_id' => 'required',
+                'designation_name' => 'required',
+                'create_at' => 'required',
+                'status' => 'required',
+
+            ];
+
+            $messages = [
+                'employee_id.required' => 'The employee_id field is required',
+                'designation_name.required' => 'The designation_name field is required',
+                'create_at.required' => 'The create_at field is required',
+                'status.required' => 'The status field is required',
+
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
             $designationInfo = Designation::create([
+                'employee_id' => $request->employee_id,
                 'designation_name' => $request->designation_name,
                 'create_at' => $request->create_at,
                 'status' => $request->status,
@@ -96,43 +121,66 @@ class DesignationController extends Controller
                 'errors'  => null,
                 'data'    => $designationInfo,
             ], 200);
-
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError("Error", $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-    * @OA\Put(
-    * tags={"PDS Designation Setup"},
-    * path="/pds-backend/api/updateDesignationMgt/{id}",
-    * operationId="updateDesignationMgt",
-    * summary="Update Designation Mgt Setup",
-    * @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
-    * @OA\RequestBody(
-    *          @OA\JsonContent(
-    *              type="object",
-    *              @OA\Property(property="designation_name", type="text", example="xyz"),
-    *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
-    *              @OA\Property(property="status", type="text", example=0),
-    *          ),
-    *      ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Designation Mgt Setup Update Successfully",
-    *          @OA\JsonContent()
-    *       ),
-    *      @OA\Response(response=400, description="Bad request"),
-    *      @OA\Response(response=404, description="Resource Not Found"),
-    * ),
-    *     security={{"bearer_token":{}}}
-    */
+     * @OA\Put(
+     * tags={"PDS Designation Setup"},
+     * path="/pds-backend/api/updateDesignationMgt/{id}",
+     * operationId="updateDesignationMgt",
+     * summary="Update Designation Mgt Setup",
+     * @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="employee_id", type="integer", example=1),
+     *              @OA\Property(property="designation_name", type="text", example="xyz"),
+     *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
+     *              @OA\Property(property="status", type="text", example=0),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Designation Mgt Setup Update Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
 
-    public function updateDesignationMgt(Request $request, $id) {
+    public function updateDesignationMgt(Request $request, $id)
+    {
 
         try {
 
+            $rules = [
+                'employee_id' => 'required',
+                'designation_name' => 'required',
+                'create_at' => 'required',
+                'status' => 'required',
+
+            ];
+
+            $messages = [
+                'employee_id.required' => 'The employee_id field is required',
+                'designation_name.required' => 'The designation_name field is required',
+                'create_at.required' => 'The create_at field is required',
+                'status.required' => 'The status field is required',
+
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
             $designationInfo = Designation::findOrFail($id);
+            $designationInfo->employee_id = $request->employee_id;
             $designationInfo->designation_name = $request->designation_name;
             $designationInfo->create_at = $request->create_at;
             $designationInfo->status = $request->status;
@@ -144,7 +192,6 @@ class DesignationController extends Controller
                 'errors'  => null,
                 'data'    => $designationInfo,
             ], 200);
-
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -165,23 +212,22 @@ class DesignationController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
-     public function deleteDesignationMgt($id)
-     {
-         try {
-             $designationMgt =  Designation::findOrFail($id);
-             $designationMgt->delete();
+    public function deleteDesignationMgt($id)
+    {
+        try {
+            $designationMgt =  Designation::findOrFail($id);
+            $designationMgt->delete();
 
-             return response()->json([
-                 'status'  => true,
-                 'message' => "Designation Mgt Record Deleted Successfully",
-                 'errors'  => null,
-                 'data'    => $designationMgt,
-             ], 200);
-
-         } catch (\Exception $e) {
-             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-         }
-     }
+            return response()->json([
+                'status'  => true,
+                'message' => "Designation Mgt Record Deleted Successfully",
+                'errors'  => null,
+                'data'    => $designationMgt,
+            ], 200);
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * @OA\Patch(
@@ -198,65 +244,60 @@ class DesignationController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
-     public function inactiveDesignationMgtRecord($id)
-     {
-         try {
-             $designationMgtInfo =  Designation::find($id);
+    public function inactiveDesignationMgtRecord($id)
+    {
+        try {
+            $designationMgtInfo =  Designation::find($id);
 
-             if (!($designationMgtInfo === null)) {
-                 $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 0]);
-                 return response()->json([
-                     'status'  => true,
-                     'message' => "Inactived Designation Mgt Successfully",
-                     'errors'  => null,
-                     'data'    => $designationMgtInfo,
-                 ], 200);
-             } else {
-                 return $this->responseRepository->ResponseSuccess(null, 'Designation Mgt Id Are Not Valid!');
-             }
-         } catch (\Exception $e) {
-             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-         }
-     }
+            if (!($designationMgtInfo === null)) {
+                $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 0]);
+                return response()->json([
+                    'status'  => true,
+                    'message' => "Inactived Designation Mgt Successfully",
+                    'errors'  => null,
+                    'data'    => $designationMgtInfo,
+                ], 200);
+            } else {
+                return $this->responseRepository->ResponseSuccess(null, 'Designation Mgt Id Are Not Valid!');
+            }
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
-    * @OA\Patch(
-    *     path="/pds-backend/api/activeDesignationMgtRecord/{id}",
-    *     tags={"PDS Designation Setup"},
-    *     summary="Active Designation Mgt Record",
-    *     description="Active Specific Designation Mgt Record With Valid ID",
-    *     operationId="activeDesignationMgtRecord",
-    *     @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
-    *     @OA\Response( response=200, description="Successfully, Active Designation Mgt Record" ),
-    *     @OA\Response(response=400, description="Bad Request"),
-    *     @OA\Response(response=404, description="Resource Not Found"),
-    * ),
-    *     security={{"bearer_token":{}}}
-    */
+     * @OA\Patch(
+     *     path="/pds-backend/api/activeDesignationMgtRecord/{id}",
+     *     tags={"PDS Designation Setup"},
+     *     summary="Active Designation Mgt Record",
+     *     description="Active Specific Designation Mgt Record With Valid ID",
+     *     operationId="activeDesignationMgtRecord",
+     *     @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response( response=200, description="Successfully, Active Designation Mgt Record" ),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
 
     public function activeDesignationMgtRecord($id)
     {
-    try {
-        $designationMgtInfo = Designation::find($id);
+        try {
+            $designationMgtInfo = Designation::find($id);
 
-        if (!($designationMgtInfo === null)) {
-            $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 1]);
-            return response()->json([
-                'status'  => true,
-                'message' => "Actived Designation Mgt Record Successfully",
-                'errors'  => null,
-                'data'    => $designationMgtInfo,
-            ], 200);
-        } else {
-            return $this->responseRepository->ResponseSuccess(null, 'Designation Mgt Id Are Not Valid!');
+            if (!($designationMgtInfo === null)) {
+                $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 1]);
+                return response()->json([
+                    'status'  => true,
+                    'message' => "Actived Designation Mgt Record Successfully",
+                    'errors'  => null,
+                    'data'    => $designationMgtInfo,
+                ], 200);
+            } else {
+                return $this->responseRepository->ResponseSuccess(null, 'Designation Mgt Id Are Not Valid!');
+            }
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-    } catch (\Exception $e) {
-        return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    }
-
-
-
-
-
 }

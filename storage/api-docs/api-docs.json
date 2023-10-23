@@ -492,6 +492,9 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer"
+                                    },
                                     "dept_name": {
                                         "type": "text"
                                     },
@@ -551,6 +554,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "dept_name": {
                                         "type": "text",
                                         "example": "xyz"
@@ -754,6 +761,9 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer"
+                                    },
                                     "designation_name": {
                                         "type": "text"
                                     },
@@ -813,6 +823,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "designation_name": {
                                         "type": "text",
                                         "example": "xyz"
@@ -1432,6 +1446,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "leave_type": {
                                         "type": "text",
                                         "example": "2"
@@ -1681,6 +1699,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "leave_type": {
                                         "type": "text",
                                         "example": "xyz"
@@ -1884,6 +1906,10 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "office_name": {
                                         "type": "text"
                                     },
@@ -1943,6 +1969,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "office_name": {
                                         "type": "text",
                                         "example": "xyz"
@@ -2511,6 +2541,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "training_name": {
                                         "type": "text",
                                         "example": "Food"
@@ -2734,6 +2768,10 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "training_name": {
                                         "type": "text"
                                     },
@@ -2741,7 +2779,7 @@
                                         "type": "text"
                                     },
                                     "status": {
-                                        "type": "text"
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -2793,6 +2831,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "training_name": {
                                         "type": "text",
                                         "example": "xyz"
@@ -3006,10 +3048,16 @@
                                     "from_office": {
                                         "type": "text"
                                     },
-                                    "department": {
+                                    "to_department": {
                                         "type": "text"
                                     },
-                                    "designation": {
+                                    "from_department": {
+                                        "type": "text"
+                                    },
+                                    "to_designation": {
+                                        "type": "text"
+                                    },
+                                    "from_designation": {
                                         "type": "text"
                                     },
                                     "transfer_order": {
@@ -3086,6 +3134,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "to_office": {
                                         "type": "text",
                                         "example": "Dhaka"
@@ -3094,11 +3146,19 @@
                                         "type": "text",
                                         "example": "Mymensingh"
                                     },
-                                    "department": {
+                                    "to_department": {
                                         "type": "text",
                                         "example": "3"
                                     },
-                                    "designation": {
+                                    "from_department": {
+                                        "type": "text",
+                                        "example": "23"
+                                    },
+                                    "to_designation": {
+                                        "type": "text",
+                                        "example": "3"
+                                    },
+                                    "from_designation": {
                                         "type": "text",
                                         "example": "23"
                                     },
@@ -3288,14 +3348,255 @@
                 }
             }
         },
-        "/pds-backend/api/getTransferType": {
+        "/pds-backend/api/transferType": {
             "get": {
                 "tags": [
-                    "PDS Transfer Type"
+                    "PDS Transfer Type Setup"
                 ],
                 "summary": "Transfer Type List",
-                "description": "Transfer Type List",
-                "operationId": "getTransferType",
+                "description": "Total Transfer Type List",
+                "operationId": "transferType",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addTransferType": {
+            "post": {
+                "tags": [
+                    "PDS Transfer Type Setup"
+                ],
+                "summary": "Transfer Type List",
+                "description": "Add New Transfer Type",
+                "operationId": "addTransferType",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "integer"
+                                    },
+                                    "title": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Transfer Type Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateTransferType/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Transfer Type Setup"
+                ],
+                "summary": "Transfer Type List",
+                "operationId": "updateTransferType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "title": {
+                                        "type": "text",
+                                        "example": "General"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transfer Type Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteTransferType/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Transfer Type Setup"
+                ],
+                "summary": "Delete TransferType Type Record",
+                "description": "Delete TransferType Type Record With Valid ID",
+                "operationId": "deleteTransferType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Transfer Type Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeTransferType/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Transfer Type Setup"
+                ],
+                "summary": "Active TransferType Type Record",
+                "description": "Active Specific TransferType Type Record With Valid ID",
+                "operationId": "activeTransferType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Transfer Type Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveTransferTypeRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Transfer Type Setup"
+                ],
+                "summary": "In-active Transfer Type Record",
+                "description": "In-active Specific Transfer Type Record With Valid ID",
+                "operationId": "inactiveTransferTypeRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Transfer Type Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificTransferType/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Transfer Type Setup"
+                ],
+                "summary": "Specific Transfer Type Info",
+                "description": "Specific Transfer Type Info",
+                "operationId": "specificTransferType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"

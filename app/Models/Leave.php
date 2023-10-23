@@ -9,7 +9,7 @@ class Leave extends Model
 {
     use HasFactory;
     protected $fillable = [
-
+        'employee_id',
         'leave_type',
         'from_date',
         'to_date',

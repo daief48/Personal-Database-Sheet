@@ -9,6 +9,7 @@ class Office extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'employee_id',
         'office_name',
         'create_at',
         'status',

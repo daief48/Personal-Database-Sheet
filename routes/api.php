@@ -58,7 +58,13 @@ Route::get('/specificUserTransferRecord/{id}', [TransferController::class, 'spec
 
 //Transfer Type 
 
-Route::get('getTransferType', [TransferTypeController::class, 'TransferTypeController']);
+Route::get('/transferType', [TransferTypeController::class, 'transferType']);
+Route::post('/addTransferType', [TransferTypeController::class, 'addTransferType']);
+Route::put('/updateTransferType/{id}', [TransferTypeController::class, 'updateTransferType']);
+Route::delete('/deleteTransferType/{id}', [TransferTypeController::class, 'deleteTransferType']);
+Route::patch('/activeTransferType/{id}', [TransferTypeController::class, 'activeTransferType']);
+Route::patch('/inactiveTransferTypeRecord/{id}', [TransferTypeController::class, 'inactiveTransferTypeRecord']);
+Route::get('/specificTransferType/{id}', [TransferTypeController::class, 'specificTransferType']);
 
 //User Training Information v1
 

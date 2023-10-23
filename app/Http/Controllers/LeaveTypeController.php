@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\LeaveType;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
+use Validator;
 
 
 class LeaveTypeController extends Controller
@@ -89,6 +90,32 @@ class LeaveTypeController extends Controller
     {
         try {
 
+            $rules = [
+
+                'employee_id' => 'required',
+                'leave_type' => 'required',
+                'days' => 'required',
+                'create_at' => 'required',
+                'status' => 'required',
+                // Add validation rules for other fields here
+            ];
+
+            $messages = [
+
+                'employee_id.required' => 'The employee_id field is required',
+                'leave_type.required' => 'The leave_type field is required',
+                'days.required' => 'The days field is required',
+                'create_at.required' => 'The create_at field is required',
+                'status.required' => 'The status field is required',
+                // Add custom error messages for other fields if needed
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
             $leaveType = LeaveType::create([
                 'employee_id' => $request->employee_id,
                 'leave_type' => $request->leave_type,
@@ -119,6 +146,7 @@ class LeaveTypeController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
+     *              @OA\Property(property="employee_id", type="integer",example=1),
      *              @OA\Property(property="leave_type", type="text", example="xyz"),
      *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
      *              @OA\Property(property="status", type="text", example=0),
@@ -140,9 +168,36 @@ class LeaveTypeController extends Controller
     {
 
         try {
+            $rules = [
+
+                'employee_id' => 'required',
+                'leave_type' => 'required',
+                'days' => 'required',
+                'create_at' => 'required',
+                'status' => 'required',
+                // Add validation rules for other fields here
+            ];
+
+            $messages = [
+
+                'employee_id.required' => 'The employee_id field is required',
+                'leave_type.required' => 'The leave_type field is required',
+                'days.required' => 'The days field is required',
+                'create_at.required' => 'The create_at field is required',
+                'status.required' => 'The status field is required',
+                // Add custom error messages for other fields if needed
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
 
             $leaveType = LeaveType::findOrFail($id);
+            $leaveType->employee_id = $request->employee_id;
             $leaveType->leave_type = $request->leave_type;
+            $leaveType->days = $request->days;
             $leaveType->create_at = $request->create_at;
             $leaveType->status = $request->status;
             $leaveType->save();
