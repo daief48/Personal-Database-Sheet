@@ -39,8 +39,10 @@ class TransferController extends Controller
     {
         try {
             $getTransferList = Transfer::leftJoin('transfer_types', 'transfers.transfer_type', '=', 'transfer_types.id')
-                ->leftJoin('designations', 'transfers.designation', '=', 'designations.id')
-                ->leftJoin('departments', 'transfers.department', '=', 'departments.id')
+                ->leftJoin('designations', 'transfers.to_designation', '=', 'designations.id')
+                ->leftJoin('designations', 'transfers.from_designation', '=', 'designations.id')
+                ->leftJoin('departments', 'transfers.to_department', '=', 'departments.id')
+                ->leftJoin('departments', 'transfers.from_department', '=', 'departments.id')
                 ->leftJoin('offices', 'transfers.to_office', '=', 'offices.id')
                 ->leftJoin('employees', 'employees.id', '=', 'transfers.employee_id')
                 ->select(
@@ -88,8 +90,10 @@ class TransferController extends Controller
      *                @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="to_office", type="text"),
      *                @OA\Property(property="from_office", type="text"),
-     *               @OA\Property(property="department", type="text"),
-     *               @OA\Property(property="designation", type="text"),
+     *               @OA\Property(property="to_department", type="text"),
+     *               @OA\Property(property="from_department", type="text"),
+     *                @OA\Property(property="to_designation", type="text"),
+     *               @OA\Property(property="from_designation", type="text"),
      *               @OA\Property(property="transfer_order", type="text"),
      *                @OA\Property(property="transfer_order_number", type="text"),
      *               @OA\Property(property="transfer_type", type="text"),
@@ -122,8 +126,10 @@ class TransferController extends Controller
                 'transfer_order_number' => 'required',
                 'to_office' => 'required',
                 'from_office' => 'required',
-                'department' => 'required',
-                'designation' => 'required',
+                'to_department' => 'required',
+                'from_department' => 'required',
+                'to_designation' => 'required',
+                'from_designation' => 'required',
                 'transfer_date' => 'required',
                 'join_date' => 'required',
                 'transfer_letter' => 'required',
@@ -138,8 +144,10 @@ class TransferController extends Controller
                 'transfer_order_number.required' => 'The transfer_order_number field is required',
                 'to_office.required' => ' The to_office field is required',
                 'from_office.required' => 'The from_office field is required',
-                'department.required' => 'The department field is required',
-                'designation.required' => 'The designation field is required',
+                'to_department.required' => 'The to_department field is required',
+                'from_department.required' => 'The from_department field is required',
+                'to_designation.required' => 'The to_designation field is required',
+                'from_designation.required' => 'The from_designation field is required',
                 'transfer_date.required' => 'The transfer_date field is required',
                 'join_date.unique' => 'This Join Date',
                 'transfer_letter.required' => 'The Transfer Letterfield is required',
@@ -161,8 +169,10 @@ class TransferController extends Controller
                 'transfer_order_number' => $request->transfer_order_number,
                 'to_office' => $request->to_office,
                 'from_office' => $request->from_office,
-                'department' => $request->department,
-                'designation' => $request->designation,
+                'to_department' => $request->to_department,
+                'from_department' => $request->from_department,
+                'to_designation' => $request->to_designation,
+                'from_designation' => $request->from_designation,
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
                 'transfer_letter' => $request->transfer_letter,
@@ -185,11 +195,13 @@ class TransferController extends Controller
      *     @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *               
+     *               @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="to_office", type="text",example="Dhaka"),
      *               @OA\Property(property="from_office", type="text",example="Mymensingh"),
-     *               @OA\Property(property="department", type="text",example="3"),
-     *               @OA\Property(property="designation", type="text",example="23"),
+     *               @OA\Property(property="to_department", type="text",example="3"),
+     *               @OA\Property(property="from_department", type="text",example="23"),
+     * *             @OA\Property(property="to_designation", type="text",example="3"),
+     *               @OA\Property(property="from_designation", type="text",example="23"),
      *               @OA\Property(property="transfer_order", type="text",example="23"),
      *               @OA\Property(property="transfer_order_number", type="text",example="1204"),
      *               @OA\Property(property="transfer_type", type="text",example="2"),
@@ -218,13 +230,16 @@ class TransferController extends Controller
 
             $rules = [
 
+                'employee_id' => 'required',
                 'transfer_type' => 'required',
                 'transfer_order' => 'required',
                 'transfer_order_number' => 'required',
                 'to_office' => 'required',
                 'from_office' => 'required',
-                'department' => 'required',
-                'designation' => 'required',
+                'to_department' => 'required',
+                'from_department' => 'required',
+                'to_designation' => 'required',
+                'from_designation' => 'required',
                 'transfer_date' => 'required',
                 'join_date' => 'required',
                 'transfer_letter' => 'required',
@@ -233,13 +248,16 @@ class TransferController extends Controller
 
             $messages = [
 
+                'employee_id.required' => 'The employee_id field is required',
                 'transfer_type.required' => 'The transfer_type field is required',
                 'transfer_order.required' => 'The transfer_order field is required',
                 'transfer_order_number.required' => 'The transfer_order_number field is required',
                 'to_office.required' => ' The to_office field is required',
                 'from_office.required' => 'The from_office field is required',
-                'department.required' => 'The department field is required',
-                'designation.required' => 'The designation field is required',
+                'to_department.required' => 'The to_department field is required',
+                'from_department.required' => 'The from_department field is required',
+                'to_designation.required' => 'The to_designation field is required',
+                'from_designation.required' => 'The from_designation field is required',
                 'transfer_date.required' => 'The transfer_date field is required',
                 'join_date.unique' => 'This Join Date',
                 'transfer_letter.required' => 'The Transfer Letterfield is required',
@@ -267,7 +285,7 @@ class TransferController extends Controller
             //     })->save(public_path('/uploads/images/album_thumbnail/'.$fileName));
             //     $thumbnail = $fileName;
             // }
-
+            $target->employee_id = $request->employee_id;
             $target->transfer_type = $request->transfer_type;
             $target->transfer_order = $request->transfer_order;
             $target->transfer_order_number = $request->transfer_order_number;

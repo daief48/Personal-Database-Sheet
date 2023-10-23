@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Department;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
+use Validator;
 
 
 class DepartmentController extends Controller
@@ -64,6 +65,7 @@ class DepartmentController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
+     *                @OA\Property(property="employee_id", type="integer"),
      *               @OA\Property(property="dept_name", type="text"),
      *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
@@ -86,8 +88,29 @@ class DepartmentController extends Controller
     public function addDepartment(Request $request)
     {
         try {
+            $rules = [
+                'employee_id' => 'required',
+                'dept_name' => 'required',
+                'create_at' => 'required',
+                'status' => 'required',
+
+            ];
+
+            $messages = [
+                'employee_id.required' => 'The employee_id field is required',
+                'designation_name.required' => 'The designation_name field is required',
+                'create_at.required' => 'The create_at field is required',
+                'status.required' => 'The status field is required',
+
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
 
             $department = Department::create([
+                'employee_id' => $request->employee_id,
                 'dept_name' => $request->dept_name,
                 'create_at' => $request->create_at,
                 'status' => $request->status,
@@ -115,6 +138,7 @@ class DepartmentController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
+     *               @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="dept_name", type="text", example="xyz"),
      *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
      *              @OA\Property(property="status", type="text", example=0),
@@ -136,8 +160,29 @@ class DepartmentController extends Controller
     {
 
         try {
+            $rules = [
+                'employee_id' => 'required',
+                'dept_name' => 'required',
+                'create_at' => 'required',
+                'status' => 'required',
+
+            ];
+
+            $messages = [
+                'employee_id.required' => 'The employee_id field is required',
+                'designation_name.required' => 'The designation_name field is required',
+                'create_at.required' => 'The create_at field is required',
+                'status.required' => 'The status field is required',
+
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
 
             $department = Department::findOrFail($id);
+            $department->employee_id = $request->employee_id;
             $department->dept_name = $request->dept_name;
             $department->create_at = $request->create_at;
             $department->status = $request->status;

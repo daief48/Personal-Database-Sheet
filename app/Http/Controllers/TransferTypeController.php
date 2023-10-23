@@ -6,6 +6,7 @@ use App\Models\TransferType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Repositories\ResponseRepository;
+use Validator;
 
 class TransferTypeController extends Controller
 {
@@ -83,6 +84,28 @@ class TransferTypeController extends Controller
     {
         try {
 
+            $rules = [
+
+                'employee_id' => 'required',
+                'title' => 'required',
+                'status' => 'required',
+                // Add validation rules for other fields here
+            ];
+
+            $messages = [
+
+                'employee_id.required' => 'The employee_id field is required',
+                'title.required' => 'The title field is required',
+                'status.required' => 'The status field is required',
+                // Add custom error messages for other fields if needed
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
             $TransferType = TransferType::create([
                 'employee_id' => $request->employee_id,
                 'title' => $request->title,
@@ -132,6 +155,28 @@ class TransferTypeController extends Controller
     {
 
         try {
+
+            $rules = [
+
+                'employee_id' => 'required',
+                'title' => 'required',
+                'status' => 'required',
+                // Add validation rules for other fields here
+            ];
+
+            $messages = [
+
+                'employee_id.required' => 'The employee_id field is required',
+                'title.required' => 'The title field is required',
+                'status.required' => 'The status field is required',
+                // Add custom error messages for other fields if needed
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
 
             $TransferType = TransferType::findOrFail($id);
             $TransferType->employee_id = $request->employee_id;

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TrainingSetup;
 use App\Repositories\ResponseRepository;
+use Validator;
 use Illuminate\Http\Response;
 
 
@@ -84,6 +85,30 @@ class TrainingSetupController extends Controller
     public function addTrainingMgt(Request $request)
     {
         try {
+
+            $rules = [
+
+                'employee_id' => 'required',
+                'training_name' => 'required',
+                'create_at' => 'required',
+                'status' => 'required',
+                // Add validation rules for other fields here
+            ];
+
+            $messages = [
+
+                'employee_id.required' => 'The employee_id field is required',
+                'training_name.required' => 'The training_name field is required',
+                'create_at.required' => 'The create_at field is required',
+                'status.required' => 'The status field is required',
+                // Add custom error messages for other fields if needed
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
 
             $trainingMgt = TrainingSetup::create([
                 'employee_id' => $request->employee_id,

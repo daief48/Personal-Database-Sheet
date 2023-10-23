@@ -9,6 +9,7 @@ class Department extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'employee_id',
         'dept_name',
         'create_at',
         'status',

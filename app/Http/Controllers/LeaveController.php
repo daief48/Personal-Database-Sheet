@@ -41,13 +41,25 @@ class LeaveController extends Controller
 
         try {
             $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
-
+            // dd($LeaveTypes);
+            // exit;
             $takenLeavesArray = Leave::where('employee_id', '=', '1')->where('status', 1)
                 ->groupBy('leave_type')
-                ->select('leave_type', DB::raw('sum(days) as total_days'))
+                ->select('leave_type', DB::raw('sum(day) as total_days'))
                 ->pluck('total_days', 'leave_type')->toArray();
-            // dd($takenLeavesArray);
-            // exit;
+
+            foreach ($LeaveTypes as $LeaveType) {
+                $leaveType = $LeaveType->id;
+                $days = $LeaveType->days;
+
+                // Check if the leave type exists in $takenLeavesArray
+                if (array_key_exists($leaveType, $takenLeavesArray)) {
+                    // Subtract the days from the total_days
+                    $takenLeavesArray[$leaveType] -= $days;
+                }
+            }
+            dd($takenLeavesArray);
+            exit;
 
 
             $getLeaveSetup = Leave::leftJoin('leave_types', 'leaves.leave_type', '=', 'leave_types.id')
@@ -75,16 +87,17 @@ class LeaveController extends Controller
             ], 401);
         }
     }
-    public function availableLeaves()
-    {
 
-        $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
+    // public function availableLeaves()
+    // {
 
-        $takenLeavesArray = Leave::where('employee_id', '=', '1')->where('status', 1)
-            ->groupBy('type')
-            ->select('type', DB::raw('sum(days) as total_days'))
-            ->pluck('total_days', 'type')->toArray();
-    }
+    //     $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
+
+    //     $takenLeavesArray = Leave::where('employee_id', '=', '1')->where('status', 1)
+    //         ->groupBy('type')
+    //         ->select('type', DB::raw('sum(days) as total_days'))
+    //         ->pluck('total_days', 'type')->toArray();
+    // }
 
     /**
      * @OA\Post(
@@ -182,6 +195,7 @@ class LeaveController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
+     *              @OA\Property(property="employee_id", type="integer",example=1),
      *              @OA\Property(property="leave_type", type="text", example="2"),
      *              @OA\Property(property="from_date", type="date", example="2023-03-23"),
      *              @OA\Property(property="to_date", type="date", example="2023-03-23"),
@@ -205,7 +219,7 @@ class LeaveController extends Controller
     {
 
         $rules = [
-
+            'employee_id' => 'required',
             'leave_type' => 'required',
             'from_date' => 'required',
             'to_date' => 'required',
@@ -218,6 +232,7 @@ class LeaveController extends Controller
 
         $messages = [
 
+            'employee_id.required' => 'The employee_id field is required',
             'leave_type.required' => 'The leave_type field is required',
             'from_date.required' => 'The from_date field is required',
             'to_date.required' => 'The to_date field is required',
@@ -234,6 +249,7 @@ class LeaveController extends Controller
         try {
 
             $leaveInfo = Leave::findOrFail($id);
+            $leaveInfo->employee_id = $request->employee_id;
             $leaveInfo->leave_type = $request->leave_type;
             $leaveInfo->from_date = $request->from_date;
             $leaveInfo->to_date = $request->to_date;

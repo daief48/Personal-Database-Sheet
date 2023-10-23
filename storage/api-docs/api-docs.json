@@ -492,6 +492,9 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer"
+                                    },
                                     "dept_name": {
                                         "type": "text"
                                     },
@@ -551,6 +554,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "dept_name": {
                                         "type": "text",
                                         "example": "xyz"
@@ -754,6 +761,9 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer"
+                                    },
                                     "designation_name": {
                                         "type": "text"
                                     },
@@ -813,6 +823,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "designation_name": {
                                         "type": "text",
                                         "example": "xyz"
@@ -1432,6 +1446,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "leave_type": {
                                         "type": "text",
                                         "example": "2"
@@ -1681,6 +1699,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "leave_type": {
                                         "type": "text",
                                         "example": "xyz"
@@ -1884,6 +1906,10 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "office_name": {
                                         "type": "text"
                                     },
@@ -1943,6 +1969,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "office_name": {
                                         "type": "text",
                                         "example": "xyz"
@@ -3018,10 +3048,16 @@
                                     "from_office": {
                                         "type": "text"
                                     },
-                                    "department": {
+                                    "to_department": {
                                         "type": "text"
                                     },
-                                    "designation": {
+                                    "from_department": {
+                                        "type": "text"
+                                    },
+                                    "to_designation": {
+                                        "type": "text"
+                                    },
+                                    "from_designation": {
                                         "type": "text"
                                     },
                                     "transfer_order": {
@@ -3098,6 +3134,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "to_office": {
                                         "type": "text",
                                         "example": "Dhaka"
@@ -3106,11 +3146,19 @@
                                         "type": "text",
                                         "example": "Mymensingh"
                                     },
-                                    "department": {
+                                    "to_department": {
                                         "type": "text",
                                         "example": "3"
                                     },
-                                    "designation": {
+                                    "from_department": {
+                                        "type": "text",
+                                        "example": "23"
+                                    },
+                                    "to_designation": {
+                                        "type": "text",
+                                        "example": "3"
+                                    },
+                                    "from_designation": {
                                         "type": "text",
                                         "example": "23"
                                     },
