@@ -40,28 +40,29 @@ class LeaveController extends Controller
     {
 
         try {
-            $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
-            // dd($LeaveTypes);
-            // exit;
-            $takenLeavesArray = Leave::where('employee_id', '=', '1')->where('status', 1)
+            // Retrieve leave types with status 1
+            $leaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')
+                ->where('status', 1)
+                ->get();
+
+            // Retrieve taken leaves for employee with ID 1
+            $takenLeaves = Leave::where('employee_id', 1)
+                ->where('status', 1)
                 ->groupBy('leave_type')
                 ->select('leave_type', DB::raw('sum(day) as total_days'))
-                ->pluck('total_days', 'leave_type')->toArray();
+                ->get();
 
-            foreach ($LeaveTypes as $LeaveType) {
-                $leaveType = $LeaveType->id;
-                $days = $LeaveType->days;
-
-                // Check if the leave type exists in $takenLeavesArray
-                if (array_key_exists($leaveType, $takenLeavesArray)) {
-                    // Subtract the days from the total_days
-                    $takenLeavesArray[$leaveType] -= $days;
-                }
+            // Create an associative array to store the total days taken for each leave type
+            $takenLeavesArray = [];
+            foreach ($takenLeaves as $takenLeave) {
+                $leaveType = $takenLeave->leave_type;
+                $totalDays = $takenLeave->total_days;
+                $takenLeavesArray[$leaveType] = $totalDays;
             }
-            dd($takenLeavesArray);
-            exit;
+            // dd($takenLeavesArray);
+            // exit;
 
-
+            // Retrieve leave setup information and calculate remaining days
             $getLeaveSetup = Leave::leftJoin('leave_types', 'leaves.leave_type', '=', 'leave_types.id')
                 ->select(
                     'leave_types.days',
@@ -71,14 +72,47 @@ class LeaveController extends Controller
                     'leaves.from_date',
                     'leaves.to_date',
                     'leaves.day',
-
                 )->get();
+
+            // Create an array to store combined data
+            $combinedData = [];
+
+            // Iterate through each leave setup and calculate remaining days
+            foreach ($getLeaveSetup as $leaveSetup) {
+                $leaveTypeId = $leaveSetup->leave_type;
+                $availableDays = $leaveSetup->days;
+
+                // Check if the leave type exists in $takenLeavesArray
+                if (array_key_exists($leaveTypeId, $takenLeavesArray)) {
+                    // Subtract the days taken from the available days
+                    $remainingDays = $availableDays - $takenLeavesArray[$leaveTypeId];
+                } else {
+                    // If the leave type has not been taken, available days are unchanged
+                    $remainingDays = $availableDays;
+                }
+
+                // Add the combined data to the array
+                $combinedData[] = [
+                    'leave_type_name' => $leaveSetup->leave_type_name,
+                    'remaining_days' => $remainingDays,
+                    'created_at' => $leaveSetup->created_at,
+                    'leave_type' => $leaveSetup->leave_type,
+                    'from_date' => $leaveSetup->from_date,
+                    'to_date' => $leaveSetup->to_date,
+                    'day' => $leaveSetup->day,
+                ];
+            }
+
+            // Now, $combinedData contains both leave setup information and the corresponding remaining days.
+            // dd($combinedData);
+            // exit;
 
 
 
             return response()->json([
                 'status' => 'success',
-                'list' => $getLeaveSetup,
+                'list' => $combinedData,
+
             ]);
         } catch (\Exception $e) {
             return response()->json([
