@@ -16,7 +16,7 @@ class LeaveController extends Controller
 {
 
     protected $responseRepository;
-    public function __construct(ResponseRepository $rp,)
+    public function __construct(ResponseRepository $rp)
     {
         //$this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rp;
@@ -40,27 +40,29 @@ class LeaveController extends Controller
     {
 
         try {
-            $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
-            // dd($LeaveTypes);
-            // exit;
-            $takenLeavesArray = Leave::where('employee_id', '=', '1')->where('status', 1)
-                ->groupBy('leave_type')
-                ->select('leave_type', DB::raw('sum(day) as total_days'))
-                ->pluck('total_days', 'leave_type')->toArray();
+            $employeeLeaveApplicationArrays = [];
 
-            foreach ($LeaveTypes as $LeaveType) {
-                $leaveType = $LeaveType->id;
-                $days = $LeaveType->days;
+            $takenLeaves = Leave::where('status', 1)
+                ->groupBy('employee_id', 'leave_type')
+                ->select('employee_id', 'leave_type', DB::raw('sum(day) as total_days'))
+                ->get();
 
-                // Check if the leave type exists in $takenLeavesArray
-                if (array_key_exists($leaveType, $takenLeavesArray)) {
-                    // Subtract the days from the total_days
-                    $takenLeavesArray[$leaveType] -= $days;
+            foreach ($takenLeaves as $takenLeave) {
+                $employeeId = $takenLeave->employee_id;
+                $leaveType = $takenLeave->leave_type;
+                $totalDays = $takenLeave->total_days;
+
+
+                if (!isset($employeeLeaveApplicationArrays[$employeeId])) {
+                    $employeeLeaveApplicationArrays[$employeeId] = [];
                 }
-            }
-            dd($takenLeavesArray);
-            exit;
 
+
+                $employeeLeaveApplicationArrays[$employeeId][$leaveType] = $totalDays;
+            }
+
+            // dd($employeeLeaveApplicationArrays);
+            // exit;
 
             $getLeaveSetup = Leave::leftJoin('leave_types', 'leaves.leave_type', '=', 'leave_types.id')
                 ->select(
@@ -71,33 +73,57 @@ class LeaveController extends Controller
                     'leaves.from_date',
                     'leaves.to_date',
                     'leaves.day',
-
+                    'leaves.employee_id',
+                    'leaves.status',
                 )->get();
+
+            $employeeLeaveArrays = [];
+
+            foreach ($getLeaveSetup as $leaveSetup) {
+                $leaveTypeId = $leaveSetup->leave_type;
+                $availableDays = $leaveSetup->days;
+                $employeeId = $leaveSetup->employee_id;
+
+                if (array_key_exists($employeeId, $employeeLeaveApplicationArrays) && array_key_exists($leaveTypeId, $employeeLeaveApplicationArrays[$employeeId])) {
+
+                    $daysTaken = $employeeLeaveApplicationArrays[$employeeId][$leaveTypeId];
+                    $remainingDays = $availableDays - $daysTaken;
+                } else {
+
+                    $remainingDays = $availableDays;
+                }
+
+                $employeeLeaveArrays[] = [
+                    'leave_type_name' => $leaveSetup->leave_type_name,
+                    'remaining_days' => $remainingDays,
+                    'created_at' => $leaveSetup->created_at,
+                    'leave_type' => $leaveSetup->leave_type,
+                    'from_date' => $leaveSetup->from_date,
+                    'to_date' => $leaveSetup->to_date,
+                    'day' => $leaveSetup->day,
+                    'employee_id' => $leaveSetup->employee_id,
+                    'status' => $leaveSetup->status,
+                ];
+            }
+            // dd($combinedData);
+            // exit;
 
 
 
             return response()->json([
                 'status' => 'success',
-                'list' => $getLeaveSetup,
-            ]);
+                'list' => $employeeLeaveArrays,
+
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], 401);
+            ], 500);
         }
     }
 
-    // public function availableLeaves()
-    // {
 
-    //     $LeaveTypes = LeaveType::select('id', 'employee_id', 'leave_type', 'days', 'status')->where('status', 1)->get();
-
-    //     $takenLeavesArray = Leave::where('employee_id', '=', '1')->where('status', 1)
-    //         ->groupBy('type')
-    //         ->select('type', DB::raw('sum(days) as total_days'))
-    //         ->pluck('total_days', 'type')->toArray();
-    // }
 
     /**
      * @OA\Post(

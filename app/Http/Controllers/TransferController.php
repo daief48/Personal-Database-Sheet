@@ -15,7 +15,7 @@ class TransferController extends Controller
 {
 
     protected $responseRepository;
-    public function __construct(ResponseRepository $rp,)
+    public function __construct(ResponseRepository $rp)
     {
         //$this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rp;
@@ -39,31 +39,39 @@ class TransferController extends Controller
     {
         try {
             $getTransferList = Transfer::leftJoin('transfer_types', 'transfers.transfer_type', '=', 'transfer_types.id')
-                ->leftJoin('designations', 'transfers.to_designation', '=', 'designations.id')
-                ->leftJoin('designations', 'transfers.from_designation', '=', 'designations.id')
-                ->leftJoin('departments', 'transfers.to_department', '=', 'departments.id')
-                ->leftJoin('departments', 'transfers.from_department', '=', 'departments.id')
-                ->leftJoin('offices', 'transfers.to_office', '=', 'offices.id')
+                ->leftJoin('designations as to_designation', 'transfers.to_designation', '=', 'to_designation.id')
+                ->leftJoin('designations as from_designation', 'transfers.from_designation', '=', 'from_designation.id')
+                ->leftJoin('departments as to_department', 'transfers.to_department', '=', 'to_department.id')
+                ->leftJoin('departments as from_department', 'transfers.from_department', '=', 'from_department.id')
+                ->leftJoin('offices as to_office', 'transfers.to_office', '=', 'to_office.id')
+                ->leftJoin('offices as from_office', 'transfers.from_office', '=', 'from_office.id')
                 ->leftJoin('employees', 'employees.id', '=', 'transfers.employee_id')
                 ->select(
-                    'transfers.*',
+                    // 'transfers.*',
+                    'transfers.id',
                     'employees.name as employee_name',
+                    'transfers.transfer_order',
                     'transfer_types.title as t_type',
                     'transfers.transfer_order_number',
-                    'offices.office_name as to_office',
-                    'transfers.from_office',
-                    'departments.dept_name as dept_name',
-                    'designations.designation_name as designation',
+                    'to_office.office_name as to_office',
+                    'from_office.office_name as from_office',
+                    'to_department.dept_name as to_department',
+                    'from_department.dept_name as from_department',
+                    'to_designation.designation_name as to_designation',
+                    'from_designation.designation_name as from_designation',
                     'transfers.transfer_date',
                     'transfers.join_date',
-                    'transfers.transfer_letter'
+                    'transfers.transfer_date',
+                    'transfers.transfer_letter',
+                    'transfers.status',
                 )
                 ->get();
+
 
             return response()->json([
 
                 'data' => $getTransferList,
-            ]);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -442,6 +450,68 @@ class TransferController extends Controller
                 'status' => 'error',
                 'message' => $e->getMessage(),
             ], 401);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     * tags={"PDS User Transfer"},
+     * path="/pds-backend/api/specificUserTransferRecordByEmployeeId/{employee_id}",
+     * operationId="specificUserTransferRecordByEmployeeId",
+     * summary="Get Specific User Transfer Record",
+     * description="",
+     * @OA\Parameter(name="employee_id", description="employee_id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
+
+    public function specificUserTransferRecordByEmployeeId(Request $request)
+    {
+        try {
+            $getTransferList = Transfer::leftJoin('transfer_types', 'transfers.transfer_type', '=', 'transfer_types.id')
+                ->leftJoin('designations as to_designation', 'transfers.to_designation', '=', 'to_designation.id')
+                ->leftJoin('designations as from_designation', 'transfers.from_designation', '=', 'from_designation.id')
+                ->leftJoin('departments as to_department', 'transfers.to_department', '=', 'to_department.id')
+                ->leftJoin('departments as from_department', 'transfers.from_department', '=', 'from_department.id')
+                ->leftJoin('offices as to_office', 'transfers.to_office', '=', 'to_office.id')
+                ->leftJoin('offices as from_office', 'transfers.from_office', '=', 'from_office.id')
+                ->leftJoin('employees', 'employees.id', '=', 'transfers.employee_id')
+                ->select(
+                    'transfers.employee_id',
+                    'transfers.id',
+                    'employees.name as employee_name',
+                    'transfers.transfer_order',
+                    'transfer_types.title as t_type',
+                    'transfers.transfer_order_number',
+                    'to_office.office_name as to_office',
+                    'from_office.office_name as from_office',
+                    'to_department.dept_name as to_department',
+                    'from_department.dept_name as from_department',
+                    'to_designation.designation_name as to_designation',
+                    'from_designation.designation_name as from_designation',
+                    'transfers.transfer_date',
+                    'transfers.join_date',
+                    'transfers.transfer_date',
+                    'transfers.transfer_letter',
+                    'transfers.status',
+                )->where('transfers.employee_id', $request->employee_id)->get();
+
+            // $getTransferList = $getTransferList->where('employee_id', $request->employee_id);
+            // dd($getTransferList);
+            // exit;
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $getTransferList,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 }
