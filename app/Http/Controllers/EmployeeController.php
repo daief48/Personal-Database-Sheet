@@ -408,10 +408,13 @@ class EmployeeController extends Controller
         try {
 
             $employee = Employee::find($empid);
-            $employee->delete();
+            if ($employee->delete()) {
+                User::find($userid)->delete();
+            }
 
-            $user = User::find($userid);
-            $user->delete();
+
+            // $user = User::find($userid);
+            // $user->delete();
 
             // return $employee;
             return response()->json([

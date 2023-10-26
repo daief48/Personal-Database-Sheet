@@ -55,6 +55,7 @@ Route::delete('/deleteTransferRecord/{id}', [TransferController::class, 'deleteT
 Route::patch('/activeTransferRecord/{id}', [TransferController::class, 'activeTransferRecord']);
 Route::patch('/inactiveTransferRecord/{id}', [TransferController::class, 'inactiveTransferRecord']);
 Route::get('/specificUserTransferRecord/{id}', [TransferController::class, 'specificUserTransferRecord']);
+Route::get('/specificUserTransferRecordByEmployeeId/{employee_id}', [TransferController::class, 'specificUserTransferRecordByEmployeeId']);
 
 //Transfer Type 
 

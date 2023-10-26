@@ -3348,6 +3348,39 @@
                 }
             }
         },
+        "/pds-backend/api/specificUserTransferRecordByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS User Transfer"
+                ],
+                "summary": "Get Specific User Transfer Record",
+                "description": "",
+                "operationId": "specificUserTransferRecordByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "employee_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/transferType": {
             "get": {
                 "tags": [
