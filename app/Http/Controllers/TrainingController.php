@@ -366,4 +366,45 @@ class TrainingController extends Controller
             ], 401);
         }
     }
+
+    /**
+     * @OA\Get(
+     *     tags={"PDS User Training"},
+     *     path="/pds-backend/api/specificUserTrainingRecordByEmployeeId/{employee_id}",
+     *     operationId="specificUserTrainingRecordByEmployeeId",
+     *     summary="Get Specific User Training Record",
+     *     description="",
+     *     @OA\Parameter(
+     *         name="employee_id",
+     *         description="Employee ID",
+     *         example=1,
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Not Found"),
+     *     security={{"bearer_token": {}}}
+     * )
+     */
+    public function specificUserTrainingRecordByEmployeeId(Request $request)
+    {
+        try {
+            $getTrainingList = Training::leftJoin('employees', 'employees.id', '=', 'trainings.employee_id')
+                ->select('employees.id as employee_id','employees.name as employee_name', 'trainings.*')
+                ->where('trainings.employee_id', $request->employee_id)
+                ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $getTrainingList,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 404);
+        }
+    }
 }

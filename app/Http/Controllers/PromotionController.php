@@ -360,4 +360,47 @@ class PromotionController extends Controller
             ], 401);
         }
     }
+
+
+    /**
+     * @OA\Get(
+     *     tags={"PDS User Promotion"},
+     *     path="/pds-backend/api/specificUserPromotionRecordByEmployeeId/{employee_id}",
+     *     operationId="specificUserPromotionRecordByEmployeeId",
+     *     summary="Get Specific User Training Record",
+     *     description="",
+     *     @OA\Parameter(
+     *         name="employee_id",
+     *         description="Employee ID",
+     *         example=1,
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Not Found"),
+     *     security={{"bearer_token": {}}}
+     * )
+     */
+    public function specificUserPromotionRecordByEmployeeId(Request $request)
+    {
+        try {
+            $getTrainingList = Promotion::leftJoin('employees', 'employees.id', '=', 'promotions.employee_id')
+                ->leftJoin('designations', 'designations.id', '=', 'promotions.promoted_designation')
+                ->select('employees.id as employee_id', 'employees.name as employee_name', 'promotions.*', 'designations.designation_name as designation_name')
+                ->where('promotions.employee_id', $request->employee_id)
+                ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $getTrainingList,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 404);
+        }
+    }
 }
