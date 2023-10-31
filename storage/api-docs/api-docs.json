@@ -1457,7 +1457,7 @@
             }
         },
         "/pds-backend/api/updateLeaveMgt/{id}": {
-            "put": {
+            "post": {
                 "tags": [
                     "PDS Leave Management"
                 ],
