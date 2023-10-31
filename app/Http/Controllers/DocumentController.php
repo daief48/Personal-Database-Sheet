@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Repositories\ResponseRepository;
 use App\Models\Document;
 use App\Models\Event;
@@ -12,13 +13,9 @@ use Image;
 class DocumentController extends Controller
 {
     protected $responseRepository;
-    public function __construct(ResponseRepository $rr,)
+    public function __construct(ResponseRepository $rr)
     {
-        $this->middleware('auth:api', ['except' => ['getAllDocument','addDocument']]);
+        $this->middleware('auth:api', ['except' => ['getAllDocument', 'addDocument']]);
         $this->responseRepository = $rr;
     }
-
-
-    
-
 }

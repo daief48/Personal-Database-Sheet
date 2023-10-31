@@ -2427,6 +2427,60 @@
                 }
             }
         },
+        "/pds-backend/api/getShortReport": {
+            "get": {
+                "tags": [
+                    "PDS Report"
+                ],
+                "summary": "PDS Report",
+                "description": "PDS Report",
+                "operationId": "getShortReport",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getLongReport/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS Report"
+                ],
+                "summary": "PDS Report",
+                "description": "PDS Report",
+                "operationId": "getLongReport",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "employee_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/getTrainingList": {
             "get": {
                 "tags": [

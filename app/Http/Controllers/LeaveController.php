@@ -51,13 +51,6 @@ class LeaveController extends Controller
                 $employeeId = $takenLeave->employee_id;
                 $leaveType = $takenLeave->leave_type;
                 $totalDays = $takenLeave->total_days;
-
-
-                if (!isset($employeeLeaveApplicationArrays[$employeeId])) {
-                    $employeeLeaveApplicationArrays[$employeeId] = [];
-                }
-
-
                 $employeeLeaveApplicationArrays[$employeeId][$leaveType] = $totalDays;
             }
 
