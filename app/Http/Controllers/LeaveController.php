@@ -205,7 +205,7 @@ class LeaveController extends Controller
     }
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      * tags={"PDS Leave Management"},
      * path="/pds-backend/api/updateLeaveMgt/{id}",
      * operationId="updateLeaveMgt",

@@ -134,7 +134,7 @@ Route::patch('/inactiveDesignationMgtRecord/{id}', [DesignationController::class
 
 Route::get('/getLeaveMgt', [LeaveController::class, 'getLeaveMgt']);
 Route::post('/addLeaveMgt', [LeaveController::class, 'addLeaveMgt']);
-Route::put('/updateLeaveMgt/{id}', [LeaveController::class, 'updateLeaveMgt']);
+Route::post('/updateLeaveMgt/{id}', [LeaveController::class, 'updateLeaveMgt']);
 Route::delete('/deleteLeaveMgt/{id}', [LeaveController::class, 'deleteLeaveMgt']);
 Route::patch('/activeLeaveMgtRecord/{id}', [LeaveController::class, 'activeLeaveMgtRecord']);
 Route::patch('/inactiveLeaveMgtRecord/{id}', [LeaveController::class, 'inactiveLeaveMgtRecord']);
