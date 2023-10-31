@@ -16,6 +16,7 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\AcrController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransferTypeController;
 
 Route::controller(AuthController::class)->group(function () {
@@ -137,6 +138,7 @@ Route::post('/updateLeaveMgt/{id}', [LeaveController::class, 'updateLeaveMgt']);
 Route::delete('/deleteLeaveMgt/{id}', [LeaveController::class, 'deleteLeaveMgt']);
 Route::patch('/activeLeaveMgtRecord/{id}', [LeaveController::class, 'activeLeaveMgtRecord']);
 Route::patch('/inactiveLeaveMgtRecord/{id}', [LeaveController::class, 'inactiveLeaveMgtRecord']);
+Route::get('/specificUserLeaveRecordByEmployeeId/{employee_id}', [LeaveController::class, 'specificUserLeaveRecordByEmployeeId']);
 
 //Leave Type Setup v1
 
@@ -159,3 +161,10 @@ Route::get('/specificAcrInfo/{id}', [AcrController::class, 'specificAcrInfo']);
 // Mail Controller
 
 Route::post('/send-reply', [MailController::class, 'sendReply']);
+
+
+
+//PDS Report
+
+Route::get('/getShortReport', [ReportController::class, 'getShortReport']);
+Route::get('/getLongReport/{employee_id}', [ReportController::class, 'getLongReport']);

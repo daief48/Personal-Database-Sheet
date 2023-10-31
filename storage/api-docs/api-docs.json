@@ -1632,6 +1632,44 @@
                 }
             }
         },
+        "/pds-backend/api/specificUserLeaveRecordByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Get Specific User Training Record",
+                "description": "",
+                "operationId": "specificUserLeaveRecordByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "Employee ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/pds-backend/api/getLeaveType": {
             "get": {
                 "tags": [
@@ -2496,6 +2534,60 @@
                         "bearer_token": []
                     }
                 ]
+            }
+        },
+        "/pds-backend/api/getShortReport": {
+            "get": {
+                "tags": [
+                    "PDS Report"
+                ],
+                "summary": "PDS Report",
+                "description": "PDS Report",
+                "operationId": "getShortReport",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getLongReport/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS Report"
+                ],
+                "summary": "PDS Report",
+                "description": "PDS Report",
+                "operationId": "getLongReport",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "employee_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
             }
         },
         "/pds-backend/api/getTrainingList": {

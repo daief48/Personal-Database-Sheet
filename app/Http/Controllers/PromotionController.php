@@ -15,7 +15,7 @@ class PromotionController extends Controller
 {
 
     protected $responseRepository;
-    public function __construct(ResponseRepository $rp,)
+    public function __construct(ResponseRepository $rp)
     {
         //$this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rp;
@@ -403,4 +403,5 @@ class PromotionController extends Controller
             ], 404);
         }
     }
+    
 }

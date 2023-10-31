@@ -14,7 +14,7 @@ class UserController extends Controller
 {
 
     protected $responseRepository;
-    public function __construct(ResponseRepository $rr,)
+    public function __construct(ResponseRepository $rr)
     {
         $this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rr;
