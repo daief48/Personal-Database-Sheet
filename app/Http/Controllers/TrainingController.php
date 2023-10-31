@@ -144,7 +144,7 @@ class TrainingController extends Controller
     }
 
     /**
-     * @OA\post(
+     * @OA\Put(
      * tags={"PDS User Training"},
      * path="/pds-backend/api/updateTrainingRecord/{id}",
      * operationId="updateTrainingRecord",
@@ -392,7 +392,7 @@ class TrainingController extends Controller
     {
         try {
             $getTrainingList = Training::leftJoin('employees', 'employees.id', '=', 'trainings.employee_id')
-                ->select('employees.id as employee_id', 'employees.name as employee_name', 'trainings.*')
+                ->select('employees.id as employee_id','employees.name as employee_name', 'trainings.*')
                 ->where('trainings.employee_id', $request->employee_id)
                 ->get();
 

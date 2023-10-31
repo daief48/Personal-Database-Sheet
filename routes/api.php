@@ -138,6 +138,7 @@ Route::post('/updateLeaveMgt/{id}', [LeaveController::class, 'updateLeaveMgt']);
 Route::delete('/deleteLeaveMgt/{id}', [LeaveController::class, 'deleteLeaveMgt']);
 Route::patch('/activeLeaveMgtRecord/{id}', [LeaveController::class, 'activeLeaveMgtRecord']);
 Route::patch('/inactiveLeaveMgtRecord/{id}', [LeaveController::class, 'inactiveLeaveMgtRecord']);
+Route::get('/specificUserLeaveRecordByEmployeeId/{employee_id}', [LeaveController::class, 'specificUserLeaveRecordByEmployeeId']);
 
 //Leave Type Setup v1
 

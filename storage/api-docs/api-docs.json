@@ -1632,6 +1632,44 @@
                 }
             }
         },
+        "/pds-backend/api/specificUserLeaveRecordByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Get Specific User Training Record",
+                "description": "",
+                "operationId": "specificUserLeaveRecordByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "Employee ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/pds-backend/api/getLeaveType": {
             "get": {
                 "tags": [
@@ -2460,7 +2498,44 @@
                 }
             }
         },
-<<<<<<< HEAD
+        "/pds-backend/api/specificUserPromotionRecordByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "Get Specific User Training Record",
+                "description": "",
+                "operationId": "specificUserPromotionRecordByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "Employee ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/pds-backend/api/getShortReport": {
             "get": {
                 "tags": [
@@ -2490,25 +2565,11 @@
                 "summary": "PDS Report",
                 "description": "PDS Report",
                 "operationId": "getLongReport",
-=======
-        "/pds-backend/api/specificUserPromotionRecordByEmployeeId/{employee_id}": {
-            "get": {
-                "tags": [
-                    "PDS User Promotion"
-                ],
-                "summary": "Get Specific User Training Record",
-                "description": "",
-                "operationId": "specificUserPromotionRecordByEmployeeId",
->>>>>>> origin/daief
                 "parameters": [
                     {
                         "name": "employee_id",
                         "in": "path",
-<<<<<<< HEAD
                         "description": "employee_id",
-=======
-                        "description": "Employee ID",
->>>>>>> origin/daief
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2524,20 +2585,9 @@
                         "description": "Bad Request"
                     },
                     "404": {
-<<<<<<< HEAD
                         "description": "Resource Not Found"
                     }
                 }
-=======
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer_token": []
-                    }
-                ]
->>>>>>> origin/daief
             }
         },
         "/pds-backend/api/getTrainingList": {

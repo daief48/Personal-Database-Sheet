@@ -391,4 +391,45 @@ class LeaveController extends Controller
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+     /**
+     * @OA\Get(
+     *     tags={"PDS Leave Management"},
+     *     path="/pds-backend/api/specificUserLeaveRecordByEmployeeId/{employee_id}",
+     *     operationId="specificUserLeaveRecordByEmployeeId",
+     *     summary="Get Specific User Training Record",
+     *     description="",
+     *     @OA\Parameter(
+     *         name="employee_id",
+     *         description="Employee ID",
+     *         example=1,
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Not Found"),
+     *     security={{"bearer_token": {}}}
+     * )
+     */
+    public function specificUserLeaveRecordByEmployeeId(Request $request)
+    {
+        try {
+            $getTrainingList = Leave::leftJoin('employees', 'employees.id', '=', 'leaves.employee_id')
+                ->select('employees.id as employee_id','employees.name as employee_name', 'leaves.*')
+                ->where('leaves.employee_id', $request->employee_id)
+                ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $getTrainingList,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 404);
+        }
+    }
 }
