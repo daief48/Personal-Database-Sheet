@@ -132,7 +132,7 @@ class TrainingSetupController extends Controller
 
 
     /**
-     * @OA\Put(
+     * @OA\post(
      * tags={"PDS Training Setup"},
      * path="/pds-backend/api/updateTrainingMgt/{id}",
      * operationId="updateTrainingMgt",

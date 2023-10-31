@@ -747,6 +747,39 @@
                 }
             }
         },
+        "/pds-backend/api/specificUserDesignation/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "Get Specific User Promotion Record",
+                "description": "",
+                "operationId": "specificUserDesignation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/addDesignationMgt": {
             "post": {
                 "tags": [
@@ -2427,6 +2460,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "/pds-backend/api/getShortReport": {
             "get": {
                 "tags": [
@@ -2456,11 +2490,25 @@
                 "summary": "PDS Report",
                 "description": "PDS Report",
                 "operationId": "getLongReport",
+=======
+        "/pds-backend/api/specificUserPromotionRecordByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS User Promotion"
+                ],
+                "summary": "Get Specific User Training Record",
+                "description": "",
+                "operationId": "specificUserPromotionRecordByEmployeeId",
+>>>>>>> origin/daief
                 "parameters": [
                     {
                         "name": "employee_id",
                         "in": "path",
+<<<<<<< HEAD
                         "description": "employee_id",
+=======
+                        "description": "Employee ID",
+>>>>>>> origin/daief
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2476,9 +2524,20 @@
                         "description": "Bad Request"
                     },
                     "404": {
+<<<<<<< HEAD
                         "description": "Resource Not Found"
                     }
                 }
+=======
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+>>>>>>> origin/daief
             }
         },
         "/pds-backend/api/getTrainingList": {
@@ -2785,6 +2844,44 @@
                         "description": "Resource Not Found"
                     }
                 }
+            }
+        },
+        "/pds-backend/api/specificUserTrainingRecordByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS User Training"
+                ],
+                "summary": "Get Specific User Training Record",
+                "description": "",
+                "operationId": "specificUserTrainingRecordByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "Employee ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/pds-backend/api/getTrainingMgt": {
@@ -3194,31 +3291,31 @@
                                     },
                                     "to_office": {
                                         "type": "text",
-                                        "example": "Dhaka"
+                                        "example": 1
                                     },
                                     "from_office": {
                                         "type": "text",
-                                        "example": "Mymensingh"
+                                        "example": 1
                                     },
                                     "to_department": {
                                         "type": "text",
-                                        "example": "3"
+                                        "example": 1
                                     },
                                     "from_department": {
                                         "type": "text",
-                                        "example": "23"
+                                        "example": 1
                                     },
                                     "to_designation": {
                                         "type": "text",
-                                        "example": "3"
+                                        "example": 1
                                     },
                                     "from_designation": {
                                         "type": "text",
-                                        "example": "23"
+                                        "example": 1
                                     },
                                     "transfer_order": {
                                         "type": "text",
-                                        "example": "23"
+                                        "example": "Order123"
                                     },
                                     "transfer_order_number": {
                                         "type": "text",
@@ -3226,7 +3323,7 @@
                                     },
                                     "transfer_type": {
                                         "type": "text",
-                                        "example": "2"
+                                        "example": 12
                                     },
                                     "transfer_date": {
                                         "type": "string",
@@ -3240,11 +3337,11 @@
                                     },
                                     "transfer_letter": {
                                         "type": "text",
-                                        "example": "ghit.pdf"
+                                        "example": "letter.pdf"
                                     },
                                     "status": {
                                         "type": "text",
-                                        "example": "0"
+                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -3254,7 +3351,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Updated Guest Successfully",
+                        "description": "Updated Transfer Record Successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}

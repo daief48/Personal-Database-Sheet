@@ -11,8 +11,10 @@ use Validator;
 class TransferTypeController extends Controller
 {
     protected $responseRepository;
-    public function __construct(ResponseRepository $rp)
-    {
+    public function __construct(
+        ResponseRepository $rp
+
+    ) {
         //$this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rp;
     }
@@ -42,7 +44,7 @@ class TransferTypeController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], 401);
+            ], 500);
         }
     }
 
