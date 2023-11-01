@@ -116,6 +116,37 @@ class LeaveController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     * tags={"PDS Leave Management"},
+     * path="/pds-backend/api/specificUserLeave/{id}",
+     * operationId="specificUserLeave",
+     * summary="Get Specific User Promotion Record",
+     * description="",
+     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
+
+    public function specificUserLeave(Request $request)
+    {
+        try {
+            $specificUserLeave = Leave::findOrFail($request->id);
+            return response()->json([
+                'status' => 'success',
+                'data' => $specificUserLeave,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 401);
+        }
+    }
+
 
 
     /**
@@ -392,7 +423,7 @@ class LeaveController extends Controller
         }
     }
 
-     /**
+    /**
      * @OA\Get(
      *     tags={"PDS Leave Management"},
      *     path="/pds-backend/api/specificUserLeaveRecordByEmployeeId/{employee_id}",
@@ -417,7 +448,7 @@ class LeaveController extends Controller
     {
         try {
             $getTrainingList = Leave::leftJoin('employees', 'employees.id', '=', 'leaves.employee_id')
-                ->select('employees.id as employee_id','employees.name as employee_name', 'leaves.*')
+                ->select('employees.id as employee_id', 'employees.name as employee_name', 'leaves.*')
                 ->where('leaves.employee_id', $request->employee_id)
                 ->get();
 

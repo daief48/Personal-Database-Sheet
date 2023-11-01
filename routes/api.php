@@ -133,6 +133,7 @@ Route::patch('/inactiveDesignationMgtRecord/{id}', [DesignationController::class
 //Leave management v1
 
 Route::get('/getLeaveMgt', [LeaveController::class, 'getLeaveMgt']);
+Route::get('/specificUserLeave/{id}', [LeaveController::class, 'specificUserLeave']);
 Route::post('/addLeaveMgt', [LeaveController::class, 'addLeaveMgt']);
 Route::post('/updateLeaveMgt/{id}', [LeaveController::class, 'updateLeaveMgt']);
 Route::delete('/deleteLeaveMgt/{id}', [LeaveController::class, 'deleteLeaveMgt']);
