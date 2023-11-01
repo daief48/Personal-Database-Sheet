@@ -51,6 +51,8 @@ class LeaveTypeController extends Controller
         }
     }
 
+
+
     /**
      * @OA\Post(
      * tags={"PDS Leave Type Setup"},

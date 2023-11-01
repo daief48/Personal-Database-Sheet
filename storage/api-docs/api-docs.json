@@ -747,39 +747,6 @@
                 }
             }
         },
-        "/pds-backend/api/specificUserDesignation/{id}": {
-            "get": {
-                "tags": [
-                    "PDS Designation Setup"
-                ],
-                "summary": "Get Specific User Promotion Record",
-                "description": "",
-                "operationId": "specificUserDesignation",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    }
-                }
-            }
-        },
         "/pds-backend/api/addDesignationMgt": {
             "post": {
                 "tags": [
@@ -1077,6 +1044,15 @@
                                     "email": {
                                         "type": "text"
                                     },
+                                    "blood_group": {
+                                        "type": "text"
+                                    },
+                                    "nid_number": {
+                                        "type": "text"
+                                    },
+                                    "passport_number": {
+                                        "type": "text"
+                                    },
                                     "designation": {
                                         "type": "text"
                                     },
@@ -1212,6 +1188,15 @@
                                         "type": "text"
                                     },
                                     "email": {
+                                        "type": "text"
+                                    },
+                                    "blood_group": {
+                                        "type": "text"
+                                    },
+                                    "nid_number": {
+                                        "type": "text"
+                                    },
+                                    "passport_number": {
                                         "type": "text"
                                     },
                                     "designation": {
@@ -1668,6 +1653,39 @@
                         "bearer_token": []
                     }
                 ]
+            }
+        },
+        "/pds-backend/api/specificUserLeave/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Get Specific User Promotion Record",
+                "description": "",
+                "operationId": "specificUserLeave",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
             }
         },
         "/pds-backend/api/getLeaveType": {

@@ -51,38 +51,8 @@ class DesignationController extends Controller
         }
     }
 
-      /**
-     * @OA\Get(
-     * tags={"PDS Designation Setup"},
-     * path="/pds-backend/api/specificUserDesignation/{id}",
-     * operationId="specificUserDesignation",
-     * summary="Get Specific User Promotion Record",
-     * description="",
-     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
-     * @OA\Response(response=200, description="Success" ),
-     * @OA\Response(response=400, description="Bad Request"),
-     * @OA\Response(response=404, description="Resource Not Found"),
-     * ),
-     * security={{"bearer_token":{}}}
-     */
 
-     public function specificUserDesignation(Request $request)
-     {
-         try {
-             $specificUserDesignation = Designation::findOrFail($request->id);
-             return response()->json([
-                 'status' => 'success',
-                 'data' => $specificUserDesignation,
-             ], 200);
-         } catch (\Exception $e) {
-             return response()->json([
-                 'status' => 'error',
-                 'message' => $e->getMessage(),
-             ], 401);
-         }
-     }
- 
- 
+
 
     /**
      * @OA\Post(

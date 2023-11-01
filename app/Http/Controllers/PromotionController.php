@@ -39,14 +39,11 @@ class PromotionController extends Controller
     {
         try {
 
-            $getPromotion = Promotion::select(
-                'employee_id',
-                'promotion_ref_number',
-                'promoted_designation',
-                'promotion_date',
-                'description'
-
-            )
+            $getPromotion = Promotion::leftJoin('designations', 'promotions.promoted_designation', '=', 'designations.id')
+                ->select(
+                    'promotions.*',
+                    'designations.designation_name',
+                )
                 ->orderBy('id', 'desc')->get();
             // leftJoin('designations', 'promotion.promoted_designation', '=', 'designations.id')->select('designations.designation_name as designation')
 
@@ -403,5 +400,4 @@ class PromotionController extends Controller
             ], 404);
         }
     }
-    
 }
