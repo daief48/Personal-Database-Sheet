@@ -193,108 +193,108 @@ class TransferController extends Controller
     }
 
     /**
- * @OA\Post( 
- * tags={"PDS User Transfer"},
- * path="/pds-backend/api/updateTransferRecord/{id}",
- * operationId="updateTransferRecord",
- * summary="Update Transfer Record",
- * description="Update Transfer Record",
- * @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
- * @OA\RequestBody(
- *      @OA\JsonContent(
- *          type="object",
- *          @OA\Property(property="employee_id", type="integer", example=1),
- *          @OA\Property(property="to_office", type="text", example=1),
- *          @OA\Property(property="from_office", type="text", example=1),
- *          @OA\Property(property="to_department", type="text", example=1),
- *          @OA\Property(property="from_department", type="text", example=1),
- *          @OA\Property(property="to_designation", type="text", example=1),
- *          @OA\Property(property="from_designation", type="text", example=1),
- *          @OA\Property(property="transfer_order", type="text", example="Order123"),
- *          @OA\Property(property="transfer_order_number", type="text", example="1204"),
- *          @OA\Property(property="transfer_type", type="text", example=12),
- *          @OA\Property(property="transfer_date", type="date", example="2023-10-11"),
- *          @OA\Property(property="join_date", type="date", example="2023-10-11"),
- *          @OA\Property(property="transfer_letter", type="text", example="letter.pdf"),
- *          @OA\Property(property="status", type="text", example=1),
- *      ),
- *    ),
- * @OA\Response(
- *      response=200,
- *      description="Updated Transfer Record Successfully",
- *      @OA\JsonContent()
- *   ),
- * @OA\Response(response=400, description="Bad request"),
- * @OA\Response(response=404, description="Resource Not Found"),
- * ),
- * security={{"bearer_token":{}}}
- */
+     * @OA\Post( 
+     * tags={"PDS User Transfer"},
+     * path="/pds-backend/api/updateTransferRecord/{id}",
+     * operationId="updateTransferRecord",
+     * summary="Update Transfer Record",
+     * description="Update Transfer Record",
+     * @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\RequestBody(
+     *      @OA\JsonContent(
+     *          type="object",
+     *          @OA\Property(property="employee_id", type="integer", example=1),
+     *          @OA\Property(property="to_office", type="text", example=1),
+     *          @OA\Property(property="from_office", type="text", example=1),
+     *          @OA\Property(property="to_department", type="text", example=1),
+     *          @OA\Property(property="from_department", type="text", example=1),
+     *          @OA\Property(property="to_designation", type="text", example=1),
+     *          @OA\Property(property="from_designation", type="text", example=1),
+     *          @OA\Property(property="transfer_order", type="text", example="Order123"),
+     *          @OA\Property(property="transfer_order_number", type="text", example="1204"),
+     *          @OA\Property(property="transfer_type", type="text", example=12),
+     *          @OA\Property(property="transfer_date", type="date", example="2023-10-11"),
+     *          @OA\Property(property="join_date", type="date", example="2023-10-11"),
+     *          @OA\Property(property="transfer_letter", type="text", example="letter.pdf"),
+     *          @OA\Property(property="status", type="text", example=1),
+     *      ),
+     *    ),
+     * @OA\Response(
+     *      response=200,
+     *      description="Updated Transfer Record Successfully",
+     *      @OA\JsonContent()
+     *   ),
+     * @OA\Response(response=400, description="Bad request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
 
- public function updateTransferRecord(Request $request, $id)
- {
-     try {
-         $rules = [
-             'employee_id' => 'required',
-             'transfer_type' => 'required',
-             'transfer_order' => 'required',
-             'transfer_order_number' => 'required',
-             'to_office' => 'required',
-             'from_office' => 'required',
-             'to_department' => 'required',
-             'from_department' => 'required',
-             'to_designation' => 'required',
-             'from_designation' => 'required',
-             'transfer_date' => 'required',
-             'join_date' => 'required',
-             'transfer_letter' => 'required',
-         ];
- 
-         $messages = [
-             'employee_id.required' => 'The employee_id field is required',
-             'transfer_type.required' => 'The transfer_type field is required',
-             'transfer_order.required' => 'The transfer_order field is required',
-             'transfer_order_number.required' => 'The transfer_order_number field is required',
-             'to_office.required' => ' The to_office field is required',
-             'from_office.required' => 'The from_office field is required',
-             'to_department.required' => 'The to_department field is required',
-             'from_department.required' => 'The from_department field is required',
-             'to_designation.required' => 'The to_designation field is required',
-             'from_designation.required' => 'The from_designation field is required',
-             'transfer_date.required' => 'The transfer_date field is required',
-             'join_date.required' => 'The join_date field is required',
-             'transfer_letter.required' => 'The transfer_letter field is required',
-         ];
- 
-         $validator = Validator::make($request->all(), $rules, $messages);
- 
-         if ($validator->fails()) {
-             return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
-         }
- 
-         $target = Transfer::findOrFail($id);
- 
-         $target->update([
-             'employee_id' => $request->employee_id,
-             'transfer_type' => $request->transfer_type,
-             'transfer_order' => $request->transfer_order,
-             'transfer_order_number' => $request->transfer_order_number,
-             'to_office' => $request->to_office,
-             'from_office' => $request->from_office,
-             'to_department' => $request->to_department,
-             'from_department' => $request->from_department,
-             'to_designation' => $request->to_designation,
-             'from_designation' => $request->from_designation,
-             'transfer_date' => $request->transfer_date,
-             'join_date' => $request->join_date,
-             'transfer_letter' => $request->transfer_letter,
-             'status' => $request->status,
-         ]);
- 
-         return $this->responseRepository->ResponseSuccess($target, 'Transfer Record Updated Successfully !');
-     } catch (\Exception $e) {
-         return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-     }
- }
+    public function updateTransferRecord(Request $request, $id)
+    {
+        try {
+            $rules = [
+                'employee_id' => 'required',
+                'transfer_type' => 'required',
+                'transfer_order' => 'required',
+                'transfer_order_number' => 'required',
+                'to_office' => 'required',
+                'from_office' => 'required',
+                'to_department' => 'required',
+                'from_department' => 'required',
+                'to_designation' => 'required',
+                'from_designation' => 'required',
+                'transfer_date' => 'required',
+                'join_date' => 'required',
+                'transfer_letter' => 'required',
+            ];
+
+            $messages = [
+                'employee_id.required' => 'The employee_id field is required',
+                'transfer_type.required' => 'The transfer_type field is required',
+                'transfer_order.required' => 'The transfer_order field is required',
+                'transfer_order_number.required' => 'The transfer_order_number field is required',
+                'to_office.required' => ' The to_office field is required',
+                'from_office.required' => 'The from_office field is required',
+                'to_department.required' => 'The to_department field is required',
+                'from_department.required' => 'The from_department field is required',
+                'to_designation.required' => 'The to_designation field is required',
+                'from_designation.required' => 'The from_designation field is required',
+                'transfer_date.required' => 'The transfer_date field is required',
+                'join_date.required' => 'The join_date field is required',
+                'transfer_letter.required' => 'The transfer_letter field is required',
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $target = Transfer::findOrFail($id);
+
+            $target->update([
+                'employee_id' => $request->employee_id,
+                'transfer_type' => $request->transfer_type,
+                'transfer_order' => $request->transfer_order,
+                'transfer_order_number' => $request->transfer_order_number,
+                'to_office' => $request->to_office,
+                'from_office' => $request->from_office,
+                'to_department' => $request->to_department,
+                'from_department' => $request->from_department,
+                'to_designation' => $request->to_designation,
+                'from_designation' => $request->from_designation,
+                'transfer_date' => $request->transfer_date,
+                'join_date' => $request->join_date,
+                'transfer_letter' => $request->transfer_letter,
+                'status' => $request->status,
+            ]);
+
+            return $this->responseRepository->ResponseSuccess($target, 'Transfer Record Updated Successfully !');
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 
@@ -389,7 +389,7 @@ class TransferController extends Controller
             $transferInfo =  Transfer::find($id);
 
             if (!($transferInfo === null)) {
-                $transferInfo = Transfer::where('id', '=', $id)->update(['status' => 0]);
+                $transferInfo = Transfer::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Transfer Record In-actived Successfully",

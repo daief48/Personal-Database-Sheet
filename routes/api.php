@@ -16,7 +16,12 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\AcrController;
+use App\Http\Controllers\BloodGroupController;
+use App\Http\Controllers\FreedomFighterController;
+use App\Http\Controllers\IdCardController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\SeniorEmployeeController;
 use App\Http\Controllers\TransferTypeController;
 
 Route::controller(AuthController::class)->group(function () {
@@ -133,6 +138,7 @@ Route::patch('/inactiveDesignationMgtRecord/{id}', [DesignationController::class
 //Leave management v1
 
 Route::get('/getLeaveMgt', [LeaveController::class, 'getLeaveMgt']);
+Route::get('/getLeaveByEmployeeId/{employee_id}', [LeaveController::class, 'getLeaveByEmployeeId']);
 Route::post('/addLeaveMgt', [LeaveController::class, 'addLeaveMgt']);
 Route::post('/updateLeaveMgt/{id}', [LeaveController::class, 'updateLeaveMgt']);
 Route::delete('/deleteLeaveMgt/{id}', [LeaveController::class, 'deleteLeaveMgt']);
@@ -157,6 +163,8 @@ Route::get('/getAcr', [AcrController::class, 'getAcr']);
 Route::post('/addacr', [AcrController::class, 'addacr']);
 Route::put('/updateAcrMgt/{id}', [AcrController::class, 'updateAcrMgt']);
 Route::get('/specificAcrInfo/{id}', [AcrController::class, 'specificAcrInfo']);
+Route::get('/getprofileForAcr/{id}', [AcrController::class, 'getprofileForAcr']);
+Route::get('/getAcrListByEmployeeId/{id}', [AcrController::class, 'getAcrListByEmployeeId']);
 
 
 // Mail Controller
@@ -169,3 +177,39 @@ Route::post('/send-reply', [MailController::class, 'sendReply']);
 
 Route::get('/getShortReport', [ReportController::class, 'getShortReport']);
 Route::get('/getLongReport/{employee_id}', [ReportController::class, 'getLongReport']);
+
+//ID Card
+
+Route::get('/getIdCard/{id}', [IdCardController::class, 'getIdCard']);
+
+//Salary 
+
+Route::get('/getSalary', [SalaryController::class, 'getSalary']);
+Route::get('/getSalaryByEmployeeId/{employee_id}', [SalaryController::class, 'getSalaryByEmployeeId']);
+Route::post('/addSalary', [SalaryController::class, 'addSalary']);
+Route::put('/updateSalary/{id}', [SalaryController::class, 'updateSalary']);
+Route::delete('/deleteSalary/{id}', [SalaryController::class, 'deleteSalary']);
+Route::patch('/activeSalaryRecord/{id}', [SalaryController::class, 'activeSalaryRecord']);
+Route::patch('/inactiveSalaryRecord/{id}', [SalaryController::class, 'inactiveSalaryRecord']);
+
+//Blood Group 
+
+Route::get('/getBloodGroup', [BloodGroupController::class, 'getBloodGroup']);
+Route::get('/getBloodGroupByEmployeeId/{employee_id}', [BloodGroupController::class, 'getBloodGroupByEmployeeId']);
+Route::post('/addBloodGroup', [BloodGroupController::class, 'addBloodGroup']);
+Route::put('/updateBloodGroup/{id}', [BloodGroupController::class, 'updateBloodGroup']);
+Route::delete('/deleteBloodGroup/{id}', [BloodGroupController::class, 'deleteBloodGroup']);
+Route::patch('/activeBloodGroupRecord/{id}', [BloodGroupController::class, 'activeBloodGroupRecord']);
+Route::patch('/inactiveBloodGroupRecord/{id}', [BloodGroupController::class, 'inactiveBloodGroupRecord']);
+
+//Senior Employee 
+Route::get('/getSeniorEmployee', [SeniorEmployeeController::class, 'getSeniorEmployee']);
+Route::get('/getSeniorEmployeeById/{id}', [SeniorEmployeeController::class, 'getSeniorEmployeeById']);
+
+
+// Freedom Fighter
+
+Route::get('/getFreedomFighter', [FreedomFighterController::class, 'getFreedomFighter']);
+Route::post('/addFreedomFighter', [FreedomFighterController::class, 'addFreedomFighter']);
+Route::put('/updateFreedomFighter/{id}', [FreedomFighterController::class, 'updateFreedomFighter']);
+Route::delete('/deleteFreedomFighter/{id}', [FreedomFighterController::class, 'deleteFreedomFighter']);

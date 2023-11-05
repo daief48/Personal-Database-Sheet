@@ -254,7 +254,7 @@ class OfficeController extends Controller
             $officeMgtInfo =  Office::find($id);
 
             if (!($officeMgtInfo === null)) {
-                $officeMgtInfo = Office::where('id', '=', $id)->update(['status' => 0]);
+                $officeMgtInfo = Office::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Office Mgt Successfully",

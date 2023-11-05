@@ -8,7 +8,7 @@
         "/pds-backend/api/getAcr": {
             "get": {
                 "tags": [
-                    "PDS Annual Confidential Report Management"
+                    "PDS Annual Confidential Report Management(ACR)"
                 ],
                 "summary": "PDS Annual Confidential Report List",
                 "description": "Total Leave Type List",
@@ -29,7 +29,7 @@
         "/pds-backend/api/addacr": {
             "post": {
                 "tags": [
-                    "PDS Annual Confidential Report Management"
+                    "PDS Annual Confidential Report Management(ACR)"
                 ],
                 "summary": "Add New ACR Mgt",
                 "description": "Add New ACR Mgt",
@@ -40,7 +40,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "emp_id": {
+                                    "employee_id": {
                                         "type": "text"
                                     },
                                     "emp_name": {
@@ -64,6 +64,15 @@
                                         "type": "text"
                                     },
                                     "file": {
+                                        "type": "text"
+                                    },
+                                    "rack_number": {
+                                        "type": "text"
+                                    },
+                                    "bill_number": {
+                                        "type": "text"
+                                    },
+                                    "file_number": {
                                         "type": "text"
                                     },
                                     "remarks": {
@@ -102,7 +111,7 @@
         "/pds-backend/api/updateAcrMgt/{id}": {
             "put": {
                 "tags": [
-                    "PDS Annual Confidential Report Management"
+                    "PDS Annual Confidential Report Management(ACR)"
                 ],
                 "summary": "Update ACR Mgt Setup",
                 "operationId": "updateAcrMgt",
@@ -122,7 +131,7 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "emp_id": {
+                                    "employee_id": {
                                         "type": "text",
                                         "example": "2"
                                     },
@@ -155,6 +164,18 @@
                                     "file": {
                                         "type": "text",
                                         "example": "file_update"
+                                    },
+                                    "rack_number": {
+                                        "type": "text",
+                                        "example": "2"
+                                    },
+                                    "bill_number": {
+                                        "type": "text",
+                                        "example": "2023"
+                                    },
+                                    "file_number": {
+                                        "type": "text",
+                                        "example": "4"
                                     },
                                     "remarks": {
                                         "type": "text",
@@ -191,11 +212,76 @@
         "/pds-backend/api/specificAcrInfo/{id}": {
             "get": {
                 "tags": [
-                    "PDS Annual Confidential Report Management"
+                    "PDS Annual Confidential Report Management(ACR)"
                 ],
                 "summary": "Specific Acr Info Detail",
                 "description": "",
                 "operationId": "specificAcrInfo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getprofileForAcr/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Annual Confidential Report Management(ACR)"
+                ],
+                "summary": "Get Id Card",
+                "operationId": "getprofileForAcr",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getAcrListByEmployeeId/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Annual Confidential Report Management(ACR)"
+                ],
+                "summary": "Specific Acr Info Detail",
+                "description": "",
+                "operationId": "getAcrListByEmployeeId",
                 "parameters": [
                     {
                         "name": "id",
@@ -447,6 +533,281 @@
                 "responses": {
                     "200": {
                         "description": "Logout"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getBloodGroup": {
+            "get": {
+                "tags": [
+                    "PDS User BloodGroup"
+                ],
+                "summary": "BloodGroup List",
+                "description": "Total BloodGroup List",
+                "operationId": "getBloodGroup",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getBloodGroupByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS User BloodGroup"
+                ],
+                "summary": "BloodGroup List",
+                "description": "Total BloodGroup List",
+                "operationId": "getBloodGroupByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "Employee ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/pds-backend/api/addBloodGroup": {
+            "post": {
+                "tags": [
+                    "PDS User BloodGroup"
+                ],
+                "summary": "Add New BloodGroup",
+                "description": "Add New BloodGroup",
+                "operationId": "addBloodGroup",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "blood_group": {
+                                        "type": "integer"
+                                    },
+                                    "last_donate": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added BloodGroup Record Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateBloodGroup/{id}": {
+            "put": {
+                "tags": [
+                    "PDS User BloodGroup"
+                ],
+                "summary": "Update BloodGroup Record",
+                "operationId": "updateBloodGroup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "blood_group": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "last_donate": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "BloodGroup Record Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteBloodGroup/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS User BloodGroup"
+                ],
+                "summary": "Delete BloodGroup Record",
+                "description": "Delete  BloodGroup Record With Valid ID",
+                "operationId": "deleteBloodGroup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete BloodGroup Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeBloodGroupRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User BloodGroup"
+                ],
+                "summary": "Active BloodGroup Record",
+                "description": "Active Specific BloodGroup Record With Valid ID",
+                "operationId": "activeBloodGroupRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active BloodGroup Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveBloodGroupRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User BloodGroup"
+                ],
+                "summary": "In-active BloodGroup Record",
+                "description": "In-active Specific BloodGroup Record With Valid ID",
+                "operationId": "inactiveBloodGroupRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active BloodGroup Record"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -1038,11 +1399,18 @@
                                     "name": {
                                         "type": "text"
                                     },
+                                    "gender": {
+                                        "type": "text"
+                                    },
                                     "mobile_number": {
                                         "type": "text"
                                     },
                                     "email": {
                                         "type": "text"
+                                    },
+                                    "date_of_birth": {
+                                        "type": "string",
+                                        "format": "date"
                                     },
                                     "blood_group": {
                                         "type": "text"
@@ -1181,6 +1549,9 @@
                                     "image": {
                                         "type": "text"
                                     },
+                                    "gender": {
+                                        "type": "text"
+                                    },
                                     "name": {
                                         "type": "text"
                                     },
@@ -1189,6 +1560,10 @@
                                     },
                                     "email": {
                                         "type": "text"
+                                    },
+                                    "date_of_birth": {
+                                        "type": "string",
+                                        "format": "date"
                                     },
                                     "blood_group": {
                                         "type": "text"
@@ -1355,6 +1730,210 @@
                 ]
             }
         },
+        "/pds-backend/api/getFreedomFighter": {
+            "get": {
+                "tags": [
+                    "PDS Freedom Fighter list"
+                ],
+                "summary": "PDS Annual Confidential Report List",
+                "description": "Total Leave Type List",
+                "operationId": "getFreedomFighter",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addFreedomFighter": {
+            "post": {
+                "tags": [
+                    "PDS Freedom Fighter list"
+                ],
+                "summary": "Add New Freedom Fighter",
+                "description": "Add New Freedom Fighter",
+                "operationId": "addFreedomFighter",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "text"
+                                    },
+                                    "freedom_fighter_num": {
+                                        "type": "text"
+                                    },
+                                    "fighting_divi": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added freedom_fighters Mgt Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateFreedomFighter/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Freedom Fighter list"
+                ],
+                "summary": "Update Freedom Fighter",
+                "operationId": "updateFreedomFighter",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "text",
+                                        "example": "2"
+                                    },
+                                    "freedom_fighter_num": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1241434"
+                                    },
+                                    "fighting_divi": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "dhaka"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Freedom Fighter Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteFreedomFighter/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS User Transfer"
+                ],
+                "summary": "Delete Transfer Record",
+                "description": "Delete  Transfer Record With Valid ID",
+                "operationId": "deleteFreedomFighter",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Album"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getIdCard/{id}": {
+            "get": {
+                "tags": [
+                    "PDS ID Card"
+                ],
+                "summary": "Get Id Card",
+                "operationId": "getIdCard",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/getLeaveMgt": {
             "get": {
                 "tags": [
@@ -1363,6 +1942,39 @@
                 "summary": "Leave Mgt List",
                 "description": "Total Leave Mgt List",
                 "operationId": "getLeaveMgt",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getLeaveByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Leave Mgt List",
+                "description": "",
+                "operationId": "getLeaveByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "employee_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -2588,6 +3200,355 @@
                         "name": "employee_id",
                         "in": "path",
                         "description": "employee_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getSalary": {
+            "get": {
+                "tags": [
+                    "PDS User Salary"
+                ],
+                "summary": "Salary List",
+                "description": "Total Salary List",
+                "operationId": "getSalary",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getSalaryByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS User Salary"
+                ],
+                "summary": "Salary List",
+                "description": "Total Salary List",
+                "operationId": "getSalaryByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "Employee ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/pds-backend/api/addSalary": {
+            "post": {
+                "tags": [
+                    "PDS User Salary"
+                ],
+                "summary": "Add New Salary",
+                "description": "Add New Salary",
+                "operationId": "addSalary",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "grade": {
+                                        "type": "integer"
+                                    },
+                                    "basic_pay": {
+                                        "type": "integer"
+                                    },
+                                    "medical_allowance": {
+                                        "type": "integer"
+                                    },
+                                    "house_rent": {
+                                        "type": "integer"
+                                    },
+                                    "others": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Salary Record Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateSalary/{id}": {
+            "put": {
+                "tags": [
+                    "PDS User Salary"
+                ],
+                "summary": "Update Salary Record",
+                "operationId": "updateSalary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "grade": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "basic_pay": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "medical_allowance": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "house_rent": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "others": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Salary Record Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteSalary/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS User Salary"
+                ],
+                "summary": "Delete Salary Record",
+                "description": "Delete  Salary Record With Valid ID",
+                "operationId": "deleteSalary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Salary Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeSalaryRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User Salary"
+                ],
+                "summary": "Active Salary Record",
+                "description": "Active Specific Salary Record With Valid ID",
+                "operationId": "activeSalaryRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Salary Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveSalaryRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS User Salary"
+                ],
+                "summary": "In-active Salary Record",
+                "description": "In-active Specific Salary Record With Valid ID",
+                "operationId": "inactiveSalaryRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Salary Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getSeniorEmployee": {
+            "get": {
+                "tags": [
+                    "PDS Senior Employee "
+                ],
+                "summary": "Senior Employee List",
+                "description": "Total BloodGroup List",
+                "operationId": "getSeniorEmployee",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getSeniorEmployeeById/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Senior Employee "
+                ],
+                "summary": "Get Senior Employee List",
+                "operationId": "getSeniorEmployeeById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
                         "required": true,
                         "schema": {
                             "type": "integer"

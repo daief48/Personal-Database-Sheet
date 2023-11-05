@@ -124,8 +124,10 @@ class EmployeeController extends Controller
      *               @OA\Property(property="user_id", type="text"),
      *               @OA\Property(property="image", type="text"),
      *               @OA\Property(property="name", type="text"),
+     *                @OA\Property(property="gender", type="text"),
      *               @OA\Property(property="mobile_number", type="text"),
      *               @OA\Property(property="email", type="text"),
+     *                @OA\Property(property="date_of_birth", type="date"),
      *                @OA\Property(property="blood_group", type="text"),
      *                @OA\Property(property="nid_number", type="text"),
      *                @OA\Property(property="passport_number", type="text"),
@@ -189,8 +191,10 @@ class EmployeeController extends Controller
             // $addProfile->password = Hash::make($request->password) ??  Hash::make('1234');
             $addProfile->image = $request->image ?? '';
             $addProfile->name = $request->name ?? ''; //
+            $addProfile->gender = $request->gender ?? ''; //
             $addProfile->mobile_number = $request->mobileNumber ?? 0; //
             $addProfile->email = $request->email ?? ''; //
+            $addProfile->date_of_birth = $request->date_of_birth ?? ''; //
             $addProfile->blood_group = $request->blood_group ?? ''; //
             $addProfile->nid_number = $request->nid_number ?? 0; //
             $addProfile->passport_number = $request->passport_number ?? 0; //
@@ -259,9 +263,11 @@ class EmployeeController extends Controller
      *               @OA\Property(property="id", type="text"),
      *               @OA\Property(property="user_id", type="text"),
      *               @OA\Property(property="image", type="text"),
+     *                @OA\Property(property="gender", type="text"),
      *               @OA\Property(property="name", type="text"),
      *               @OA\Property(property="mobile_number", type="text"),
      *               @OA\Property(property="email", type="text"),
+     *                  @OA\Property(property="date_of_birth", type="date"),
      *                @OA\Property(property="blood_group", type="text"),
      *                @OA\Property(property="nid_number", type="text"),
      *                @OA\Property(property="passport_number", type="text"),
@@ -330,10 +336,12 @@ class EmployeeController extends Controller
             $updateArr = [
                 'image' => $image ?? $target->image,
                 'name' => $request->name,
+                'gender' => $request->gender,
                 'status' => $request->status,
                 'user_id' => $request->user_id,
                 'mobile_number' => $request->mobile_number ?? $target->mobile_number,
                 'email' => $request->email ?? $target->email,
+                'date_of_birth' => $request->date_of_birth ?? $target->date_of_birth,
                 'blood_group' => $request->blood_group ?? $target->blood_group,
                 'nid_number' => $request->nid_number ?? $target->nid_number,
                 'passport_number' => $request->passport_number ?? $target->passport_number,

@@ -9,7 +9,7 @@ class Acr extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'emp_id',
+        'employee_id',
         'emp_name',
         'designation',
         'department',
@@ -17,6 +17,9 @@ class Acr extends Model
         'acr_year',
         'score',
         'file',
+        'rack_number',
+        'bill_number',
+        'file_number',
         'remarks',
         'status',
     ];

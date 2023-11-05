@@ -305,7 +305,7 @@ class LeaveTypeController extends Controller
             $leaveTypeInfo =  LeaveType::find($id);
 
             if (!($leaveTypeInfo === null)) {
-                $leaveTypeInfo = LeaveType::where('id', '=', $id)->update(['status' => 0]);
+                $leaveTypeInfo = LeaveType::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Leave Type  Record Successfully",

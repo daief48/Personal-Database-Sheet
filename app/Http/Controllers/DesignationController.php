@@ -253,7 +253,7 @@ class DesignationController extends Controller
             $designationMgtInfo =  Designation::find($id);
 
             if (!($designationMgtInfo === null)) {
-                $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 0]);
+                $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Designation Mgt Successfully",

@@ -121,18 +121,23 @@ class AuthController extends Controller
                     ],
                     [
                         'title' => 'Transfer List',
-                        'slug' => '/transfer',
+                        'slug' => '/admin-transfer',
                         'icon' => 'fa fa-exchange nav-icon',
                     ],
                     [
                         'title' => 'Promotion',
-                        'slug' => '/promotion-list',
+                        'slug' => '/admin-promotion',
                         'icon' => 'fa fa-trophy nav-icon',
                     ],
                     [
                         'title' => 'Training List',
-                        'slug' => '/training-list',
+                        'slug' => '/admin-training',
                         'icon' => 'fa fa-file nav-icon',
+                    ],
+                    [
+                        'title' => 'Leave',
+                        'slug' => '/admin-leave',
+                        'icon' => 'fa fa-snowflake-o nav-icon',
                     ],
                     [
                         'title' => 'SMS Send',
@@ -141,7 +146,7 @@ class AuthController extends Controller
                     ],
                     [
                         'title' => 'Departments Setup',
-                        'slug' => '/department-setup',
+                        'slug' => '/admin-department',
                         'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
@@ -165,11 +170,7 @@ class AuthController extends Controller
                         'slug' => '/report',
                         'icon' => 'fa fa-file nav-icon',
                     ],
-                    [
-                        'title' => 'Leave',
-                        'slug' => '/leave',
-                        'icon' => 'fa fa-snowflake-o nav-icon',
-                    ],
+
                 ];
             }
             if ($user->role_id == 2) {

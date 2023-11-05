@@ -39,13 +39,15 @@ class PromotionController extends Controller
     {
         try {
 
+
             $getPromotion = Promotion::leftJoin('designations', 'promotions.promoted_designation', '=', 'designations.id')
+                ->leftJoin('employees', 'employees.id', '=', 'promotions.employee_id')
                 ->select(
                     'promotions.*',
                     'designations.designation_name',
+                    'employees.name as employee_name'
                 )
                 ->orderBy('id', 'desc')->get();
-            // leftJoin('designations', 'promotion.promoted_designation', '=', 'designations.id')->select('designations.designation_name as designation')
 
             return response()->json([
                 'status' => 'success',
@@ -311,7 +313,7 @@ class PromotionController extends Controller
             $promotionInfo =  Promotion::find($id);
 
             if (!($promotionInfo === null)) {
-                $promotionInfo = Promotion::where('id', '=', $id)->update(['status' => 0]);
+                $promotionInfo = Promotion::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Promotion  Record Successfully",
@@ -345,7 +347,12 @@ class PromotionController extends Controller
     public function specificUserPromotion(Request $request)
     {
         try {
-            $specificUserPromotion = Promotion::findOrFail($request->id);
+            $specificUserPromotion = Promotion::leftJoin('designations', 'promotions.promoted_designation', '=', 'designations.id')
+                ->select(
+                    'promotions.*',
+                    'designations.designation_name',
+                )
+                ->findOrFail($request->id);
             return response()->json([
                 'status' => 'success',
                 'data' => $specificUserPromotion,

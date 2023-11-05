@@ -289,7 +289,7 @@ class TransferTypeController extends Controller
             $transferTypeInfo =  TransferType::find($id);
 
             if (!($transferTypeInfo === null)) {
-                $transferTypeInfo = TransferType::where('id', '=', $id)->update(['status' => 0]);
+                $transferTypeInfo = TransferType::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Transfer Type  Record Successfully",
