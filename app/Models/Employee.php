@@ -15,6 +15,7 @@ class Employee extends Model
         'name',
         'mobile_number',
         'email',
+        'date_of_birth',
         'blood_group',
         'nid_number',
         'passport_number',

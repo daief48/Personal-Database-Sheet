@@ -96,7 +96,6 @@ class DepartmentController extends Controller
             $messages = [
                 // 'employee_id.required' => 'The employee_id field is required',
                 'designation_name.required' => 'The designation_name field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
 
             ];
@@ -109,7 +108,6 @@ class DepartmentController extends Controller
             $department = Department::create([
                 // 'employee_id' => $request->employee_id,
                 'dept_name' => $request->dept_name,
-                'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 
@@ -137,7 +135,6 @@ class DepartmentController extends Controller
      *              type="object",
      *               @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="dept_name", type="text", example="xyz"),
-     *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
      *      ),
@@ -160,7 +157,6 @@ class DepartmentController extends Controller
             $rules = [
                 'employee_id' => 'required',
                 'dept_name' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
 
             ];
@@ -168,7 +164,6 @@ class DepartmentController extends Controller
             $messages = [
                 'employee_id.required' => 'The employee_id field is required',
                 'designation_name.required' => 'The designation_name field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
 
             ];
@@ -181,7 +176,6 @@ class DepartmentController extends Controller
             $department = Department::findOrFail($id);
             $department->employee_id = $request->employee_id;
             $department->dept_name = $request->dept_name;
-            $department->create_at = $request->create_at;
             $department->status = $request->status;
             $department->save();
 

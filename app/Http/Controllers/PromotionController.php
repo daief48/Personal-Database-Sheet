@@ -39,14 +39,15 @@ class PromotionController extends Controller
     {
         try {
 
+
             $getPromotion = Promotion::leftJoin('designations', 'promotions.promoted_designation', '=', 'designations.id')
-            ->leftJoin('employees', 'employees.id', '=', 'promotions.employee_id')
+                ->leftJoin('employees', 'employees.id', '=', 'promotions.employee_id')
                 ->select(
                     'promotions.*',
-                    'designations.designation_name','employees.name as employee_name'
+                    'designations.designation_name',
+                    'employees.name as employee_name'
                 )
                 ->orderBy('id', 'desc')->get();
-            // leftJoin('designations', 'promotion.promoted_designation', '=', 'designations.id')->select('designations.designation_name as designation')
 
             return response()->json([
                 'status' => 'success',
@@ -347,12 +348,11 @@ class PromotionController extends Controller
     {
         try {
             $specificUserPromotion = Promotion::leftJoin('designations', 'promotions.promoted_designation', '=', 'designations.id')
-            ->select(
-                'promotions.*',
-                'designations.designation_name',
-            )
-            ->findOrFail($request->id);
-            
+                ->select(
+                    'promotions.*',
+                    'designations.designation_name',
+                )
+                ->findOrFail($request->id);
             return response()->json([
                 'status' => 'success',
                 'data' => $specificUserPromotion,

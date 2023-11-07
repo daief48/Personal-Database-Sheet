@@ -271,7 +271,7 @@ class TrainingSetupController extends Controller
             $trainingMgtInfo =  TrainingSetup::find($id);
 
             if (!($trainingMgtInfo === null)) {
-                $trainingMgtInfo = TrainingSetup::where('id', '=', $id)->update(['status' => 0]);
+                $trainingMgtInfo = TrainingSetup::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Training Mgt Record Successfully",
