@@ -65,9 +65,7 @@ class DepartmentController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *                @OA\Property(property="employee_id", type="integer"),
      *               @OA\Property(property="dept_name", type="text"),
-     *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
      *        ),
@@ -89,15 +87,14 @@ class DepartmentController extends Controller
     {
         try {
             $rules = [
-                'employee_id' => 'required',
+                // 'employee_id' => 'required',
                 'dept_name' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
                 'designation_name.required' => 'The designation_name field is required',
                 'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
@@ -110,7 +107,7 @@ class DepartmentController extends Controller
             }
 
             $department = Department::create([
-                'employee_id' => $request->employee_id,
+                // 'employee_id' => $request->employee_id,
                 'dept_name' => $request->dept_name,
                 'create_at' => $request->create_at,
                 'status' => $request->status,
@@ -290,7 +287,7 @@ class DepartmentController extends Controller
             $deptInfo =  Department::find($id);
 
             if (!($deptInfo === null)) {
-                $deptInfo = Department::where('id', '=', $id)->update(['status' => 0]);
+                $deptInfo = Department::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Department  Record Successfully",

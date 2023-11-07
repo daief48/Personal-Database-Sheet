@@ -126,6 +126,9 @@ class EmployeeController extends Controller
      *               @OA\Property(property="name", type="text"),
      *               @OA\Property(property="mobile_number", type="text"),
      *               @OA\Property(property="email", type="text"),
+     *                @OA\Property(property="blood_group", type="text"),
+     *                @OA\Property(property="nid_number", type="text"),
+     *                @OA\Property(property="passport_number", type="text"),
      *               @OA\Property(property="designation", type="text"),
      *               @OA\Property(property="present_addr_houseno", type="text"),
      *               @OA\Property(property="present_addr_roadno", type="text"),
@@ -188,6 +191,9 @@ class EmployeeController extends Controller
             $addProfile->name = $request->name ?? ''; //
             $addProfile->mobile_number = $request->mobileNumber ?? 0; //
             $addProfile->email = $request->email ?? ''; //
+            $addProfile->blood_group = $request->blood_group ?? ''; //
+            $addProfile->nid_number = $request->nid_number ?? 0; //
+            $addProfile->passport_number = $request->passport_number ?? 0; //
             $addProfile->designation = $request->designation;
             $addProfile->present_addr_houseno =  $request->present_addr_houseno ?? 0;
             $addProfile->present_addr_roadno = $request->present_addr_roadno ?? 0;
@@ -256,6 +262,9 @@ class EmployeeController extends Controller
      *               @OA\Property(property="name", type="text"),
      *               @OA\Property(property="mobile_number", type="text"),
      *               @OA\Property(property="email", type="text"),
+     *                @OA\Property(property="blood_group", type="text"),
+     *                @OA\Property(property="nid_number", type="text"),
+     *                @OA\Property(property="passport_number", type="text"),
      *               @OA\Property(property="designation", type="text"),
      *               @OA\Property(property="present_addr_houseno", type="text"),
      *               @OA\Property(property="present_addr_roadno", type="text"),
@@ -325,6 +334,9 @@ class EmployeeController extends Controller
                 'user_id' => $request->user_id,
                 'mobile_number' => $request->mobile_number ?? $target->mobile_number,
                 'email' => $request->email ?? $target->email,
+                'blood_group' => $request->blood_group ?? $target->blood_group,
+                'nid_number' => $request->nid_number ?? $target->nid_number,
+                'passport_number' => $request->passport_number ?? $target->passport_number,
                 'designation' => $request->designation ?? $target->designation,
                 'present_addr_houseno' => $request->present_addr_houseno ?? $target->present_addr_houseno,
                 'present_addr_roadno' => $request->present_addr_roadno ?? $target->present_addr_roadno,

@@ -492,13 +492,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer"
-                                    },
                                     "dept_name": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -747,39 +741,6 @@
                 }
             }
         },
-        "/pds-backend/api/specificUserDesignation/{id}": {
-            "get": {
-                "tags": [
-                    "PDS Designation Setup"
-                ],
-                "summary": "Get Specific User Promotion Record",
-                "description": "",
-                "operationId": "specificUserDesignation",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    }
-                }
-            }
-        },
         "/pds-backend/api/addDesignationMgt": {
             "post": {
                 "tags": [
@@ -794,13 +755,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer"
-                                    },
                                     "designation_name": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -1077,6 +1032,15 @@
                                     "email": {
                                         "type": "text"
                                     },
+                                    "blood_group": {
+                                        "type": "text"
+                                    },
+                                    "nid_number": {
+                                        "type": "text"
+                                    },
+                                    "passport_number": {
+                                        "type": "text"
+                                    },
                                     "designation": {
                                         "type": "text"
                                     },
@@ -1212,6 +1176,15 @@
                                         "type": "text"
                                     },
                                     "email": {
+                                        "type": "text"
+                                    },
+                                    "blood_group": {
+                                        "type": "text"
+                                    },
+                                    "nid_number": {
+                                        "type": "text"
+                                    },
+                                    "passport_number": {
                                         "type": "text"
                                     },
                                     "designation": {
@@ -1378,6 +1351,39 @@
                 "summary": "Leave Mgt List",
                 "description": "Total Leave Mgt List",
                 "operationId": "getLeaveMgt",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getLeaveByEmployeeId/{employee_id}": {
+            "get": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Leave Mgt List",
+                "description": "",
+                "operationId": "getLeaveByEmployeeId",
+                "parameters": [
+                    {
+                        "name": "employee_id",
+                        "in": "path",
+                        "description": "employee_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1738,16 +1744,10 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "text"
-                                    },
                                     "days": {
                                         "type": "text"
                                     },
                                     "leave_type": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -2010,14 +2010,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "office_name": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {

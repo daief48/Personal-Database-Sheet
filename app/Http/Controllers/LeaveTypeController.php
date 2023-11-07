@@ -51,6 +51,8 @@ class LeaveTypeController extends Controller
         }
     }
 
+
+
     /**
      * @OA\Post(
      * tags={"PDS Leave Type Setup"},
@@ -65,10 +67,8 @@ class LeaveTypeController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *               @OA\Property(property="employee_id", type="text"),
      *                @OA\Property(property="days", type="text"),
      *                @OA\Property(property="leave_type", type="text"),
-     *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
      *        ),
@@ -91,21 +91,16 @@ class LeaveTypeController extends Controller
         try {
 
             $rules = [
-
-                'employee_id' => 'required',
                 'leave_type' => 'required',
                 'days' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
 
-                'employee_id.required' => 'The employee_id field is required',
                 'leave_type.required' => 'The leave_type field is required',
                 'days.required' => 'The days field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
             ];
@@ -117,10 +112,8 @@ class LeaveTypeController extends Controller
             }
 
             $leaveType = LeaveType::create([
-                'employee_id' => $request->employee_id,
                 'leave_type' => $request->leave_type,
                 'days' => $request->days,
-                'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 
@@ -303,7 +296,7 @@ class LeaveTypeController extends Controller
             $leaveTypeInfo =  LeaveType::find($id);
 
             if (!($leaveTypeInfo === null)) {
-                $leaveTypeInfo = LeaveType::where('id', '=', $id)->update(['status' => 0]);
+                $leaveTypeInfo = LeaveType::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Leave Type  Record Successfully",

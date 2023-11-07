@@ -123,7 +123,7 @@ Route::get('/specificOfficeSetup/{id}', [OfficeController::class, 'specificOffic
 //Designation Setup v1
 
 Route::get('/getDesignationMgt', [DesignationController::class, 'getDesignationMgt']);
-Route::get('/specificUserDesignation/{id}', [DesignationController::class, 'specificUserDesignation']);
+
 Route::post('/addDesignationMgt', [DesignationController::class, 'addDesignationMgt']);
 Route::put('/updateDesignationMgt/{id}', [DesignationController::class, 'updateDesignationMgt']);
 Route::delete('/deleteDesignationMgt/{id}', [DesignationController::class, 'deleteDesignationMgt']);
@@ -140,6 +140,8 @@ Route::delete('/deleteLeaveMgt/{id}', [LeaveController::class, 'deleteLeaveMgt']
 Route::patch('/activeLeaveMgtRecord/{id}', [LeaveController::class, 'activeLeaveMgtRecord']);
 Route::patch('/inactiveLeaveMgtRecord/{id}', [LeaveController::class, 'inactiveLeaveMgtRecord']);
 Route::get('/specificUserLeaveRecordByEmployeeId/{employee_id}', [LeaveController::class, 'specificUserLeaveRecordByEmployeeId']);
+Route::get('/specificUserLeave/{id}', [LeaveController::class, 'specificUserLeave']);
+Route::get('/getLeaveByEmployeeId/{employee_id}', [LeaveController::class, 'getLeaveByEmployeeId']);
 
 //Leave Type Setup v1
 

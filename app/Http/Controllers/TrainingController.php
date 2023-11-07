@@ -39,7 +39,10 @@ class TrainingController extends Controller
     {
         try {
 
-            $getTrainingList = Training::orderBy('id', 'desc')->get();
+            $getTrainingList = Training::leftJoin('employees', 'employees.id', '=', 'trainings.employee_id')
+            ->orderBy('id', 'desc')->select(
+                'trainings.*','employees.name as employee_name'
+            )->get();
             return response()->json([
                 'status' => 'success',
                 'list' => $getTrainingList,
@@ -321,7 +324,7 @@ class TrainingController extends Controller
             $trainingInfo =  Training::find($id);
 
             if (!($trainingInfo === null)) {
-                $trainingInfo = Training::where('id', '=', $id)->update(['status' => 0]);
+                $trainingInfo = Training::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Training Record Successfully",

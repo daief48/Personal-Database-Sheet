@@ -121,18 +121,23 @@ class AuthController extends Controller
                     ],
                     [
                         'title' => 'Transfer List',
-                        'slug' => '/transfer',
+                        'slug' => '/admin-transfer',
                         'icon' => 'fa fa-exchange nav-icon',
                     ],
                     [
                         'title' => 'Promotion',
-                        'slug' => '/promotion-list',
+                        'slug' => '/admin-promotion',
                         'icon' => 'fa fa-trophy nav-icon',
                     ],
                     [
                         'title' => 'Training List',
-                        'slug' => '/training-list',
+                        'slug' => '/admin-training',
                         'icon' => 'fa fa-file nav-icon',
+                    ],
+                    [
+                        'title' => 'Leave',
+                        'slug' => '/admin-leave',
+                        'icon' => 'fa fa-snowflake-o nav-icon',
                     ],
                     [
                         'title' => 'SMS Send',
@@ -141,7 +146,7 @@ class AuthController extends Controller
                     ],
                     [
                         'title' => 'Departments Setup',
-                        'slug' => '/department-setup',
+                        'slug' => '/admin-department',
                         'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
@@ -150,11 +155,20 @@ class AuthController extends Controller
                         'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
-                        'title' => 'Office Setup',
-                        'slug' => '/office-setup',
+                        'title' => 'Designation Setup',
+                        'slug' => '/admin-designation',
                         'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
-
+                    [
+                        'title' => 'Office Setup',
+                        'slug' => '/admin-office',
+                        'icon' => 'fa fa-graduation-cap nav-icon',
+                    ],
+                    [
+                        'title' => 'Leave Type Setup',
+                        'slug' => '/admin-leave-type',
+                        'icon' => 'fa fa-graduation-cap nav-icon',
+                    ],
                     [
                         'title' => 'ACR',
                         'slug' => '/acr',
@@ -165,11 +179,7 @@ class AuthController extends Controller
                         'slug' => '/report',
                         'icon' => 'fa fa-file nav-icon',
                     ],
-                    [
-                        'title' => 'Leave',
-                        'slug' => '/leave',
-                        'icon' => 'fa fa-snowflake-o nav-icon',
-                    ],
+                   
                 ];
             }
             if ($user->role_id == 2) {
@@ -318,7 +328,6 @@ class AuthController extends Controller
                 $otp = rand(123456, 999999);
                 $user = User::create([
                     'name' => $request->name,
-                    'email' => $request->email,
                     'phone' => $request->phone,
                     'status' => 0,
                     'role_id' => 2,

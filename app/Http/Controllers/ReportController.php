@@ -73,6 +73,17 @@ class ReportController extends Controller
     public function getLongReport(Request $request)
     {
         try {
+            $getProfile = Employee::leftJoin('departments', 'departments.id', '=', 'employees.department')
+                ->leftJoin('designations', 'designations.id', '=', 'employees.designation')
+                ->select(
+                    'employees.*',
+                    'designations.id as designation_id',
+                    'designations.designation_name as designation',
+                    'departments.id as department_id',
+                    'departments.dept_name as department'
+                )
+                ->where('employees.id', $request->employee_id)->first();
+
             $getTransferList = Transfer::leftJoin('transfer_types', 'transfers.transfer_type', '=', 'transfer_types.id')
                 ->leftJoin('designations as to_designation', 'transfers.to_designation', '=', 'to_designation.id')
                 ->leftJoin('designations as from_designation', 'transfers.from_designation', '=', 'from_designation.id')
@@ -99,6 +110,7 @@ class ReportController extends Controller
             return response()->json([
                 'status' => 'success',
                 'transferData' => $getTransferList,
+                'profileData' => $getProfile,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

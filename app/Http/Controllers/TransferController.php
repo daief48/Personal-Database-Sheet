@@ -184,7 +184,7 @@ class TransferController extends Controller
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
                 'transfer_letter' => $request->transfer_letter,
-                'status' => $request->status,
+                'status' => 0,
             ]);
             return $this->responseRepository->ResponseSuccess($addTransfer, 'Transfer Record Added Successfully !');
         } catch (\Exception $e) {
@@ -389,7 +389,7 @@ class TransferController extends Controller
             $transferInfo =  Transfer::find($id);
 
             if (!($transferInfo === null)) {
-                $transferInfo = Transfer::where('id', '=', $id)->update(['status' => 0]);
+                $transferInfo = Transfer::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Transfer Record In-actived Successfully",

@@ -51,38 +51,8 @@ class DesignationController extends Controller
         }
     }
 
-      /**
-     * @OA\Get(
-     * tags={"PDS Designation Setup"},
-     * path="/pds-backend/api/specificUserDesignation/{id}",
-     * operationId="specificUserDesignation",
-     * summary="Get Specific User Promotion Record",
-     * description="",
-     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
-     * @OA\Response(response=200, description="Success" ),
-     * @OA\Response(response=400, description="Bad Request"),
-     * @OA\Response(response=404, description="Resource Not Found"),
-     * ),
-     * security={{"bearer_token":{}}}
-     */
 
-     public function specificUserDesignation(Request $request)
-     {
-         try {
-             $specificUserDesignation = Designation::findOrFail($request->id);
-             return response()->json([
-                 'status' => 'success',
-                 'data' => $specificUserDesignation,
-             ], 200);
-         } catch (\Exception $e) {
-             return response()->json([
-                 'status' => 'error',
-                 'message' => $e->getMessage(),
-             ], 401);
-         }
-     }
- 
- 
+
 
     /**
      * @OA\Post(
@@ -98,9 +68,7 @@ class DesignationController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *               @OA\Property(property="employee_id", type="integer"),
      *               @OA\Property(property="designation_name", type="text"),
-     *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
      *        ),
@@ -121,17 +89,13 @@ class DesignationController extends Controller
         try {
 
             $rules = [
-                'employee_id' => 'required',
                 'designation_name' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
                 'designation_name.required' => 'The designation_name field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
 
             ];
@@ -142,9 +106,7 @@ class DesignationController extends Controller
             }
 
             $designationInfo = Designation::create([
-                'employee_id' => $request->employee_id,
                 'designation_name' => $request->designation_name,
-                'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 
@@ -283,7 +245,7 @@ class DesignationController extends Controller
             $designationMgtInfo =  Designation::find($id);
 
             if (!($designationMgtInfo === null)) {
-                $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 0]);
+                $designationMgtInfo = Designation::where('id', '=', $id)->update(['status' => 2]);
                 return response()->json([
                     'status'  => true,
                     'message' => "Inactived Designation Mgt Successfully",
