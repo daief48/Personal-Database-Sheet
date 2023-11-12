@@ -145,30 +145,38 @@ class AuthController extends Controller
                         'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
-                        'title' => 'Departments Setup',
-                        'slug' => '/admin-department',
-                        'icon' => 'fa fa-graduation-cap nav-icon',
+                        'title' => 'Settings',
+                        'icon' => 'fa fa-solid fa-gear',
+                        'setting'=>true,
+                        'slug' => [
+                            [
+                                'title' => 'Departments Setup',
+                                'slug' => '/admin-department',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Training Setup',
+                                'slug' => '/training-setup',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Designation Setup',
+                                'slug' => '/admin-designation',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Office Setup',
+                                'slug' => '/admin-office',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Leave Type Setup',
+                                'slug' => '/admin-leave-type',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                        ],
                     ],
-                    [
-                        'title' => 'Training Setup',
-                        'slug' => '/training-setup',
-                        'icon' => 'fa fa-graduation-cap nav-icon',
-                    ],
-                    [
-                        'title' => 'Designation Setup',
-                        'slug' => '/admin-designation',
-                        'icon' => 'fa fa-graduation-cap nav-icon',
-                    ],
-                    [
-                        'title' => 'Office Setup',
-                        'slug' => '/admin-office',
-                        'icon' => 'fa fa-graduation-cap nav-icon',
-                    ],
-                    [
-                        'title' => 'Leave Type Setup',
-                        'slug' => '/admin-leave-type',
-                        'icon' => 'fa fa-graduation-cap nav-icon',
-                    ],
+                    
                     [
                         'title' => 'ACR',
                         'slug' => '/acr',
@@ -328,6 +336,7 @@ class AuthController extends Controller
                 $otp = rand(123456, 999999);
                 $user = User::create([
                     'name' => $request->name,
+                    'email' => $request->email,
                     'phone' => $request->phone,
                     'status' => 0,
                     'role_id' => 2,

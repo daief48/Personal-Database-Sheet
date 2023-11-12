@@ -68,7 +68,9 @@ class DesignationController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
+     *               @OA\Property(property="employee_id", type="integer"),
      *               @OA\Property(property="designation_name", type="text"),
+     *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
      *        ),
@@ -89,13 +91,17 @@ class DesignationController extends Controller
         try {
 
             $rules = [
+                'employee_id' => 'required',
                 'designation_name' => 'required',
+                'create_at' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
+                'employee_id.required' => 'The employee_id field is required',
                 'designation_name.required' => 'The designation_name field is required',
+                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
 
             ];
@@ -106,7 +112,9 @@ class DesignationController extends Controller
             }
 
             $designationInfo = Designation::create([
+                'employee_id' => $request->employee_id,
                 'designation_name' => $request->designation_name,
+                'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 

@@ -307,6 +307,39 @@
                 }
             }
         },
+        "/pds-backend/api/deleteAcrInfo/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Annual Confidential Report Management(ACR)"
+                ],
+                "summary": "Delete Transfer Record",
+                "description": "Delete  Transfer Record With Valid ID",
+                "operationId": "deleteAcrInfo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Album"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/auth/login": {
             "post": {
                 "tags": [
@@ -853,6 +886,9 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer"
+                                    },
                                     "dept_name": {
                                         "type": "text"
                                     },
@@ -916,10 +952,6 @@
                                     "dept_name": {
                                         "type": "text",
                                         "example": "xyz"
-                                    },
-                                    "create_at": {
-                                        "type": "text",
-                                        "example": "2023-03-23"
                                     },
                                     "status": {
                                         "type": "text",
@@ -1116,7 +1148,13 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer"
+                                    },
                                     "designation_name": {
+                                        "type": "text"
+                                    },
+                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -1301,6 +1339,27 @@
                 "responses": {
                     "200": {
                         "description": "Successfully, Active Designation Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/employeeList": {
+            "get": {
+                "tags": [
+                    "Dropdown Management"
+                ],
+                "summary": "Employee List",
+                "description": "Employee List",
+                "operationId": "employeeList",
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -1762,6 +1821,9 @@
                                     "fighting_divi": {
                                         "type": "text"
                                     },
+                                    "Sector": {
+                                        "type": "text"
+                                    },
                                     "status": {
                                         "type": "text"
                                     }
@@ -1829,6 +1891,11 @@
                                         "format": "date",
                                         "example": "dhaka"
                                     },
+                                    "Sector": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "dhaka"
+                                    },
                                     "status": {
                                         "type": "text",
                                         "example": 0
@@ -1860,7 +1927,7 @@
         "/pds-backend/api/deleteFreedomFighter/{id}": {
             "delete": {
                 "tags": [
-                    "PDS User Transfer"
+                    "PDS Freedom Fighter list"
                 ],
                 "summary": "Delete Transfer Record",
                 "description": "Delete  Transfer Record With Valid ID",
@@ -1976,42 +2043,6 @@
                 }
             }
         },
-<<<<<<< HEAD
-        "/pds-backend/api/specificUserLeave/{id}": {
-            "get": {
-                "tags": [
-                    "PDS Leave Management"
-                ],
-                "summary": "Get Specific User Promotion Record",
-                "description": "",
-                "operationId": "specificUserLeave",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    }
-                }
-            }
-        },
-=======
->>>>>>> origin/didar
         "/pds-backend/api/addLeaveMgt": {
             "post": {
                 "tags": [
@@ -2291,6 +2322,39 @@
                 ]
             }
         },
+        "/pds-backend/api/specificUserLeave/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Leave Management"
+                ],
+                "summary": "Get Specific User Promotion Record",
+                "description": "",
+                "operationId": "specificUserLeave",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/getLeaveType": {
             "get": {
                 "tags": [
@@ -2557,6 +2621,97 @@
                 }
             }
         },
+        "/pds-backend/api/sendMessage": {
+            "post": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "Send New Message",
+                "description": "Send New Message",
+                "operationId": "sendMessage",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "subject": {
+                                        "type": "text"
+                                    },
+                                    "phone": {
+                                        "type": "integer"
+                                    },
+                                    "designation": {
+                                        "type": "text"
+                                    },
+                                    "office": {
+                                        "type": "text"
+                                    },
+                                    "from": {
+                                        "type": "text"
+                                    },
+                                    "message": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Department Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getMessageInfoById/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "Get Id Card",
+                "operationId": "getMessageInfoById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/getOfficeMgt": {
             "get": {
                 "tags": [
@@ -2592,7 +2747,14 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
+                                    "employee_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "office_name": {
+                                        "type": "text"
+                                    },
+                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {

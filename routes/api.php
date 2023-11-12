@@ -19,10 +19,14 @@ use App\Http\Controllers\AcrController;
 use App\Http\Controllers\BloodGroupController;
 use App\Http\Controllers\FreedomFighterController;
 use App\Http\Controllers\IdCardController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SeniorEmployeeController;
+use App\Http\Controllers\SmsController;
 use App\Http\Controllers\TransferTypeController;
+use App\Http\Controllers\DropdownController;
+use Symfony\Component\Mime\MessageConverter;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('auth/login', 'login');
@@ -31,6 +35,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('auth/refresh', 'refresh');
     Route::post('auth/otpVerify', 'otpVerify');
 });
+
+
+
+Route::get('employeeList', [DropdownController::class, 'employeeList']);
 
 
 Route::group(['prefix' => ''], function () {
@@ -138,7 +146,7 @@ Route::patch('/inactiveDesignationMgtRecord/{id}', [DesignationController::class
 //Leave management v1
 
 Route::get('/getLeaveMgt', [LeaveController::class, 'getLeaveMgt']);
-Route::get('/specificUserLeave/{id}', [LeaveController::class, 'specificUserLeave']);
+Route::get('/getLeaveByEmployeeId/{employee_id}', [LeaveController::class, 'getLeaveByEmployeeId']);
 Route::post('/addLeaveMgt', [LeaveController::class, 'addLeaveMgt']);
 Route::post('/updateLeaveMgt/{id}', [LeaveController::class, 'updateLeaveMgt']);
 Route::delete('/deleteLeaveMgt/{id}', [LeaveController::class, 'deleteLeaveMgt']);
@@ -146,7 +154,6 @@ Route::patch('/activeLeaveMgtRecord/{id}', [LeaveController::class, 'activeLeave
 Route::patch('/inactiveLeaveMgtRecord/{id}', [LeaveController::class, 'inactiveLeaveMgtRecord']);
 Route::get('/specificUserLeaveRecordByEmployeeId/{employee_id}', [LeaveController::class, 'specificUserLeaveRecordByEmployeeId']);
 Route::get('/specificUserLeave/{id}', [LeaveController::class, 'specificUserLeave']);
-Route::get('/getLeaveByEmployeeId/{employee_id}', [LeaveController::class, 'getLeaveByEmployeeId']);
 
 //Leave Type Setup v1
 
@@ -166,6 +173,7 @@ Route::put('/updateAcrMgt/{id}', [AcrController::class, 'updateAcrMgt']);
 Route::get('/specificAcrInfo/{id}', [AcrController::class, 'specificAcrInfo']);
 Route::get('/getprofileForAcr/{id}', [AcrController::class, 'getprofileForAcr']);
 Route::get('/getAcrListByEmployeeId/{id}', [AcrController::class, 'getAcrListByEmployeeId']);
+Route::delete('/deleteAcrInfo/{id}', [AcrController::class, 'deleteAcrInfo']);
 
 
 // Mail Controller
@@ -214,3 +222,8 @@ Route::get('/getFreedomFighter', [FreedomFighterController::class, 'getFreedomFi
 Route::post('/addFreedomFighter', [FreedomFighterController::class, 'addFreedomFighter']);
 Route::put('/updateFreedomFighter/{id}', [FreedomFighterController::class, 'updateFreedomFighter']);
 Route::delete('/deleteFreedomFighter/{id}', [FreedomFighterController::class, 'deleteFreedomFighter']);
+
+// Message 
+
+Route::post('/sendMessage', [MessageController::class, 'sendMessage']);
+Route::get('/getMessageInfoById/{id}', [MessageController::class, 'getMessageInfoById']);

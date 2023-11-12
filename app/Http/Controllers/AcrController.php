@@ -328,4 +328,36 @@ class AcrController extends Controller
             ], 401);
         }
     }
+
+    /**
+     * @OA\Delete(
+     *     tags={"PDS Annual Confidential Report Management(ACR)"},
+     *     path="/pds-backend/api/deleteAcrInfo/{id}",
+     *     summary="Delete Transfer Record",
+     *     description="Delete  Transfer Record With Valid ID",
+     *     operationId="deleteAcrInfo",
+     *     @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response( response=200, description="Successfully, Delete Album" ),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
+
+    public function deleteAcrInfo($id)
+    {
+        try {
+            $AcrInfo =  Acr::findOrFail($id);
+            $AcrInfo->delete();
+
+            return response()->json([
+                'status'  => true,
+                'message' => "Transfer Record deleted successfully",
+                'errors'  => null,
+                'data'    => $AcrInfo,
+            ], 200);
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

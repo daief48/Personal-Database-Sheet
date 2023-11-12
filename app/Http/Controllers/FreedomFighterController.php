@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Acr;
-use App\Models\Employee;
 use App\Models\FreedomFighter;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
@@ -79,6 +77,7 @@ class FreedomFighterController extends Controller
      *               @OA\Property(property="employee_id", type="text"),
      *               @OA\Property(property="freedom_fighter_num", type="text"),
      *               @OA\Property(property="fighting_divi", type="text"),
+     *                @OA\Property(property="Sector", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
      *        ),
@@ -101,6 +100,7 @@ class FreedomFighterController extends Controller
             $addFreedomFighter = FreedomFighter::create([
                 'employee_id' => $request->employee_id,
                 'freedom_fighter_num' => $request->freedom_fighter_num,
+                'Sector' => $request->Sector,
                 'fighting_divi' => $request->fighting_divi,
                 'status' => $request->status,
             ]);
@@ -129,6 +129,7 @@ class FreedomFighterController extends Controller
      *              @OA\Property(property="employee_id", type="text", example="2"),
      *              @OA\Property(property="freedom_fighter_num", type="date", example="1241434"),
      *              @OA\Property(property="fighting_divi", type="date", example="dhaka"),
+     *               @OA\Property(property="Sector", type="date", example="dhaka"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
      *      ),
@@ -152,6 +153,7 @@ class FreedomFighterController extends Controller
             $acrInfo->employee_id = $request->employee_id;
             $acrInfo->freedom_fighter_num = $request->freedom_fighter_num;
             $acrInfo->fighting_divi = $request->fighting_divi;
+            $acrInfo->Sector = $request->Sector;
             $acrInfo->status = $request->status;
             $acrInfo->save();
 
@@ -168,8 +170,8 @@ class FreedomFighterController extends Controller
 
     /**
      * @OA\Delete(
+     *      tags={"PDS Freedom Fighter list"},
      *     path="/pds-backend/api/deleteFreedomFighter/{id}",
-     *     tags={"PDS User Transfer"},
      *     summary="Delete Transfer Record",
      *     description="Delete  Transfer Record With Valid ID",
      *     operationId="deleteFreedomFighter",

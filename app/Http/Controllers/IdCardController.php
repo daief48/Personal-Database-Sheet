@@ -37,6 +37,7 @@ class IdCardController extends Controller
 
             $getIdCard = Employee::leftJoin('designations', 'designations.id', '=', 'employees.designation')
                 ->leftJoin('departments', 'departments.id', '=', 'employees.department')
+                ->leftJoin('offices', 'offices.id', '=', 'employees.id')
                 ->select(
 
                     'employees.name',
@@ -44,6 +45,7 @@ class IdCardController extends Controller
                     'departments.dept_name as department',
                     'designations.designation_name as designation',
                     'employees.gender',
+                    'offices.office_name'
 
                 )
                 ->where('employees.id', $id)->first();

@@ -65,6 +65,7 @@ class DepartmentController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
+     *                @OA\Property(property="employee_id", type="integer"),
      *               @OA\Property(property="dept_name", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
@@ -87,14 +88,14 @@ class DepartmentController extends Controller
     {
         try {
             $rules = [
-                // 'employee_id' => 'required',
+                'employee_id' => 'required',
                 'dept_name' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
-                // 'employee_id.required' => 'The employee_id field is required',
+                'employee_id.required' => 'The employee_id field is required',
                 'designation_name.required' => 'The designation_name field is required',
                 'status.required' => 'The status field is required',
 
@@ -106,7 +107,7 @@ class DepartmentController extends Controller
             }
 
             $department = Department::create([
-                // 'employee_id' => $request->employee_id,
+                'employee_id' => $request->employee_id,
                 'dept_name' => $request->dept_name,
                 'status' => $request->status,
             ]);

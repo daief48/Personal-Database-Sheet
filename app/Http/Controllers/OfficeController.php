@@ -65,7 +65,9 @@ class OfficeController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
+     *                @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="office_name", type="text"),
+     *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
      *        ),
@@ -86,18 +88,18 @@ class OfficeController extends Controller
         try {
             $rules = [
 
-                // 'employee_id' => 'required',
+                'employee_id' => 'required',
                 'office_name' => 'required',
-                // 'create_at' => 'required',
+                'create_at' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
 
-                // 'employee_id.required' => 'The employee_id field is required',
+                'employee_id.required' => 'The employee_id field is required',
                 'office_name.required' => 'The office_name field is required',
-                // 'create_at.required' => 'The create_at field is required',
+                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
             ];
@@ -109,9 +111,9 @@ class OfficeController extends Controller
             }
 
             $OfficeInfo = Office::create([
-                // 'employee_id' => $request->employee_id,
+                'employee_id' => $request->employee_id,
                 'office_name' => $request->office_name,
-                // 'create_at' => $request->create_at,
+                'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 

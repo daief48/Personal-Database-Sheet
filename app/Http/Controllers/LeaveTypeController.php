@@ -91,16 +91,21 @@ class LeaveTypeController extends Controller
         try {
 
             $rules = [
+
+                // 'employee_id' => 'required',
                 'leave_type' => 'required',
                 'days' => 'required',
+                // 'create_at' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
 
+                // 'employee_id.required' => 'The employee_id field is required',
                 'leave_type.required' => 'The leave_type field is required',
                 'days.required' => 'The days field is required',
+                // 'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
             ];
@@ -112,8 +117,10 @@ class LeaveTypeController extends Controller
             }
 
             $leaveType = LeaveType::create([
+                // 'employee_id' => $request->employee_id,
                 'leave_type' => $request->leave_type,
                 'days' => $request->days,
+                // 'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 
