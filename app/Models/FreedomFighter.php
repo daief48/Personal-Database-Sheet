@@ -13,6 +13,7 @@ class FreedomFighter extends Model
         'employee_id',
         'freedom_fighter_num',
         'fighting_divi',
+        'Sector',
         'status'
     ];
 }

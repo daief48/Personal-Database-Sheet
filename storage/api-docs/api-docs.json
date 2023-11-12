@@ -307,6 +307,39 @@
                 }
             }
         },
+        "/pds-backend/api/deleteAcrInfo/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Annual Confidential Report Management(ACR)"
+                ],
+                "summary": "Delete Transfer Record",
+                "description": "Delete  Transfer Record With Valid ID",
+                "operationId": "deleteAcrInfo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Album"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/auth/login": {
             "post": {
                 "tags": [
@@ -562,44 +595,6 @@
                         "description": "Resource Not Found"
                     }
                 }
-            }
-        },
-        "/pds-backend/api/getBloodGroupByEmployeeId/{employee_id}": {
-            "get": {
-                "tags": [
-                    "PDS User BloodGroup"
-                ],
-                "summary": "BloodGroup List",
-                "description": "Total BloodGroup List",
-                "operationId": "getBloodGroupByEmployeeId",
-                "parameters": [
-                    {
-                        "name": "employee_id",
-                        "in": "path",
-                        "description": "Employee ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer_token": []
-                    }
-                ]
             }
         },
         "/pds-backend/api/addBloodGroup": {
@@ -859,9 +854,6 @@
                                     "dept_name": {
                                         "type": "text"
                                     },
-                                    "create_at": {
-                                        "type": "text"
-                                    },
                                     "status": {
                                         "type": "text"
                                     }
@@ -922,10 +914,6 @@
                                     "dept_name": {
                                         "type": "text",
                                         "example": "xyz"
-                                    },
-                                    "create_at": {
-                                        "type": "text",
-                                        "example": "2023-03-23"
                                     },
                                     "status": {
                                         "type": "text",
@@ -1424,6 +1412,9 @@
                                     "designation": {
                                         "type": "text"
                                     },
+                                    "office": {
+                                        "type": "text"
+                                    },
                                     "present_addr_houseno": {
                                         "type": "text"
                                     },
@@ -1577,6 +1568,9 @@
                                     "designation": {
                                         "type": "text"
                                     },
+                                    "office": {
+                                        "type": "text"
+                                    },
                                     "present_addr_houseno": {
                                         "type": "text"
                                     },
@@ -1679,7 +1673,7 @@
                 }
             }
         },
-        "/pds-backend/api/user/deleteEmployee/{empid}/{userid}": {
+        "/pds-backend/api/user/deleteEmployee/{userid}": {
             "post": {
                 "tags": [
                     "PDS User Employee [Users]"
@@ -1688,15 +1682,6 @@
                 "description": "Delete both the User and Employee records associated with the given IDs.",
                 "operationId": "deleteEmployee",
                 "parameters": [
-                    {
-                        "name": "empid",
-                        "in": "path",
-                        "description": "Employee ID to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
                     {
                         "name": "userid",
                         "in": "path",
@@ -1774,6 +1759,9 @@
                                     "fighting_divi": {
                                         "type": "text"
                                     },
+                                    "Sector": {
+                                        "type": "text"
+                                    },
                                     "status": {
                                         "type": "text"
                                     }
@@ -1841,6 +1829,11 @@
                                         "format": "date",
                                         "example": "dhaka"
                                     },
+                                    "Sector": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "dhaka"
+                                    },
                                     "status": {
                                         "type": "text",
                                         "example": 0
@@ -1872,7 +1865,7 @@
         "/pds-backend/api/deleteFreedomFighter/{id}": {
             "delete": {
                 "tags": [
-                    "PDS User Transfer"
+                    "PDS Freedom Fighter list"
                 ],
                 "summary": "Delete Transfer Record",
                 "description": "Delete  Transfer Record With Valid ID",
@@ -2335,16 +2328,10 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "text"
-                                    },
                                     "days": {
                                         "type": "text"
                                     },
                                     "leave_type": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -2547,6 +2534,97 @@
                 "summary": "Specific Leave Type Info",
                 "description": "Specific Leave Type Info",
                 "operationId": "specificLeaveType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/sendMessage": {
+            "post": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "Send New Message",
+                "description": "Send New Message",
+                "operationId": "sendMessage",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "subject": {
+                                        "type": "text"
+                                    },
+                                    "phone": {
+                                        "type": "integer"
+                                    },
+                                    "designation": {
+                                        "type": "text"
+                                    },
+                                    "office": {
+                                        "type": "text"
+                                    },
+                                    "from": {
+                                        "type": "text"
+                                    },
+                                    "message": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Department Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getMessageInfoById/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "Get Id Card",
+                "operationId": "getMessageInfoById",
                 "parameters": [
                     {
                         "name": "id",

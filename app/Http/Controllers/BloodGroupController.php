@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BloodGroup;
+use App\Models\Employee;
 use Illuminate\Http\Response;
 use Validator;
 use App\Repositories\ResponseRepository;
+use Illuminate\Support\Facades\Auth;
 
 class BloodGroupController extends Controller
 {
@@ -45,7 +47,15 @@ class BloodGroupController extends Controller
                     'employees.name',
                     'employees.mobile_number',
 
-                )->orderBy('id', 'desc')->get();
+                );
+
+            $userRole = Auth::user()->role_id;
+            if ($userRole == 1) {
+                $getBloodGroup = $getBloodGroup->get();
+            } else {
+                $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
+                $getBloodGroup = $getBloodGroup->where('transfers.employee_id', $employeeInfo->id)->get();
+            }
 
             return response()->json([
                 'status' => 'success',
@@ -59,48 +69,48 @@ class BloodGroupController extends Controller
         }
     }
 
-    /**
-     * @OA\Get(
-     * tags={"PDS User BloodGroup"},
-     * path= "/pds-backend/api/getBloodGroupByEmployeeId/{employee_id}",
-     * operationId="getBloodGroupByEmployeeId",
-     * summary="BloodGroup List",
-     * description="Total BloodGroup List",
-     *  @OA\Parameter(
-     *         name="employee_id", description="Employee ID",  example=1, required=true,in="path",@OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(response=200, description="Success"),
-     *     @OA\Response(response=400, description="Bad Request"),
-     *     @OA\Response(response=404, description="Not Found"),
-     *     security={{"bearer_token": {}}}
-     * )
-     */
+    // /**
+    //  * @OA\Get(
+    //  * tags={"PDS User BloodGroup"},
+    //  * path= "/pds-backend/api/getBloodGroupByEmployeeId/{employee_id}",
+    //  * operationId="getBloodGroupByEmployeeId",
+    //  * summary="BloodGroup List",
+    //  * description="Total BloodGroup List",
+    //  *  @OA\Parameter(
+    //  *         name="employee_id", description="Employee ID",  example=1, required=true,in="path",@OA\Schema(type="integer")
+    //  *     ),
+    //  *     @OA\Response(response=200, description="Success"),
+    //  *     @OA\Response(response=400, description="Bad Request"),
+    //  *     @OA\Response(response=404, description="Not Found"),
+    //  *     security={{"bearer_token": {}}}
+    //  * )
+    //  */
 
-    public function getBloodGroupByEmployeeId(Request $request)
-    {
-        try {
+    // public function getBloodGroupByEmployeeId(Request $request)
+    // {
+    //     try {
 
-            $getBloodGroup = BloodGroup::leftJoin('employees', 'employees.id', '=', 'blood_groups.employee_id')
-                ->select(
-                    'blood_groups.*',
-                    'employees.id as emp_id',
-                    'employees.name',
-                    'employees.mobile_number',
+    //         $getBloodGroup = BloodGroup::leftJoin('employees', 'employees.id', '=', 'blood_groups.employee_id')
+    //             ->select(
+    //                 'blood_groups.*',
+    //                 'employees.id as emp_id',
+    //                 'employees.name',
+    //                 'employees.mobile_number',
 
-                )->where('blood_groups.employee_id', $request->employee_id)
-                ->orderBy('id', 'desc')->get();
+    //             )->where('blood_groups.employee_id', $request->employee_id)
+    //             ->orderBy('id', 'desc')->get();
 
-            return response()->json([
-                'status' => 'success',
-                'list' => $getBloodGroup,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 401);
-        }
-    }
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'list' => $getBloodGroup,
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => $e->getMessage(),
+    //         ], 401);
+    //     }
+    // }
 
 
     /**

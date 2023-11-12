@@ -9,6 +9,7 @@ use App\Repositories\ResponseRepository;
 use Validator;
 use Illuminate\Http\Response;
 use File;
+use App\Models\Employee;
 
 
 class TransferController extends Controller
@@ -38,6 +39,9 @@ class TransferController extends Controller
     public function getTransferList()
     {
         try {
+
+
+
             $getTransferList = Transfer::leftJoin('transfer_types', 'transfers.transfer_type', '=', 'transfer_types.id')
                 ->leftJoin('designations as to_designation', 'transfers.to_designation', '=', 'to_designation.id')
                 ->leftJoin('designations as from_designation', 'transfers.from_designation', '=', 'from_designation.id')
@@ -64,8 +68,16 @@ class TransferController extends Controller
                     'transfers.transfer_date',
                     'transfers.transfer_letter',
                     'transfers.status',
-                )
-                ->get();
+                );
+
+            $userRole = Auth::user()->role_id;
+            if ($userRole == 1) {
+                $getTransferList = $getTransferList->get();
+            } else {
+                $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
+                $getTransferList = $getTransferList->where('transfers.employee_id', $employeeInfo->id)->get();
+            }
+
 
 
             return response()->json([
@@ -169,6 +181,15 @@ class TransferController extends Controller
             }
 
 
+
+            if ($request->hasFile('transfer_letter')) {
+                $file = $request->file('transfer_letter');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public/transfer_letters', $fileName);
+                $filePath = $fileName;
+            }
+
+
             $addTransfer = Transfer::create([
 
                 'employee_id' => $request->employee_id,
@@ -183,8 +204,8 @@ class TransferController extends Controller
                 'from_designation' => $request->from_designation,
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
-                'transfer_letter' => $request->transfer_letter,
-                'status' => $request->status,
+                'transfer_letter' => $filePath,
+                'status' => $request->status ?? 0,
             ]);
             return $this->responseRepository->ResponseSuccess($addTransfer, 'Transfer Record Added Successfully !');
         } catch (\Exception $e) {

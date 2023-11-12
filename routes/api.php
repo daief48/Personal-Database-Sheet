@@ -19,10 +19,13 @@ use App\Http\Controllers\AcrController;
 use App\Http\Controllers\BloodGroupController;
 use App\Http\Controllers\FreedomFighterController;
 use App\Http\Controllers\IdCardController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SeniorEmployeeController;
+use App\Http\Controllers\SmsController;
 use App\Http\Controllers\TransferTypeController;
+use Symfony\Component\Mime\MessageConverter;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('auth/login', 'login');
@@ -49,7 +52,7 @@ Route::get('/getEmployeesList', [EmployeeController::class, 'getEmployeesList'])
 Route::get('/user/getprofile/{id}', [EmployeeController::class, 'getprofile']);
 Route::post('/user/addProfile', [EmployeeController::class, 'addProfile']);
 Route::post('/user/updateProfile', [EmployeeController::class, 'updateProfile']);
-Route::post('/user/deleteEmployee/{empid}/{userid}', [EmployeeController::class, 'deleteEmployee']);
+Route::post('/user/deleteEmployee/{userid}', [EmployeeController::class, 'deleteEmployee']);
 
 //User Transfer Information v1
 
@@ -165,6 +168,7 @@ Route::put('/updateAcrMgt/{id}', [AcrController::class, 'updateAcrMgt']);
 Route::get('/specificAcrInfo/{id}', [AcrController::class, 'specificAcrInfo']);
 Route::get('/getprofileForAcr/{id}', [AcrController::class, 'getprofileForAcr']);
 Route::get('/getAcrListByEmployeeId/{id}', [AcrController::class, 'getAcrListByEmployeeId']);
+Route::delete('/deleteAcrInfo/{id}', [AcrController::class, 'deleteAcrInfo']);
 
 
 // Mail Controller
@@ -213,3 +217,8 @@ Route::get('/getFreedomFighter', [FreedomFighterController::class, 'getFreedomFi
 Route::post('/addFreedomFighter', [FreedomFighterController::class, 'addFreedomFighter']);
 Route::put('/updateFreedomFighter/{id}', [FreedomFighterController::class, 'updateFreedomFighter']);
 Route::delete('/deleteFreedomFighter/{id}', [FreedomFighterController::class, 'deleteFreedomFighter']);
+
+// Message 
+
+Route::post('/sendMessage', [MessageController::class, 'sendMessage']);
+Route::get('/getMessageInfoById/{id}', [MessageController::class, 'getMessageInfoById']);

@@ -161,6 +161,9 @@ class LeaveController extends Controller
             // exit;
 
             $getLeaveSetup = Leave::leftJoin('leave_types', 'leaves.leave_type', '=', 'leave_types.id')
+                ->leftjoin('employees', 'leaves.employee_id', '=', 'employees.id')
+                ->leftjoin('designations', 'employees.designation', '=', 'designations.id')
+
                 ->select(
                     'leave_types.days',
                     'leave_types.leave_type as leave_type_name',
@@ -170,7 +173,11 @@ class LeaveController extends Controller
                     'leaves.to_date',
                     'leaves.day',
                     'leaves.employee_id',
-                    'leaves.status'
+                    'leaves.status',
+                    'employees.name',
+                    'employees.mobile_number',
+                    'employees.email',
+                    'designations.designation_name',
                 )
                 ->where('leaves.status', 1)
                 ->where('employee_id', $request->employee_id)
@@ -201,6 +208,10 @@ class LeaveController extends Controller
                     'available' => $remainingDays,
                     'employee_id' => $leaveSetup->employee_id,
                     'status' => $leaveSetup->status,
+                    'name' => $leaveSetup->name,
+                    'mobile_number' => $leaveSetup->mobile_number,
+                    'email' => $leaveSetup->email,
+                    'designation_name' => $leaveSetup->designation_name,
                 ];
             }
             // dd($employeeLeaveArrays);

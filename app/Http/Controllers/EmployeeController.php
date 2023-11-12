@@ -42,6 +42,7 @@ class EmployeeController extends Controller
             $employeeList = Employee::leftJoin('users', 'users.id', '=', 'employees.user_id')
                 ->leftJoin('departments', 'departments.id', '=', 'employees.department')
                 ->leftJoin('designations', 'designations.id', '=', 'employees.designation')
+                ->leftJoin('offices', 'offices.id', '=', 'employees.office')
                 ->select('employees.*', 'departments.dept_name as department_name', 'designations.designation_name as designation_name')
                 ->orderBy('employees.id', 'desc');
 
@@ -50,7 +51,8 @@ class EmployeeController extends Controller
                     ->orWhere('employees.email', 'like', '%' . $request->search . '%')
                     ->orWhere('employees.mobile_number', 'like', '%' . $request->search . '%')
                     ->orWhere('departments.dept_name', 'like', '%' . $request->search . '%')
-                    ->orWhere('designations.designation_name', 'like', '%' . $request->search . '%');
+                    ->orWhere('designations.designation_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('offices.office_name', 'like', '%' . $request->search . '%');
             }
             $employeeList = $employeeList->paginate(10);
             return response()->json([
@@ -85,12 +87,15 @@ class EmployeeController extends Controller
 
             $getProfile = Employee::leftJoin('designations', 'designations.id', '=', 'employees.designation')
                 ->leftJoin('departments', 'departments.id', '=', 'employees.department')
+                ->leftJoin('offices', 'offices.id', '=', 'employees.office')
                 ->select(
                     'employees.*',
                     'designations.id as designation_id',
                     'designations.designation_name as designation',
                     'departments.id as department_id',
-                    'departments.dept_name as department'
+                    'departments.dept_name as department',
+                    'offices.office_name as office_name'
+
                 )
                 ->where('employees.user_id', $id)->first();
 
@@ -132,6 +137,7 @@ class EmployeeController extends Controller
      *                @OA\Property(property="nid_number", type="text"),
      *                @OA\Property(property="passport_number", type="text"),
      *               @OA\Property(property="designation", type="text"),
+     *                @OA\Property(property="office", type="text"),
      *               @OA\Property(property="present_addr_houseno", type="text"),
      *               @OA\Property(property="present_addr_roadno", type="text"),
      *               @OA\Property(property="present_addr_area", type="text"),
@@ -199,6 +205,7 @@ class EmployeeController extends Controller
             $addProfile->nid_number = $request->nid_number ?? 0; //
             $addProfile->passport_number = $request->passport_number ?? 0; //
             $addProfile->designation = $request->designation;
+            $addProfile->office = $request->office;
             $addProfile->present_addr_houseno =  $request->present_addr_houseno ?? 0;
             $addProfile->present_addr_roadno = $request->present_addr_roadno ?? 0;
             $addProfile->present_addr_area = $request->present_addr_area ?? '';
@@ -272,6 +279,7 @@ class EmployeeController extends Controller
      *                @OA\Property(property="nid_number", type="text"),
      *                @OA\Property(property="passport_number", type="text"),
      *               @OA\Property(property="designation", type="text"),
+     *                @OA\Property(property="office", type="text"),
      *               @OA\Property(property="present_addr_houseno", type="text"),
      *               @OA\Property(property="present_addr_roadno", type="text"),
      *               @OA\Property(property="present_addr_area", type="text"),
@@ -346,6 +354,7 @@ class EmployeeController extends Controller
                 'nid_number' => $request->nid_number ?? $target->nid_number,
                 'passport_number' => $request->passport_number ?? $target->passport_number,
                 'designation' => $request->designation ?? $target->designation,
+                'office' => $request->office ?? $target->office,
                 'present_addr_houseno' => $request->present_addr_houseno ?? $target->present_addr_houseno,
                 'present_addr_roadno' => $request->present_addr_roadno ?? $target->present_addr_roadno,
                 'present_addr_area' => $request->present_addr_area ?? $target->present_addr_area,
@@ -389,17 +398,11 @@ class EmployeeController extends Controller
     /**
      * @OA\Post(
      *     tags={"PDS User Employee [Users]"},
-     *     path="/pds-backend/api/user/deleteEmployee/{empid}/{userid}",
+     *     path="/pds-backend/api/user/deleteEmployee/{userid}",
      *     operationId="deleteEmployee",
      *     summary="Delete User Employee",
      *     description="Delete both the User and Employee records associated with the given IDs.",
-     *     @OA\Parameter(
-     *         name="empid",
-     *         in="path",
-     *         required=true,
-     *         description="Employee ID to delete",
-     *         @OA\Schema(type="integer")
-     *     ),
+ 
      *     @OA\Parameter(
      *         name="userid",
      *         in="path",
@@ -419,7 +422,7 @@ class EmployeeController extends Controller
      */
 
 
-    public function deleteEmployee($empid, $userid)
+    public function deleteEmployee($userid)
     {
 
         // return $empid.'__'.$userid;
@@ -427,9 +430,9 @@ class EmployeeController extends Controller
 
         try {
 
-            $employee = Employee::find($empid);
+            $employee = User::find($userid);
             if ($employee->delete()) {
-                User::find($userid)->delete();
+                Employee::find($userid)->delete();
             }
 
 

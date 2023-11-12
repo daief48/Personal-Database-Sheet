@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Training;
@@ -40,10 +41,20 @@ class TrainingController extends Controller
         try {
 
             $getTrainingList = Training::leftJoin('employees', 'employees.id', '=', 'trainings.employee_id')
+                ->select('employees.id as employee_id', 'employees.name as employee_name', 'trainings.*')
                 ->orderBy('id', 'desc')->select(
                     'trainings.*',
                     'employees.name as employee_name'
-                )->get();
+                );
+
+            $userRole = Auth::user()->role_id;
+            if ($userRole == 1) {
+                $getTrainingList = $getTrainingList->get();
+            } else {
+                $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
+                $getTrainingList = $getTrainingList->where('transfers.employee_id', $employeeInfo->id)->get();
+            }
+
             return response()->json([
                 'status' => 'success',
                 'list' => $getTrainingList,

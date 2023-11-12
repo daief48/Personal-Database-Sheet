@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Promotion;
@@ -48,6 +49,14 @@ class PromotionController extends Controller
                     'employees.name as employee_name'
                 )
                 ->orderBy('id', 'desc')->get();
+
+            $userRole = Auth::user()->role_id;
+            if ($userRole == 1) {
+                $getPromotion = $getPromotion->get();
+            } else {
+                $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
+                $getPromotion = $getPromotion->where('transfers.employee_id', $employeeInfo->id)->get();
+            }
 
             return response()->json([
                 'status' => 'success',
