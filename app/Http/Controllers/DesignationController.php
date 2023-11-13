@@ -141,7 +141,6 @@ class DesignationController extends Controller
      *              type="object",
      *              @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="designation_name", type="text", example="xyz"),
-     *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
      *      ),
@@ -163,14 +162,12 @@ class DesignationController extends Controller
 
             $rules = [
                 'designation_name' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
                 'designation_name.required' => 'The designation_name field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
 
             ];
@@ -300,6 +297,38 @@ class DesignationController extends Controller
             }
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @OA\Get(
+     *     tags={"PDS Designation Setup"},
+     * path="/pds-backend/api/specificDesigSetup/{id}",
+     * operationId="specificDesigSetup",
+     * summary="Specific Dept Setup",
+     * description="",
+     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
+
+    public function specificDesigSetup(Request $request)
+    {
+        try {
+            $specificDesigSetup = Designation::findOrFail($request->id);
+            return response()->json([
+                'status' => 'success',
+                'data' => $specificDesigSetup,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 401);
         }
     }
 }

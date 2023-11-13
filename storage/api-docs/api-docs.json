@@ -1173,10 +1173,6 @@
                                         "type": "text",
                                         "example": "xyz"
                                     },
-                                    "create_at": {
-                                        "type": "text",
-                                        "example": "2023-03-23"
-                                    },
                                     "status": {
                                         "type": "text",
                                         "example": 0
@@ -1294,6 +1290,39 @@
                 "responses": {
                     "200": {
                         "description": "Successfully, Active Designation Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificDesigSetup/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "Specific Dept Setup",
+                "description": "",
+                "operationId": "specificDesigSetup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -2404,17 +2433,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "leave_type": {
                                         "type": "text",
                                         "example": "xyz"
-                                    },
-                                    "create_at": {
-                                        "type": "text",
-                                        "example": "2023-03-23"
                                     },
                                     "status": {
                                         "type": "text",
@@ -2765,17 +2786,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "office_name": {
                                         "type": "text",
                                         "example": "xyz"
-                                    },
-                                    "create_at": {
-                                        "type": "text",
-                                        "example": "2023-03-23"
                                     },
                                     "status": {
                                         "type": "text",

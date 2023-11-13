@@ -101,15 +101,7 @@ Route::patch('/inactivePromotionRecord/{id}', [PromotionController::class, 'inac
 Route::get('/specificUserPromotion/{id}', [PromotionController::class, 'specificUserPromotion']);
 Route::get('/specificUserPromotionRecordByEmployeeId/{employee_id}', [PromotionController::class, 'specificUserPromotionRecordByEmployeeId']);
 
-//Admin Setup Department v1
 
-Route::get('/getDepartment', [DepartmentController::class, 'getDepartment']);
-Route::post('/addDepartment', [DepartmentController::class, 'addDepartment']);
-Route::put('/updateDepartment/{id}', [DepartmentController::class, 'updateDepartment']);
-Route::delete('/deleteDepartment/{id}', [DepartmentController::class, 'deleteDepartment']);
-Route::patch('/activeDeptRecord/{id}', [DepartmentController::class, 'activeDeptRecord']);
-Route::patch('/inactiveDeptRecord/{id}', [DepartmentController::class, 'inactiveDeptRecord']);
-Route::get('/specificDeptSetup/{id}', [DepartmentController::class, 'specificDeptSetup']);
 
 //Training Setup v1
 
@@ -131,6 +123,16 @@ Route::patch('/activeOfficeMgtRecord/{id}', [OfficeController::class, 'activeOff
 Route::patch('/inactiveOfficeMgtRecord/{id}', [OfficeController::class, 'inactiveOfficeMgtRecord']);
 Route::get('/specificOfficeSetup/{id}', [OfficeController::class, 'specificOfficeSetup']);
 
+//Admin Setup Department v1
+
+Route::get('/getDepartment', [DepartmentController::class, 'getDepartment']);
+Route::post('/addDepartment', [DepartmentController::class, 'addDepartment']);
+Route::put('/updateDepartment/{id}', [DepartmentController::class, 'updateDepartment']);
+Route::delete('/deleteDepartment/{id}', [DepartmentController::class, 'deleteDepartment']);
+Route::patch('/activeDeptRecord/{id}', [DepartmentController::class, 'activeDeptRecord']);
+Route::patch('/inactiveDeptRecord/{id}', [DepartmentController::class, 'inactiveDeptRecord']);
+Route::get('/specificDeptSetup/{id}', [DepartmentController::class, 'specificDeptSetup']);
+
 //Designation Setup v1
 
 Route::get('/getDesignationMgt', [DesignationController::class, 'getDesignationMgt']);
@@ -140,6 +142,7 @@ Route::put('/updateDesignationMgt/{id}', [DesignationController::class, 'updateD
 Route::delete('/deleteDesignationMgt/{id}', [DesignationController::class, 'deleteDesignationMgt']);
 Route::patch('/activeDesignationMgtRecord/{id}', [DesignationController::class, 'activeDesignationMgtRecord']);
 Route::patch('/inactiveDesignationMgtRecord/{id}', [DesignationController::class, 'inactiveDesignationMgtRecord']);
+Route::get('/specificDesigSetup/{id}', [DesignationController::class, 'specificDesigSetup']);
 
 //Leave management v1
 

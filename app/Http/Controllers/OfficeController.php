@@ -138,9 +138,7 @@ class OfficeController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *                @OA\Property(property="employee_id", type="integer",example=1),
      *              @OA\Property(property="office_name", type="text", example="xyz"),
-     *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
      *      ),
@@ -161,18 +159,14 @@ class OfficeController extends Controller
         try {
             $rules = [
 
-                'employee_id' => 'required',
                 'office_name' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
 
-                'employee_id.required' => 'The employee_id field is required',
                 'office_name.required' => 'The office_name field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
             ];
@@ -184,9 +178,7 @@ class OfficeController extends Controller
             }
 
             $OfficeInfo = Office::findOrFail($id);
-            $OfficeInfo->employee_id = $request->employee_id;
             $OfficeInfo->office_name = $request->office_name;
-            $OfficeInfo->create_at = $request->create_at;
             $OfficeInfo->status = $request->status;
             $OfficeInfo->save();
 
