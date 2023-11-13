@@ -597,44 +597,6 @@
                 }
             }
         },
-        "/pds-backend/api/getBloodGroupByEmployeeId/{employee_id}": {
-            "get": {
-                "tags": [
-                    "PDS User BloodGroup"
-                ],
-                "summary": "BloodGroup List",
-                "description": "Total BloodGroup List",
-                "operationId": "getBloodGroupByEmployeeId",
-                "parameters": [
-                    {
-                        "name": "employee_id",
-                        "in": "path",
-                        "description": "Employee ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer_token": []
-                    }
-                ]
-            }
-        },
         "/pds-backend/api/addBloodGroup": {
             "post": {
                 "tags": [

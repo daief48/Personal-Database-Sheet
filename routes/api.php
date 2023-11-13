@@ -25,7 +25,6 @@ use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SeniorEmployeeController;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\TransferTypeController;
-use App\Http\Controllers\DropdownController;
 use Symfony\Component\Mime\MessageConverter;
 
 Route::controller(AuthController::class)->group(function () {
@@ -57,7 +56,7 @@ Route::get('/getEmployeesList', [EmployeeController::class, 'getEmployeesList'])
 Route::get('/user/getprofile/{id}', [EmployeeController::class, 'getprofile']);
 Route::post('/user/addProfile', [EmployeeController::class, 'addProfile']);
 Route::post('/user/updateProfile', [EmployeeController::class, 'updateProfile']);
-Route::post('/user/deleteEmployee/{empid}/{userid}', [EmployeeController::class, 'deleteEmployee']);
+Route::post('/user/deleteEmployee/{userid}', [EmployeeController::class, 'deleteEmployee']);
 
 //User Transfer Information v1
 

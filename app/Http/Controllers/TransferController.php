@@ -179,7 +179,17 @@ class TransferController extends Controller
             if ($validator->fails()) {
                 return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
-            $transferLetterPath = $request->file('transfer_letter')->store('public/transfer_letters');
+          
+            if ($request->file('transfer_letter')) {
+                $file = $request->file('transfer_letter');
+                $file_name = $request->file('transfer_letter')->getClientOriginalName();
+                $image_ext = $request->file('transfer_letter')->getClientOriginalExtension();
+                $fileNameToStore = 'transfer_letter' . time() . '.' . $image_ext;
+                $destinationPath = public_path() . "/transferLetters/" . $fileNameToStore;
+                $contents = file_get_contents($file);
+                File::put($destinationPath, $contents);
+                // $target->curriculum_vitae = $fileNameToStore;
+            }
 
             $addTransfer = Transfer::create([
 
@@ -195,7 +205,7 @@ class TransferController extends Controller
                 'from_designation' => $request->from_designation,
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
-                'transfer_letter' => $transferLetterPath,
+                'transfer_letter' => $fileNameToStore,
                 'status' => $request->status ?? 0,
             ]);
             return $this->responseRepository->ResponseSuccess($addTransfer, 'Transfer Record Added Successfully !');

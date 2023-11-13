@@ -93,6 +93,9 @@ class EmployeeController extends Controller
                     'departments.dept_name as department'
                 )
                 ->where('employees.user_id', $id)->first();
+                // $image= file_get_contents($getProfile->image);
+                // dd($image);
+                // exit;
 
             return response()->json([
                 'status' => 'success',

@@ -134,7 +134,6 @@ class DepartmentController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *               @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="dept_name", type="text", example="xyz"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
@@ -156,14 +155,14 @@ class DepartmentController extends Controller
 
         try {
             $rules = [
-                'employee_id' => 'required',
+                // 'employee_id' => 'required',
                 'dept_name' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
                 'designation_name.required' => 'The designation_name field is required',
                 'status.required' => 'The status field is required',
 
@@ -175,7 +174,7 @@ class DepartmentController extends Controller
             }
 
             $department = Department::findOrFail($id);
-            $department->employee_id = $request->employee_id;
+            // $department->employee_id = $request->employee_id;
             $department->dept_name = $request->dept_name;
             $department->status = $request->status;
             $department->save();
