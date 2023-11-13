@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Office;
@@ -16,7 +17,7 @@ class OfficeController extends Controller
     protected $responseRepository;
     public function __construct(ResponseRepository $rp)
     {
-        //$this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => []]);
         $this->responseRepository = $rp;
     }
 
@@ -65,9 +66,7 @@ class OfficeController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *                @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="office_name", type="text"),
-     *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
      *        ),
@@ -88,18 +87,14 @@ class OfficeController extends Controller
         try {
             $rules = [
 
-                'employee_id' => 'required',
                 'office_name' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
 
-                'employee_id.required' => 'The employee_id field is required',
                 'office_name.required' => 'The office_name field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
             ];
@@ -111,9 +106,7 @@ class OfficeController extends Controller
             }
 
             $OfficeInfo = Office::create([
-                'employee_id' => $request->employee_id,
                 'office_name' => $request->office_name,
-                'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 
@@ -138,9 +131,7 @@ class OfficeController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *                @OA\Property(property="employee_id", type="integer",example=1),
      *              @OA\Property(property="office_name", type="text", example="xyz"),
-     *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
      *      ),
@@ -161,18 +152,14 @@ class OfficeController extends Controller
         try {
             $rules = [
 
-                'employee_id' => 'required',
                 'office_name' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
 
-                'employee_id.required' => 'The employee_id field is required',
                 'office_name.required' => 'The office_name field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
             ];
@@ -184,9 +171,7 @@ class OfficeController extends Controller
             }
 
             $OfficeInfo = Office::findOrFail($id);
-            $OfficeInfo->employee_id = $request->employee_id;
             $OfficeInfo->office_name = $request->office_name;
-            $OfficeInfo->create_at = $request->create_at;
             $OfficeInfo->status = $request->status;
             $OfficeInfo->save();
 
@@ -220,14 +205,23 @@ class OfficeController extends Controller
     {
         try {
             $officeMgt =  Office::findOrFail($id);
-            $officeMgt->delete();
-
-            return response()->json([
-                'status'  => true,
-                'message' => "Office Mgt Record Deleted Successfully",
-                'errors'  => null,
-                'data'    => $officeMgt,
-            ], 200);
+            $employeeData = Employee::where('office', '=', $id)->count();
+            if ($employeeData === 0) {
+                $officeMgt->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => "Office Record Deleted Successfully",
+                    'errors' => null,
+                    'data' => $officeMgt,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "Office Record cannot be deleted. Associated data exists.",
+                    'errors' => null,
+                    'data' => $officeMgt,
+                ], 400);
+            }
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

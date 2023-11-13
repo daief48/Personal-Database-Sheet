@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Training;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TrainingSetup;
@@ -199,16 +200,26 @@ class TrainingSetupController extends Controller
 
     public function deleteTrainingMgt($id)
     {
+
         try {
             $trainingMgt =  TrainingSetup::findOrFail($id);
-            $trainingMgt->delete();
-
-            return response()->json([
-                'status'  => true,
-                'message' => "Training Mgt Record Deleted Successfully",
-                'errors'  => null,
-                'data'    => $trainingMgt,
-            ], 200);
+            $trainingData = Training::where('training_center_name', '=', $id)->count();
+            if ($trainingData === 0) {
+                $trainingMgt->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => "TrainingSetup Record Deleted Successfully",
+                    'errors' => null,
+                    'data' => $trainingMgt,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "TrainingSetup Record cannot be deleted. Associated data exists.",
+                    'errors' => null,
+                    'data' => $trainingMgt,
+                ], 400);
+            }
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

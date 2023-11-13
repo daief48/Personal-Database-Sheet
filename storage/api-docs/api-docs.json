@@ -1103,13 +1103,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer"
-                                    },
                                     "designation_name": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -1165,17 +1159,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "designation_name": {
                                         "type": "text",
                                         "example": "xyz"
-                                    },
-                                    "create_at": {
-                                        "type": "text",
-                                        "example": "2023-03-23"
                                     },
                                     "status": {
                                         "type": "text",

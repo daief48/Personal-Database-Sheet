@@ -210,26 +210,33 @@ class DepartmentController extends Controller
     public function deleteDepartment($id)
     {
         try {
-            $department =  Department::findOrFail($id);
-            if (!empty($department)) {
-                if (!empty(Transfer::where('to_department', '=', $id))) {
-                }
+            $department = Department::findOrFail($id);
+            $transferData = Transfer::where('to_department', '=', $id)
+                ->orWhere('from_department', '=', $id)
+                ->count();
+            $employeeData = Employee::where('department', '=', $id)->count();
+
+            if ($transferData === 0 && $employeeData === 0) {
+                $department->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => "Department Record Deleted Successfully",
+                    'errors' => null,
+                    'data' => $department,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "Department Record cannot be deleted. Associated data exists.",
+                    'errors' => null,
+                    'data' => $department,
+                ], 400);
             }
-            // $tranfer = Transfer::where('to_department', '=', $id)->findOrFail($id);
-            // $employee = Employee::findorFail($id);
-
-            $department->delete();
-
-            return response()->json([
-                'status'  => true,
-                'message' => "Department Record Deleted Successfully",
-                'errors'  => null,
-                'data'    => $department,
-            ], 200);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
 
     /**
      * @OA\Patch(

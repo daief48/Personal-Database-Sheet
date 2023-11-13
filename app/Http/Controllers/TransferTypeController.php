@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transfer;
 use App\Models\TransferType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -216,14 +217,23 @@ class TransferTypeController extends Controller
     {
         try {
             $transferType = TransferType::findOrFail($id);
-            $transferType->delete();
-
-            return response()->json([
-                'status'  => true,
-                'message' => "Transfer Type Record Deleted Successfully",
-                'errors'  => null,
-                'data'    => $transferType,
-            ], 200);
+            $transferData = Transfer::where('transfer_type', '=', $id)->count();
+            if ($transferData === 0) {
+                $transferType->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => "TransferType Record Deleted Successfully",
+                    'errors' => null,
+                    'data' => $transferType,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "TransferType Record cannot be deleted. Associated data exists.",
+                    'errors' => null,
+                    'data' => $transferType,
+                ], 400);
+            }
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

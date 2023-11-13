@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Leave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\LeaveType;
@@ -138,9 +139,8 @@ class LeaveTypeController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="employee_id", type="integer",example=1),
      *              @OA\Property(property="leave_type", type="text", example="xyz"),
-     *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
+     *              @OA\Property(property="days", type="text", example="10"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
      *      ),
@@ -215,18 +215,42 @@ class LeaveTypeController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
+    /**
+     * @OA\Delete(
+     *     path="/pds-backend/api/deleteLeaveType/{id}",
+     *     tags={"PDS Leave Type Setup"},
+     *     summary="Delete Leave Type Record",
+     *     description="Delete Leave Type Record With Valid ID",
+     *     operationId="deleteLeaveType",
+     *     @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response( response=200, description="Successfully, Delete Leave Type Record" ),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
+
     public function deleteLeaveType($id)
     {
         try {
-            $leaveType =  LeaveType::findOrFail($id);
-            $leaveType->delete();
-
-            return response()->json([
-                'status'  => true,
-                'message' => "Leave Type Record Deleted Successfully",
-                'errors'  => null,
-                'data'    => $leaveType,
-            ], 200);
+            $leaveType = LeaveType::find($id);
+            $leaveData = Leave::where('leave_type', '=', $id)->count();
+            if ($leaveData === 0) {
+                $leaveType->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => "Department Record Deleted Successfully",
+                    'errors' => null,
+                    'data' => $leaveType,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "Department Record cannot be deleted. Associated data exists.",
+                    'errors' => null,
+                    'data' => $leaveType,
+                ], 400);
+            }
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
