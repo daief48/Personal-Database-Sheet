@@ -23,9 +23,8 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SeniorEmployeeController;
-use App\Http\Controllers\SmsController;
 use App\Http\Controllers\TransferTypeController;
-use Symfony\Component\Mime\MessageConverter;
+
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('auth/login', 'login');

@@ -52,7 +52,7 @@ class TrainingController extends Controller
                 $getTrainingList = $getTrainingList->get();
             } else {
                 $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
-                $getTrainingList = $getTrainingList->where('transfers.employee_id', $employeeInfo->id)->get();
+                $getTrainingList = $getTrainingList->where('trainings.employee_id', $employeeInfo->id)->get();
             }
 
             return response()->json([

@@ -47,15 +47,15 @@ class PromotionController extends Controller
                     'promotions.*',
                     'designations.designation_name',
                     'employees.name as employee_name'
-                )
-                ->orderBy('id', 'desc')->get();
+                );
+            // ->orderBy('id', 'desc')->get();
 
             $userRole = Auth::user()->role_id;
             if ($userRole == 1) {
-                $getPromotion = $getPromotion->get();
+                $getPromotion = $getPromotion->orderBy('id', 'desc')->get();
             } else {
                 $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
-                $getPromotion = $getPromotion->where('transfers.employee_id', $employeeInfo->id)->get();
+                $getPromotion = $getPromotion->where('promotions.employee_id', $employeeInfo->id)->get();
             }
 
             return response()->json([
