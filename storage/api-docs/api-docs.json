@@ -1304,6 +1304,39 @@
                 }
             }
         },
+        "/pds-backend/api/specificDesigSetup/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Designation Setup"
+                ],
+                "summary": "Specific Dept Setup",
+                "description": "",
+                "operationId": "specificDesigSetup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/getEmployeesList": {
             "get": {
                 "tags": [

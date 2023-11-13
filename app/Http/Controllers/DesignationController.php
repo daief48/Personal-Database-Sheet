@@ -302,4 +302,36 @@ class DesignationController extends Controller
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    /**
+     * @OA\Get(
+     *     tags={"PDS Designation Setup"},
+     * path="/pds-backend/api/specificDesigSetup/{id}",
+     * operationId="specificDesigSetup",
+     * summary="Specific Dept Setup",
+     * description="",
+     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
+
+    public function specificDesigSetup(Request $request)
+    {
+        try {
+            $specificDesigSetup = Designation::findOrFail($request->id);
+            return response()->json([
+                'status' => 'success',
+                'data' => $specificDesigSetup,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 401);
+        }
+    }
 }
