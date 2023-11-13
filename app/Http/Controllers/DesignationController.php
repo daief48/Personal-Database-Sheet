@@ -162,7 +162,6 @@ class DesignationController extends Controller
         try {
 
             $rules = [
-                'employee_id' => 'required',
                 'designation_name' => 'required',
                 'create_at' => 'required',
                 'status' => 'required',
@@ -170,7 +169,6 @@ class DesignationController extends Controller
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
                 'designation_name.required' => 'The designation_name field is required',
                 'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
@@ -181,9 +179,8 @@ class DesignationController extends Controller
             if ($validator->fails()) {
                 return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
-
+            $designationInfoById = Designation::findOrFail($id);
             $designationInfo = Designation::findOrFail($id);
-            $designationInfo->employee_id = $request->employee_id;
             $designationInfo->designation_name = $request->designation_name;
             $designationInfo->create_at = $request->create_at;
             $designationInfo->status = $request->status;
@@ -194,6 +191,8 @@ class DesignationController extends Controller
                 'message' => "Designation Mgt Updated Successfully",
                 'errors'  => null,
                 'data'    => $designationInfo,
+                'designationInfoById' => $designationInfoById,
+
             ], 200);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Department;
+use App\Models\Employee;
+use App\Models\Transfer;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
 use Validator;
@@ -65,7 +67,6 @@ class DepartmentController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *                @OA\Property(property="employee_id", type="integer"),
      *               @OA\Property(property="dept_name", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
@@ -88,14 +89,14 @@ class DepartmentController extends Controller
     {
         try {
             $rules = [
-                'employee_id' => 'required',
+
                 'dept_name' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+
                 'designation_name.required' => 'The designation_name field is required',
                 'status.required' => 'The status field is required',
 
@@ -107,7 +108,7 @@ class DepartmentController extends Controller
             }
 
             $department = Department::create([
-                'employee_id' => $request->employee_id,
+
                 'dept_name' => $request->dept_name,
                 'status' => $request->status,
             ]);
@@ -134,7 +135,6 @@ class DepartmentController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *               @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="dept_name", type="text", example="xyz"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
@@ -156,14 +156,14 @@ class DepartmentController extends Controller
 
         try {
             $rules = [
-                'employee_id' => 'required',
+
                 'dept_name' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+
                 'designation_name.required' => 'The designation_name field is required',
                 'status.required' => 'The status field is required',
 
@@ -211,6 +211,13 @@ class DepartmentController extends Controller
     {
         try {
             $department =  Department::findOrFail($id);
+            if (!empty($department)) {
+                if (!empty(Transfer::where('to_department', '=', $id))) {
+                }
+            }
+            // $tranfer = Transfer::where('to_department', '=', $id)->findOrFail($id);
+            // $employee = Employee::findorFail($id);
+
             $department->delete();
 
             return response()->json([

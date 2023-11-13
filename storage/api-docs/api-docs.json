@@ -848,9 +848,6 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer"
-                                    },
                                     "dept_name": {
                                         "type": "text"
                                     },
@@ -907,10 +904,6 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "dept_name": {
                                         "type": "text",
                                         "example": "xyz"
