@@ -84,6 +84,10 @@ class ReportController extends Controller
                 )
                 ->where('employees.id', $request->employee_id)->first();
 
+            $imgContent = public_path('/images/' . $getProfile->image);
+            $contents = file_get_contents($imgContent);
+            $baseEncode = 'data:image/png; base64,' . base64_encode($contents);
+
             $getTransferList = Transfer::leftJoin('transfer_types', 'transfers.transfer_type', '=', 'transfer_types.id')
                 ->leftJoin('designations as to_designation', 'transfers.to_designation', '=', 'to_designation.id')
                 ->leftJoin('designations as from_designation', 'transfers.from_designation', '=', 'from_designation.id')
@@ -111,6 +115,7 @@ class ReportController extends Controller
                 'status' => 'success',
                 'transferData' => $getTransferList,
                 'profileData' => $getProfile,
+                'encodeImg' =>  $baseEncode,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

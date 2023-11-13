@@ -70,16 +70,16 @@ class TransferController extends Controller
                     'transfers.status',
                 );
 
+
             $userRole = Auth::user()->role_id;
+            dd($userRole);
+            exit;
             if ($userRole == 1) {
                 $getTransferList = $getTransferList->get();
             } else {
                 $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
                 $getTransferList = $getTransferList->where('transfers.employee_id', $employeeInfo->id)->get();
             }
-
-
-
             return response()->json([
 
                 'data' => $getTransferList,
@@ -179,12 +179,21 @@ class TransferController extends Controller
             if ($validator->fails()) {
                 return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
-          
+
+
+
+            // if ($request->hasFile('transfer_letter')) {
+            //     $file = $request->file('transfer_letter');
+            //     $fileName = time() . '_' . $file->getClientOriginalName();
+            //     $file->storeAs('public/transfer_letters', $fileName);
+            //     $filePath = $fileName;
+            // }
+
             if ($request->file('transfer_letter')) {
                 $file = $request->file('transfer_letter');
                 $file_name = $request->file('transfer_letter')->getClientOriginalName();
-                $image_ext = $request->file('transfer_letter')->getClientOriginalExtension();
-                $fileNameToStore = 'transfer_letter' . time() . '.' . $image_ext;
+                $file_ext = $request->file('transfer_letter')->getClientOriginalExtension();
+                $fileNameToStore = 'transfer_letter' . time() . '.' . $file_ext;
                 $destinationPath = public_path() . "/transferLetters/" . $fileNameToStore;
                 $contents = file_get_contents($file);
                 File::put($destinationPath, $contents);
@@ -293,7 +302,20 @@ class TransferController extends Controller
                 return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
+
+
             $target = Transfer::findOrFail($id);
+
+            if ($request->file('transfer_letter')) {
+                $file = $request->file('transfer_letter');
+                $file_name = $request->file('transfer_letter')->getClientOriginalName();
+                $file_ext = $request->file('transfer_letter')->getClientOriginalExtension();
+                $fileNameToStore = 'transfer_letter' . time() . '.' . $file_ext;
+                $destinationPath = public_path() . "/transferLetters/" . $fileNameToStore;
+                $contents = file_get_contents($file);
+                File::put($destinationPath, $contents);
+                // $target->curriculum_vitae = $fileNameToStore;
+            }
 
             $target->update([
                 'employee_id' => $request->employee_id,
@@ -308,7 +330,7 @@ class TransferController extends Controller
                 'from_designation' => $request->from_designation,
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
-                'transfer_letter' => $request->transfer_letter,
+                'transfer_letter' => $fileNameToStore,
                 'status' => $request->status,
             ]);
 

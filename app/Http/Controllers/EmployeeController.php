@@ -42,8 +42,14 @@ class EmployeeController extends Controller
             $employeeList = Employee::leftJoin('users', 'users.id', '=', 'employees.user_id')
                 ->leftJoin('departments', 'departments.id', '=', 'employees.department')
                 ->leftJoin('designations', 'designations.id', '=', 'employees.designation')
-                ->select('employees.*', 'departments.dept_name as department_name', 'designations.designation_name as designation_name')
+                ->leftJoin('offices', 'offices.id', '=', 'employees.office')
+                ->select(
+                    'employees.*',
+                    'departments.dept_name as department_name',
+                    'designations.designation_name as designation_name'
+                )
                 ->orderBy('employees.id', 'desc');
+
 
             if (!empty($request->search)) {
                 $employeeList = $employeeList->where('employees.name', 'like', '%' . $request->search . '%')
@@ -53,6 +59,8 @@ class EmployeeController extends Controller
                     ->orWhere('designations.designation_name', 'like', '%' . $request->search . '%');
             }
             $employeeList = $employeeList->paginate(10);
+
+
             return response()->json([
                 'status' => 'success',
                 'data' => $employeeList,
@@ -97,9 +105,15 @@ class EmployeeController extends Controller
                 // dd($image);
                 // exit;
 
+            $imgContent = public_path('/images/' . $getProfile->image);
+            $contents = file_get_contents($imgContent);
+            $baseEncode = 'data:image/png; base64,' . base64_encode($contents);
+
+
             return response()->json([
                 'status' => 'success',
-                'data'   => $getProfile
+                'data'   => $getProfile,
+                'encodeImg' => $baseEncode
             ]);
         } catch (\Exception $e) {
             return response()->json([
