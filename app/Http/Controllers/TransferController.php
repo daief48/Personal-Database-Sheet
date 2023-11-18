@@ -70,9 +70,8 @@ class TransferController extends Controller
                     'transfers.status',
                 );
 
-
             $userRole = Auth::user()->role_id;
-            dd($userRole);
+
             exit;
             if ($userRole == 1) {
                 $getTransferList = $getTransferList->get();
@@ -302,8 +301,6 @@ class TransferController extends Controller
                 return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
-
-
             $target = Transfer::findOrFail($id);
 
             if ($request->file('transfer_letter')) {
@@ -314,7 +311,12 @@ class TransferController extends Controller
                 $destinationPath = public_path() . "/transferLetters/" . $fileNameToStore;
                 $contents = file_get_contents($file);
                 File::put($destinationPath, $contents);
-                // $target->curriculum_vitae = $fileNameToStore;
+
+                $pFile = public_path() . "/transferLetters/" .  $target->transfer_letter;
+
+                if (file_exists($pFile)) {
+                    File::delete($pFile);
+                }
             }
 
             $target->update([

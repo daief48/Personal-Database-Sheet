@@ -159,15 +159,12 @@ class TransferTypeController extends Controller
 
             $rules = [
 
-                'employee_id' => 'required',
                 'title' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
-
-                'employee_id.required' => 'The employee_id field is required',
                 'title.required' => 'The title field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
@@ -195,7 +192,6 @@ class TransferTypeController extends Controller
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
 
 
     /**
@@ -229,7 +225,7 @@ class TransferTypeController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "TransferType Record cannot be deleted. Associated data exists.",
+                    'message' => "TransferType Record cannot be deleted.Used this data in another module.",
                     'errors' => null,
                     'data' => $transferType,
                 ], 400);

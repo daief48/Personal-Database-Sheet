@@ -215,7 +215,7 @@ class TrainingSetupController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "TrainingSetup Record cannot be deleted. Associated data exists.",
+                    'message' => "TrainingSetup Record cannot be deleted. Used this data in another module.",
                     'errors' => null,
                     'data' => $trainingMgt,
                 ], 400);

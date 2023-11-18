@@ -29,6 +29,13 @@ class EmployeeController extends Controller
      * operationId="getEmployeesList",
      * summary="Get All Employee List",
      * description="Get All Employee List",
+     *      @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Search term for filtering profiles",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *     ),
      * @OA\Response(response=200, description="Success" ),
      * @OA\Response(response=400, description="Bad Request"),
      * @OA\Response(response=404, description="Resource Not Found"),
@@ -106,15 +113,15 @@ class EmployeeController extends Controller
                 )
                 ->where('employees.user_id', $id)->first();
 
-            $imgContent = public_path('/images/' . $getProfile->image);
-            $contents = file_get_contents($imgContent);
-            $baseEncode = 'data:image/png; base64,' . base64_encode($contents);
+            // $imgContent = public_path('/images/' . $getProfile->image);
+            // $contents = file_get_contents($imgContent);
+            // $baseEncode = 'data:image/png; base64,' . base64_encode($contents);
 
 
             return response()->json([
                 'status' => 'success',
                 'data'   => $getProfile,
-                'encodeImg' => $baseEncode
+                // 'encodeImg' => $baseEncode
             ]);
         } catch (\Exception $e) {
             return response()->json([

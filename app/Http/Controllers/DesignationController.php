@@ -226,7 +226,7 @@ class DesignationController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "designation Record cannot be deleted. Associated data exists.",
+                    'message' => "designation Record cannot be deleted. Used this data in another module.",
                     'errors' => null,
                     'data' => $designation,
                 ], 400);

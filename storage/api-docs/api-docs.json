@@ -1331,6 +1331,17 @@
                 "summary": "Get All Employee List",
                 "description": "Get All Employee List",
                 "operationId": "getEmployeesList",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search term for filtering profiles",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -2399,17 +2410,13 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "leave_type": {
                                         "type": "text",
                                         "example": "xyz"
                                     },
-                                    "create_at": {
+                                    "days": {
                                         "type": "text",
-                                        "example": "2023-03-23"
+                                        "example": "10"
                                     },
                                     "status": {
                                         "type": "text",
@@ -2697,14 +2704,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "office_name": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -2760,17 +2760,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "office_name": {
                                         "type": "text",
                                         "example": "xyz"
-                                    },
-                                    "create_at": {
-                                        "type": "text",
-                                        "example": "2023-03-23"
                                     },
                                     "status": {
                                         "type": "text",

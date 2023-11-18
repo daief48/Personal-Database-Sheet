@@ -217,7 +217,7 @@ class OfficeController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Office Record cannot be deleted. Associated data exists.",
+                    'message' => "Office Record cannot be deleted. Used this data in another module.",
                     'errors' => null,
                     'data' => $officeMgt,
                 ], 400);
