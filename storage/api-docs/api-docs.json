@@ -1103,13 +1103,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer"
-                                    },
                                     "designation_name": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -1165,10 +1159,6 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "designation_name": {
                                         "type": "text",
                                         "example": "xyz"
@@ -2437,6 +2427,10 @@
                                         "type": "text",
                                         "example": "xyz"
                                     },
+                                    "days": {
+                                        "type": "text",
+                                        "example": "10"
+                                    },
                                     "status": {
                                         "type": "text",
                                         "example": 0
@@ -2723,14 +2717,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "office_name": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -4056,14 +4043,7 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "training_name": {
-                                        "type": "text"
-                                    },
-                                    "create_at": {
                                         "type": "text"
                                     },
                                     "status": {
@@ -4119,17 +4099,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "training_name": {
                                         "type": "text",
                                         "example": "xyz"
-                                    },
-                                    "create_at": {
-                                        "type": "text",
-                                        "example": "2023-03-23"
                                     },
                                     "status": {
                                         "type": "text",
@@ -4704,9 +4676,6 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer"
-                                    },
                                     "title": {
                                         "type": "text"
                                     },
@@ -4763,10 +4732,6 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 0
-                                    },
                                     "title": {
                                         "type": "text",
                                         "example": "General"

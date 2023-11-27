@@ -17,6 +17,7 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\AcrController;
 use App\Http\Controllers\BloodGroupController;
+use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\FreedomFighterController;
 use App\Http\Controllers\IdCardController;
 use App\Http\Controllers\MessageController;
@@ -55,7 +56,7 @@ Route::get('/getEmployeesList', [EmployeeController::class, 'getEmployeesList'])
 Route::get('/user/getprofile/{id}', [EmployeeController::class, 'getprofile']);
 Route::post('/user/addProfile', [EmployeeController::class, 'addProfile']);
 Route::post('/user/updateProfile', [EmployeeController::class, 'updateProfile']);
-Route::post('/user/deleteEmployee/{userid}', [EmployeeController::class, 'deleteEmployee']);
+Route::post('/user/deleteEmployee/{empid}/{userid}', [EmployeeController::class, 'deleteEmployee']);
 
 //User Transfer Information v1
 

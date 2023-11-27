@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Training;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TrainingSetup;
@@ -64,9 +65,7 @@ class TrainingSetupController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *                @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="training_name", type="text"),
-     *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="integer"),
      *            ),
      *        ),
@@ -88,18 +87,18 @@ class TrainingSetupController extends Controller
 
             $rules = [
 
-                'employee_id' => 'required',
+                // 'employee_id' => 'required',
                 'training_name' => 'required',
-                'create_at' => 'required',
+                // 'create_at' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
 
-                'employee_id.required' => 'The employee_id field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
                 'training_name.required' => 'The training_name field is required',
-                'create_at.required' => 'The create_at field is required',
+                // 'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
             ];
@@ -111,9 +110,9 @@ class TrainingSetupController extends Controller
             }
 
             $trainingMgt = TrainingSetup::create([
-                'employee_id' => $request->employee_id,
+                // 'employee_id' => $request->employee_id,
                 'training_name' => $request->training_name,
-                'create_at' => $request->create_at,
+                // 'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 
@@ -141,9 +140,7 @@ class TrainingSetupController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="employee_id", type="integer",example=1),
      *              @OA\Property(property="training_name", type="text", example="xyz"),
-     *              @OA\Property(property="create_at", type="text", example="2023-03-23"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
      *      ),
@@ -165,9 +162,7 @@ class TrainingSetupController extends Controller
         try {
 
             $trainingSetup = TrainingSetup::findOrFail($id);
-            $trainingSetup->employee_id = $request->employee_id;
             $trainingSetup->training_name = $request->training_name;
-            $trainingSetup->create_at = $request->create_at;
             $trainingSetup->status = $request->status;
             $trainingSetup->save();
 
@@ -199,16 +194,26 @@ class TrainingSetupController extends Controller
 
     public function deleteTrainingMgt($id)
     {
+
         try {
             $trainingMgt =  TrainingSetup::findOrFail($id);
-            $trainingMgt->delete();
-
-            return response()->json([
-                'status'  => true,
-                'message' => "Training Mgt Record Deleted Successfully",
-                'errors'  => null,
-                'data'    => $trainingMgt,
-            ], 200);
+            $trainingData = Training::where('training_center_name', '=', $id)->count();
+            if ($trainingData === 0) {
+                $trainingMgt->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => "TrainingSetup Record Deleted Successfully",
+                    'errors' => null,
+                    'data' => $trainingMgt,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "TrainingSetup Record cannot be deleted. Associated data exists.",
+                    'errors' => null,
+                    'data' => $trainingMgt,
+                ], 400);
+            }
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

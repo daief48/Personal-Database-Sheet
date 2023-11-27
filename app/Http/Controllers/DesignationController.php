@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Designation;
+use App\Models\Employee;
+use App\Models\Promotion;
+use App\Models\Transfer;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
 use Validator;
@@ -68,9 +71,7 @@ class DesignationController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *               @OA\Property(property="employee_id", type="integer"),
      *               @OA\Property(property="designation_name", type="text"),
-     *               @OA\Property(property="create_at", type="text"),
      *               @OA\Property(property="status", type="text"),
      *            ),
      *        ),
@@ -91,17 +92,14 @@ class DesignationController extends Controller
         try {
 
             $rules = [
-                'employee_id' => 'required',
                 'designation_name' => 'required',
-                'create_at' => 'required',
                 'status' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+
                 'designation_name.required' => 'The designation_name field is required',
-                'create_at.required' => 'The create_at field is required',
                 'status.required' => 'The status field is required',
 
             ];
@@ -112,9 +110,7 @@ class DesignationController extends Controller
             }
 
             $designationInfo = Designation::create([
-                'employee_id' => $request->employee_id,
                 'designation_name' => $request->designation_name,
-                'create_at' => $request->create_at,
                 'status' => $request->status,
             ]);
 
@@ -139,7 +135,6 @@ class DesignationController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="designation_name", type="text", example="xyz"),
      *              @OA\Property(property="status", type="text", example=0),
      *          ),
@@ -179,7 +174,6 @@ class DesignationController extends Controller
             $designationInfoById = Designation::findOrFail($id);
             $designationInfo = Designation::findOrFail($id);
             $designationInfo->designation_name = $request->designation_name;
-            $designationInfo->create_at = $request->create_at;
             $designationInfo->status = $request->status;
             $designationInfo->save();
 
@@ -214,15 +208,29 @@ class DesignationController extends Controller
     public function deleteDesignationMgt($id)
     {
         try {
-            $designationMgt =  Designation::findOrFail($id);
-            $designationMgt->delete();
+            $designation = Designation::findOrFail($id);
+            $transferData = Transfer::where('to_designation', '=', $id)
+                ->orWhere('from_designation', '=', $id)
+                ->count();
+            $employeeData = Employee::where('designation', '=', $id)->count();
+            $promotionData = Promotion::where('promoted_designation', '=', $id)->count();
 
-            return response()->json([
-                'status'  => true,
-                'message' => "Designation Mgt Record Deleted Successfully",
-                'errors'  => null,
-                'data'    => $designationMgt,
-            ], 200);
+            if ($transferData === 0 && $employeeData === 0 &&  $promotionData === 0) {
+                $designation->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => "Designation Record Deleted Successfully",
+                    'errors' => null,
+                    'data' => $designation,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "designation Record cannot be deleted. Associated data exists.",
+                    'errors' => null,
+                    'data' => $designation,
+                ], 400);
+            }
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

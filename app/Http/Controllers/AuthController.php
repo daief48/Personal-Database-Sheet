@@ -156,7 +156,12 @@ class AuthController extends Controller
                             ],
                             [
                                 'title' => 'Training Setup',
-                                'slug' => '/training-setup',
+                                'slug' => '/admin-training-type',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Transfer Setup',
+                                'slug' => '/admin-transfer-type',
                                 'icon' => 'fa fa-graduation-cap nav-icon',
                             ],
                             [
@@ -179,7 +184,22 @@ class AuthController extends Controller
                     
                     [
                         'title' => 'ACR',
-                        'slug' => '/acr',
+                        'slug' => '/admin-acr',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
+                    ],
+                    [
+                        'title' => 'Senior Employee',
+                        'slug' => '/admin-senior-employee',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
+                    ],
+                    [
+                        'title' => 'Freedom Fighter',
+                        'slug' => '/admin-freedom-fighter',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
+                    ],
+                    [
+                        'title' => 'Blood Group',
+                        'slug' => '/admin-blood-group',
                         'icon' => 'fa fa-newspaper-o nav-icon',
                     ],
                     [

@@ -232,7 +232,7 @@ class TrainingController extends Controller
             $training->training_strt_date = $request->training_strt_date;
             $training->training_end_date = $request->training_end_date;
             $training->description = $request->description;
-            $training->status = $request->status;
+            $training->status = $request->status ?? 0;
             $training->save();
 
             return response()->json([

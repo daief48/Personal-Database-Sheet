@@ -72,8 +72,7 @@ class TransferController extends Controller
 
 
             $userRole = Auth::user()->role_id;
-            dd($userRole);
-            exit;
+        
             if ($userRole == 1) {
                 $getTransferList = $getTransferList->get();
             } else {
@@ -179,21 +178,12 @@ class TransferController extends Controller
             if ($validator->fails()) {
                 return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
-
-
-
-            // if ($request->hasFile('transfer_letter')) {
-            //     $file = $request->file('transfer_letter');
-            //     $fileName = time() . '_' . $file->getClientOriginalName();
-            //     $file->storeAs('public/transfer_letters', $fileName);
-            //     $filePath = $fileName;
-            // }
-
+          
             if ($request->file('transfer_letter')) {
                 $file = $request->file('transfer_letter');
                 $file_name = $request->file('transfer_letter')->getClientOriginalName();
-                $file_ext = $request->file('transfer_letter')->getClientOriginalExtension();
-                $fileNameToStore = 'transfer_letter' . time() . '.' . $file_ext;
+                $image_ext = $request->file('transfer_letter')->getClientOriginalExtension();
+                $fileNameToStore = 'transfer_letter' . time() . '.' . $image_ext;
                 $destinationPath = public_path() . "/transferLetters/" . $fileNameToStore;
                 $contents = file_get_contents($file);
                 File::put($destinationPath, $contents);
@@ -331,7 +321,7 @@ class TransferController extends Controller
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
                 'transfer_letter' => $fileNameToStore,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return $this->responseRepository->ResponseSuccess($target, 'Transfer Record Updated Successfully !');

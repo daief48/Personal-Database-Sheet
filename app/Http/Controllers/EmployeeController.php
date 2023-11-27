@@ -105,15 +105,15 @@ class EmployeeController extends Controller
                 // dd($image);
                 // exit;
 
-            $imgContent = public_path('/images/' . $getProfile->image);
-            $contents = file_get_contents($imgContent);
-            $baseEncode = 'data:image/png; base64,' . base64_encode($contents);
+            // $imgContent = public_path('/images/' . $getProfile->image);
+            // $contents = file_get_contents($imgContent);
+            // $baseEncode = 'data:image/png; base64,' . base64_encode($contents);
 
 
             return response()->json([
                 'status' => 'success',
                 'data'   => $getProfile,
-                'encodeImg' => $baseEncode
+                // 'encodeImg' => $baseEncode
             ]);
         } catch (\Exception $e) {
             return response()->json([

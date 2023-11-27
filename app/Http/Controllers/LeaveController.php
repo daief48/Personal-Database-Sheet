@@ -180,7 +180,7 @@ class LeaveController extends Controller
                     'designations.designation_name',
                 )
                 ->where('leaves.status', 1)
-                ->where('employee_id', $request->employee_id)
+                ->where('leaves.employee_id', $request->employee_id)
                 ->get();
 
             $employeeLeaveArrays = [];
@@ -390,7 +390,7 @@ class LeaveController extends Controller
             $leaveInfo->to_date = $request->to_date;
             $leaveInfo->day = $request->day;
             $leaveInfo->description = $request->description;
-            $leaveInfo->status = $request->status;
+            $leaveInfo->status = $request->status ?? 0;
             $leaveInfo->save();
 
             return response()->json([
