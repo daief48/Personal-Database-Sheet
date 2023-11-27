@@ -51,10 +51,12 @@ class EmployeeController extends Controller
                 ->leftJoin('departments', 'departments.id', '=', 'employees.department')
                 ->leftJoin('designations', 'designations.id', '=', 'employees.designation')
                 ->leftJoin('offices', 'offices.id', '=', 'employees.office')
+                ->leftJoin('freedom_fighters', 'freedom_fighters.employee_id', '=', 'employees.id')
                 ->select(
                     'employees.*',
                     'departments.dept_name as department_name',
-                    'designations.designation_name as designation_name'
+                    'designations.designation_name as designation_name',
+                    'freedom_fighters.*'
                 )
                 ->orderBy('employees.id', 'desc');
 
@@ -416,6 +418,7 @@ class EmployeeController extends Controller
                 'job_location' => $request->job_location ?? $target->job_location,
                 'joining_date' => $request->joining_date ?? $target->joining_date,
                 'education_history' => $request->education_history ?? [],
+                'document' => $request->document ?? [],
                 'father_name' => $request->father_name ?? $target->father_name,
                 'mother_name' => $request->mother_name ?? $target->mother_name,
                 'spouse_name' => $request->spouse_name ?? $target->spouse_name,
@@ -444,7 +447,8 @@ class EmployeeController extends Controller
                 'status'  => true,
                 'message' => "Employee Update Successfully",
                 'errors'  => null,
-                'data'    => $addFreedomFighter,
+                'profiledata'    => $updateProfile,
+                'freedomfighterdata'    => $updateaddFreedomFighter,
             ], 200);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
