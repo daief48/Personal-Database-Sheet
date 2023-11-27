@@ -111,7 +111,7 @@ class DesignationController extends Controller
 
             $designationInfo = Designation::create([
                 'designation_name' => $request->designation_name,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([

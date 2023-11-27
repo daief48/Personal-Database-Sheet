@@ -1477,13 +1477,31 @@
                                     "department": {
                                         "type": "text"
                                     },
+                                    "job_grade": {
+                                        "type": "text"
+                                    },
                                     "job_location": {
                                         "type": "text"
                                     },
                                     "joining_date": {
                                         "type": "text"
                                     },
+                                    "freedom_fighter_status": {
+                                        "type": "text"
+                                    },
+                                    "freedom_fighter_num": {
+                                        "type": "text"
+                                    },
+                                    "Sector": {
+                                        "type": "text"
+                                    },
+                                    "fighting_divi": {
+                                        "type": "text"
+                                    },
                                     "education_history": {
+                                        "type": "text"
+                                    },
+                                    "document": {
                                         "type": "text"
                                     },
                                     "father_name": {
@@ -1631,6 +1649,9 @@
                                         "type": "text"
                                     },
                                     "department": {
+                                        "type": "text"
+                                    },
+                                    "job_grade": {
                                         "type": "text"
                                     },
                                     "job_location": {
@@ -1908,6 +1929,261 @@
                 "responses": {
                     "200": {
                         "description": "Successfully, Delete Album"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getGradeMgt": {
+            "get": {
+                "tags": [
+                    "PDS Grade Setup"
+                ],
+                "summary": "Grade Mgt List",
+                "description": "Total Grade Mgt List",
+                "operationId": "getGradeMgt",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/addGradeMgt": {
+            "post": {
+                "tags": [
+                    "PDS Grade Setup"
+                ],
+                "summary": "Add New Grade Mgt",
+                "description": "Add New Grade Mgt",
+                "operationId": "addGradeMgt",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "job_grade": {
+                                        "type": "text"
+                                    },
+                                    "status": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Added Training Mgt Setup Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/updateGradeMgt/{id}": {
+            "put": {
+                "tags": [
+                    "PDS Grade Setup"
+                ],
+                "summary": "Update Grade Mgt Setup",
+                "operationId": "updateGradeMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "job_grade": {
+                                        "type": "text",
+                                        "example": "xyz"
+                                    },
+                                    "status": {
+                                        "type": "text",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Grade Mgt Setup Update Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/deleteGradeMgt/{id}": {
+            "delete": {
+                "tags": [
+                    "PDS Grade Setup"
+                ],
+                "summary": "Delete Grade Mgt Record",
+                "description": "Delete Grade Mgt Record With Valid ID",
+                "operationId": "deleteGradeMgt",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Delete Grade Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveGradeMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Grade Setup"
+                ],
+                "summary": "In-active Grade Mgt Record",
+                "description": "In-active Specific Grade Mgt Record With Valid ID",
+                "operationId": "inactiveGradeMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active Grade Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/activeGradeMgtRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Grade Setup"
+                ],
+                "summary": "Active Grade Mgt Record",
+                "description": "Active Specific Grade Mgt Record With Valid ID",
+                "operationId": "activeGradeMgtRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, Active Grade Mgt Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificGradeSetup/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Grade Setup"
+                ],
+                "summary": "Specific Grade Setup",
+                "description": "Specific Grade Setup",
+                "operationId": "specificGradeSetup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -2966,7 +3242,22 @@
                                     "promotion_ref_number": {
                                         "type": "text"
                                     },
-                                    "promoted_designation": {
+                                    "to_office": {
+                                        "type": "text"
+                                    },
+                                    "from_office": {
+                                        "type": "text"
+                                    },
+                                    "to_department": {
+                                        "type": "text"
+                                    },
+                                    "from_department": {
+                                        "type": "text"
+                                    },
+                                    "to_designation": {
+                                        "type": "text"
+                                    },
+                                    "from_designation": {
                                         "type": "text"
                                     },
                                     "promotion_date": {
@@ -3037,9 +3328,29 @@
                                         "type": "text",
                                         "example": "2211"
                                     },
-                                    "promoted_designation": {
-                                        "type": "integer",
-                                        "example": "1"
+                                    "to_office": {
+                                        "type": "text",
+                                        "example": 1
+                                    },
+                                    "from_office": {
+                                        "type": "text",
+                                        "example": 1
+                                    },
+                                    "to_department": {
+                                        "type": "text",
+                                        "example": 1
+                                    },
+                                    "from_department": {
+                                        "type": "text",
+                                        "example": 1
+                                    },
+                                    "to_designation": {
+                                        "type": "text",
+                                        "example": 1
+                                    },
+                                    "from_designation": {
+                                        "type": "text",
+                                        "example": 1
                                     },
                                     "promotion_date": {
                                         "type": "string",
@@ -4678,9 +4989,6 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer"
-                                    },
                                     "title": {
                                         "type": "text"
                                     },

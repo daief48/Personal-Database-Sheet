@@ -145,24 +145,61 @@ class AuthController extends Controller
                         'icon' => 'fa fa-graduation-cap nav-icon',
                     ],
                     [
-                        'title' => 'Departments Setup',
-                        'slug' => '/admin-department',
-                        'icon' => 'fa fa-graduation-cap nav-icon',
-                    ],
-                    [
-                        'title' => 'Training Setup',
-                        'slug' => '/training-setup',
-                        'icon' => 'fa fa-graduation-cap nav-icon',
-                    ],
-                    [
-                        'title' => 'Office Setup',
-                        'slug' => '/office-setup',
-                        'icon' => 'fa fa-graduation-cap nav-icon',
+                        'title' => 'Settings',
+                        'icon' => 'fa fa-solid fa-gear',
+                        'setting' => true,
+                        'slug' => [
+                            [
+                                'title' => 'Departments Setup',
+                                'slug' => '/admin-department',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Training Setup',
+                                'slug' => '/admin-training-type',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Transfer Setup',
+                                'slug' => '/admin-transfer-type',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Designation Setup',
+                                'slug' => '/admin-designation',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Office Setup',
+                                'slug' => '/admin-office',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                            [
+                                'title' => 'Leave Type Setup',
+                                'slug' => '/admin-leave-type',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
+                        ],
                     ],
 
                     [
                         'title' => 'ACR',
-                        'slug' => '/acr',
+                        'slug' => '/admin-acr',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
+                    ],
+                    [
+                        'title' => 'Senior Employee',
+                        'slug' => '/admin-senior-employee',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
+                    ],
+                    [
+                        'title' => 'Freedom Fighter',
+                        'slug' => '/admin-freedom-fighter',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
+                    ],
+                    [
+                        'title' => 'Blood Group',
+                        'slug' => '/admin-blood-group',
                         'icon' => 'fa fa-newspaper-o nav-icon',
                     ],
                     [

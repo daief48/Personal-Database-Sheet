@@ -310,7 +310,7 @@ class LeaveController extends Controller
                 'to_date' => $request->to_date,
                 'day' => $request->day,
                 'description' => $request->description,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([

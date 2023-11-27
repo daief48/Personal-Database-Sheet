@@ -333,7 +333,7 @@ class TransferController extends Controller
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
                 'transfer_letter' => $fileNameToStore,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return $this->responseRepository->ResponseSuccess($target, 'Transfer Record Updated Successfully !');

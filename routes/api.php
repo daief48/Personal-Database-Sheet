@@ -18,6 +18,7 @@ use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\AcrController;
 use App\Http\Controllers\BloodGroupController;
 use App\Http\Controllers\FreedomFighterController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\IdCardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReportController;
@@ -118,6 +119,16 @@ Route::delete('/deleteOfficeMgt/{id}', [OfficeController::class, 'deleteOfficeMg
 Route::patch('/activeOfficeMgtRecord/{id}', [OfficeController::class, 'activeOfficeMgtRecord']);
 Route::patch('/inactiveOfficeMgtRecord/{id}', [OfficeController::class, 'inactiveOfficeMgtRecord']);
 Route::get('/specificOfficeSetup/{id}', [OfficeController::class, 'specificOfficeSetup']);
+
+//Grade Setup
+
+Route::get('/getGradeMgt', [GradeController::class, 'getGradeMgt']);
+Route::post('/addGradeMgt', [GradeController::class, 'addGradeMgt']);
+Route::put('/updateGradeMgt/{id}', [GradeController::class, 'updateGradeMgt']);
+Route::delete('/deleteGradeMgt/{id}', [GradeController::class, 'deleteGradeMgt']);
+Route::patch('/activeGradeMgtRecord/{id}', [GradeController::class, 'activeGradeMgtRecord']);
+Route::patch('/inactiveGradeMgtRecord/{id}', [GradeController::class, 'inactiveGradeMgtRecord']);
+Route::get('/specificGradeSetup/{id}', [GradeController::class, 'specificGradeSetup']);
 
 //Admin Setup Department v1
 

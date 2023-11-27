@@ -35,6 +35,7 @@ class Employee extends Model
         'department',
         'job_location',
         'joining_date',
+        'job_grade',
         'father_name',
         'mother_name',
         'spouse_name',

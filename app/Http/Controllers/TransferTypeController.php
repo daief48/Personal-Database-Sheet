@@ -61,7 +61,6 @@ class TransferTypeController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *               @OA\Property(property="employee_id", type="integer"),
      *                @OA\Property(property="title", type="text"),
      *                @OA\Property(property="status", type="integer"),
 
@@ -87,7 +86,6 @@ class TransferTypeController extends Controller
 
             $rules = [
 
-                'employee_id' => 'required',
                 'title' => 'required',
                 'status' => 'required',
                 // Add validation rules for other fields here
@@ -95,7 +93,6 @@ class TransferTypeController extends Controller
 
             $messages = [
 
-                'employee_id.required' => 'The employee_id field is required',
                 'title.required' => 'The title field is required',
                 'status.required' => 'The status field is required',
                 // Add custom error messages for other fields if needed
@@ -108,9 +105,8 @@ class TransferTypeController extends Controller
             }
 
             $TransferType = TransferType::create([
-                'employee_id' => $request->employee_id,
                 'title' => $request->title,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([
@@ -177,7 +173,6 @@ class TransferTypeController extends Controller
             }
 
             $TransferType = TransferType::findOrFail($id);
-            $TransferType->employee_id = $request->employee_id;
             $TransferType->title = $request->title;
             $TransferType->status = $request->status;
             $TransferType->save();

@@ -114,7 +114,7 @@ class LeaveTypeController extends Controller
             $leaveType = LeaveType::create([
                 'leave_type' => $request->leave_type,
                 'days' => $request->days,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([

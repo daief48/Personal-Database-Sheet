@@ -110,7 +110,7 @@ class DepartmentController extends Controller
             $department = Department::create([
 
                 'dept_name' => $request->dept_name,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([

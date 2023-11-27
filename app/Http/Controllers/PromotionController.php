@@ -41,12 +41,23 @@ class PromotionController extends Controller
         try {
 
 
-            $getPromotion = Promotion::leftJoin('designations', 'promotions.promoted_designation', '=', 'designations.id')
-                ->leftJoin('employees', 'employees.id', '=', 'promotions.employee_id')
+            $getPromotion = Promotion::leftJoin('employees', 'employees.id', '=', 'promotions.employee_id')
+                ->leftJoin('designations as to_designation', 'promotions.to_designation', '=', 'to_designation.id')
+                ->leftJoin('designations as from_designation', 'promotions.from_designation', '=', 'from_designation.id')
+                ->leftJoin('departments as to_department', 'promotions.to_department', '=', 'to_department.id')
+                ->leftJoin('departments as from_department', 'promotions.from_department', '=', 'from_department.id')
+                ->leftJoin('offices as to_office', 'promotions.to_office', '=', 'to_office.id')
+                ->leftJoin('offices as from_office', 'promotions.from_office', '=', 'from_office.id')
                 ->select(
                     'promotions.*',
-                    'designations.designation_name',
-                    'employees.name as employee_name'
+                    'employees.name as employee_name',
+                    'to_office.office_name as to_office',
+                    'from_office.office_name as from_office',
+                    'to_department.dept_name as to_department',
+                    'from_department.dept_name as from_department',
+                    'to_designation.designation_name as to_designation',
+                    'from_designation.designation_name as from_designation',
+                    'promotions.promotion_date',
                 );
             // ->orderBy('id', 'desc')->get();
 
@@ -86,7 +97,12 @@ class PromotionController extends Controller
      *               required={},
      *               @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="promotion_ref_number", type="text"),
-     *               @OA\Property(property="promoted_designation", type="text"),
+     *               @OA\Property(property="to_office", type="text"),
+     *               @OA\Property(property="from_office", type="text"),
+     *               @OA\Property(property="to_department", type="text"),
+     *               @OA\Property(property="from_department", type="text"),
+     *               @OA\Property(property="to_designation", type="text"),
+     *               @OA\Property(property="from_designation", type="text"),
      *               @OA\Property(property="promotion_date", type="date"),
      *               @OA\Property(property="status", type="text"),
      *               @OA\Property(property="description", type="text")
@@ -112,7 +128,12 @@ class PromotionController extends Controller
             $rules = [
                 'employee_id' => 'required',
                 'promotion_ref_number' => 'required',
-                'promoted_designation' => 'required',
+                'to_office' => 'required',
+                'from_office' => 'required',
+                'to_department' => 'required',
+                'from_department' => 'required',
+                'to_designation' => 'required',
+                'from_designation' => 'required',
                 'promotion_date' => 'required',
                 'description' => 'required',
 
@@ -121,7 +142,12 @@ class PromotionController extends Controller
             $messages = [
                 'employee_id.required' => 'The employee_id field is required',
                 'promotion_ref_number.required' => 'The promotion_ref_number field is required',
-                'promoted_designation.required' => 'The promoted_designation field is required',
+                'to_office.required' => ' The to_office field is required',
+                'from_office.required' => 'The from_office field is required',
+                'to_department.required' => 'The to_department field is required',
+                'from_department.required' => 'The from_department field is required',
+                'to_designation.required' => 'The to_designation field is required',
+                'from_designation.required' => 'The from_designation field is required',
                 'promotion_date.required' => 'The promotion_date field is required',
                 'description.required' => 'The description field is required',
 
@@ -136,7 +162,12 @@ class PromotionController extends Controller
             $promotion = Promotion::create([
                 'employee_id' => $request->employee_id,
                 'promotion_ref_number' => $request->promotion_ref_number,
-                'promoted_designation' => $request->promoted_designation,
+                'to_office' => $request->to_office,
+                'from_office' => $request->from_office,
+                'to_department' => $request->to_department,
+                'from_department' => $request->from_department,
+                'to_designation' => $request->to_designation,
+                'from_designation' => $request->from_designation,
                 'promotion_date' => $request->promotion_date,
                 'description' => $request->description,
                 'status' => $request->status ?? 0,
@@ -166,7 +197,12 @@ class PromotionController extends Controller
      *              type="object",
      *              @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="promotion_ref_number", type="text", example="2211"),
-     *              @OA\Property(property="promoted_designation", type="integer", example="1"),
+     *              @OA\Property(property="to_office", type="text", example=1),
+     *               @OA\Property(property="from_office", type="text", example=1),
+     *             @OA\Property(property="to_department", type="text", example=1),
+     *             @OA\Property(property="from_department", type="text", example=1),
+     *             @OA\Property(property="to_designation", type="text", example=1),
+     *             @OA\Property(property="from_designation", type="text", example=1),
      *              @OA\Property(property="promotion_date", type="date", example="2023-03-23"),
      *              @OA\Property(property="description", type="text", example="good"),
      *              @OA\Property(property="status", type="integer", example=1),
@@ -192,7 +228,12 @@ class PromotionController extends Controller
             $rules = [
                 'employee_id' => 'required',
                 'promotion_ref_number' => 'required',
-                'promoted_designation' => 'required',
+                'to_office' => 'required',
+                'from_office' => 'required',
+                'to_department' => 'required',
+                'from_department' => 'required',
+                'to_designation' => 'required',
+                'from_designation' => 'required',
                 'promotion_date' => 'required',
                 'description' => 'required',
 
@@ -201,7 +242,12 @@ class PromotionController extends Controller
             $messages = [
                 'employee_id.required' => 'The employee_id field is required',
                 'promotion_ref_number.required' => 'The promotion_ref_number field is required',
-                'promoted_designation.required' => 'The promoted_designation field is required',
+                'to_office.required' => ' The to_office field is required',
+                'from_office.required' => 'The from_office field is required',
+                'to_department.required' => 'The to_department field is required',
+                'from_department.required' => 'The from_department field is required',
+                'to_designation.required' => 'The to_designation field is required',
+                'from_designation.required' => 'The from_designation field is required',
                 'promotion_date.required' => 'The promotion_date field is required',
                 'description.required' => 'The description field is required',
 
@@ -215,7 +261,12 @@ class PromotionController extends Controller
             $promotion = Promotion::findOrFail($id);
             $promotion->employee_id = $request->employee_id;
             $promotion->promotion_ref_number = $request->promotion_ref_number;
-            $promotion->promoted_designation = $request->promoted_designation;
+            $promotion->to_office = $request->to_office;
+            $promotion->from_office = $request->from_office;
+            $promotion->to_department = $request->to_department;
+            $promotion->from_department = $request->from_department;
+            $promotion->o_designation = $request->to_designation;
+            $promotion->from_designation = $request->from_designation;
             $promotion->promotion_date = $request->promotion_date;
             $promotion->description = $request->description;
             $promotion->save();

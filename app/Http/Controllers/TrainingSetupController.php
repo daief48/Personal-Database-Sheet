@@ -115,7 +115,7 @@ class TrainingSetupController extends Controller
                 'employee_id' => $request->employee_id,
                 'training_name' => $request->training_name,
                 'create_at' => $request->create_at,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([
