@@ -13,7 +13,12 @@ class Promotion extends Model
 
         'employee_id',
         'promotion_ref_number',
-        'promoted_designation',
+        'to_office',
+        'from_office',
+        'to_department',
+        'from_department',
+        'to_designation',
+        'from_designation',
         'promotion_date',
         'description',
         'status',

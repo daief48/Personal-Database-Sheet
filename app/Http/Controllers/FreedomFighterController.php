@@ -102,7 +102,7 @@ class FreedomFighterController extends Controller
                 'freedom_fighter_num' => $request->freedom_fighter_num,
                 'Sector' => $request->Sector,
                 'fighting_divi' => $request->fighting_divi,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([

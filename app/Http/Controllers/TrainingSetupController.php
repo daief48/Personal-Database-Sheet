@@ -112,8 +112,8 @@ class TrainingSetupController extends Controller
             $trainingMgt = TrainingSetup::create([
                 // 'employee_id' => $request->employee_id,
                 'training_name' => $request->training_name,
-                // 'create_at' => $request->create_at,
-                'status' => $request->status,
+                'create_at' => $request->create_at,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([
@@ -209,7 +209,7 @@ class TrainingSetupController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "TrainingSetup Record cannot be deleted. Associated data exists.",
+                    'message' => "TrainingSetup Record cannot be deleted. Used this data in another module.",
                     'errors' => null,
                     'data' => $trainingMgt,
                 ], 400);

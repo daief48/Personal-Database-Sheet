@@ -121,8 +121,7 @@ class LeaveTypeController extends Controller
                 // 'employee_id' => $request->employee_id,
                 'leave_type' => $request->leave_type,
                 'days' => $request->days,
-                // 'create_at' => $request->create_at,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([
@@ -254,7 +253,7 @@ class LeaveTypeController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Department Record cannot be deleted. Associated data exists.",
+                    'message' => "Department Record cannot be deleted. Used this data in another module.",
                     'errors' => null,
                     'data' => $leaveType,
                 ], 400);

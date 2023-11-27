@@ -17,8 +17,8 @@ class OfficeController extends Controller
     protected $responseRepository;
     public function __construct(ResponseRepository $rp)
     {
-        $this->middleware('auth:api', ['except' => []]);
-        $this->responseRepository = $rp;
+        // $this->middleware('auth:api', ['except' => []]);
+        // $this->responseRepository = $rp;
     }
 
     /**
@@ -107,7 +107,7 @@ class OfficeController extends Controller
 
             $OfficeInfo = Office::create([
                 'office_name' => $request->office_name,
-                'status' => $request->status,
+                'status' => $request->status ?? 0,
             ]);
 
             return response()->json([
@@ -217,7 +217,7 @@ class OfficeController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => "Office Record cannot be deleted. Associated data exists.",
+                    'message' => "Office Record cannot be deleted. Used this data in another module.",
                     'errors' => null,
                     'data' => $officeMgt,
                 ], 400);

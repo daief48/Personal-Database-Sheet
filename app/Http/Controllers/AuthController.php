@@ -147,7 +147,7 @@ class AuthController extends Controller
                     [
                         'title' => 'Settings',
                         'icon' => 'fa fa-solid fa-gear',
-                        'setting'=>true,
+                        'setting' => true,
                         'slug' => [
                             [
                                 'title' => 'Departments Setup',
@@ -179,9 +179,14 @@ class AuthController extends Controller
                                 'slug' => '/admin-leave-type',
                                 'icon' => 'fa fa-graduation-cap nav-icon',
                             ],
+                            [
+                                'title' => 'Grade Type Setup',
+                                'slug' => '/admin-grade-type',
+                                'icon' => 'fa fa-graduation-cap nav-icon',
+                            ],
                         ],
                     ],
-                    
+
                     [
                         'title' => 'ACR',
                         'slug' => '/admin-acr',
@@ -207,7 +212,7 @@ class AuthController extends Controller
                         'slug' => '/report',
                         'icon' => 'fa fa-file nav-icon',
                     ],
-                   
+
                 ];
             }
             if ($user->role_id == 2) {

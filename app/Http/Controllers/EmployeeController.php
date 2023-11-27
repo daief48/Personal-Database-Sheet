@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\ResponseRepository;
 use App\Models\Employee;
+use App\Models\FreedomFighter;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -29,6 +30,13 @@ class EmployeeController extends Controller
      * operationId="getEmployeesList",
      * summary="Get All Employee List",
      * description="Get All Employee List",
+     *      @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Search term for filtering profiles",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *     ),
      * @OA\Response(response=200, description="Success" ),
      * @OA\Response(response=400, description="Bad Request"),
      * @OA\Response(response=404, description="Resource Not Found"),
@@ -56,7 +64,8 @@ class EmployeeController extends Controller
                     ->orWhere('employees.email', 'like', '%' . $request->search . '%')
                     ->orWhere('employees.mobile_number', 'like', '%' . $request->search . '%')
                     ->orWhere('departments.dept_name', 'like', '%' . $request->search . '%')
-                    ->orWhere('designations.designation_name', 'like', '%' . $request->search . '%');
+                    ->orWhere('designations.designation_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('offices.office_name', 'like', '%' . $request->search . '%');
             }
             $employeeList = $employeeList->paginate(10);
 
@@ -93,17 +102,17 @@ class EmployeeController extends Controller
 
             $getProfile = Employee::leftJoin('designations', 'designations.id', '=', 'employees.designation')
                 ->leftJoin('departments', 'departments.id', '=', 'employees.department')
+                ->leftJoin('offices', 'offices.id', '=', 'employees.office')
                 ->select(
                     'employees.*',
                     'designations.id as designation_id',
                     'designations.designation_name as designation',
                     'departments.id as department_id',
-                    'departments.dept_name as department'
+                    'departments.dept_name as department',
+                    'offices.office_name as office_name'
+
                 )
                 ->where('employees.user_id', $id)->first();
-                // $image= file_get_contents($getProfile->image);
-                // dd($image);
-                // exit;
 
             // $imgContent = public_path('/images/' . $getProfile->image);
             // $contents = file_get_contents($imgContent);
@@ -149,6 +158,7 @@ class EmployeeController extends Controller
      *                @OA\Property(property="nid_number", type="text"),
      *                @OA\Property(property="passport_number", type="text"),
      *               @OA\Property(property="designation", type="text"),
+     *                @OA\Property(property="office", type="text"),
      *               @OA\Property(property="present_addr_houseno", type="text"),
      *               @OA\Property(property="present_addr_roadno", type="text"),
      *               @OA\Property(property="present_addr_area", type="text"),
@@ -162,9 +172,15 @@ class EmployeeController extends Controller
      *               @OA\Property(property="permanent_addr_district", type="text"),
      *               @OA\Property(property="permanent_addr_postcode", type="text"),
      *               @OA\Property(property="department", type="text"),
+     *               @OA\Property(property="job_grade", type="text"),
      *               @OA\Property(property="job_location", type="text"),
      *               @OA\Property(property="joining_date", type="text"),
+     *                @OA\Property(property="freedom_fighter_status", type="text"),
+     *                @OA\Property(property="freedom_fighter_num", type="text"),
+     *                @OA\Property(property="Sector", type="text"),
+     *                @OA\Property(property="fighting_divi", type="text"),
      *               @OA\Property(property="education_history", type="text"),
+     *                @OA\Property(property="document", type="text"),
      *               @OA\Property(property="father_name", type="text"),
      *               @OA\Property(property="mother_name", type="text"),
      *               @OA\Property(property="spouse_name", type="text"),
@@ -216,6 +232,7 @@ class EmployeeController extends Controller
             $addProfile->nid_number = $request->nid_number ?? 0; //
             $addProfile->passport_number = $request->passport_number ?? 0; //
             $addProfile->designation = $request->designation;
+            $addProfile->office = $request->office;
             $addProfile->present_addr_houseno =  $request->present_addr_houseno ?? 0;
             $addProfile->present_addr_roadno = $request->present_addr_roadno ?? 0;
             $addProfile->present_addr_area = $request->present_addr_area ?? '';
@@ -230,8 +247,11 @@ class EmployeeController extends Controller
             $addProfile->permanent_addr_postcode = $request->permanent_addr_postcode ?? 0;
             $addProfile->department = $request->department ?? 0;
             $addProfile->job_location = $request->job_location ?? '';
+            $addProfile->job_grade = $request->job_grade ?? '';
             $addProfile->joining_date = $request->joining_date ?? '2000-02-22';
+            $addProfile->freedom_fighter_status = $request->freedom_fighter_status ?? '0';
             $addProfile->education_history = $request->education_history ?? [];
+            $addProfile->document = $request->document ?? [];
             $addProfile->father_name = $request->father_name ?? '';
             $addProfile->mother_name = $request->mother_name ?? '';
             $addProfile->spouse_name = $request->spouse_name ?? '';
@@ -250,10 +270,18 @@ class EmployeeController extends Controller
             //     $updateSpeaker->image = $speaker_image_name;
             // }
             $addProfile->save();
+            $addFreedomFighter = new FreedomFighter;
+            $addFreedomFighter->employee_id = $addProfile->id;
+            $addFreedomFighter->freedom_fighter_num = $request->freedom_fighter_num ?? ''; //
+            $addFreedomFighter->Sector = $request->Sector ?? ''; //
+            $addFreedomFighter->fighting_divi = $request->fighting_divi ?? ''; //freedom_fighter_status
+            $addFreedomFighter->save();
+
 
             return response()->json([
                 'success' =>  true,
-                'data' =>  $addProfile,
+                'profileData' =>  $addProfile,
+                'freedomfighterData' =>  $addProfile,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -289,6 +317,7 @@ class EmployeeController extends Controller
      *                @OA\Property(property="nid_number", type="text"),
      *                @OA\Property(property="passport_number", type="text"),
      *               @OA\Property(property="designation", type="text"),
+     *                @OA\Property(property="office", type="text"),
      *               @OA\Property(property="present_addr_houseno", type="text"),
      *               @OA\Property(property="present_addr_roadno", type="text"),
      *               @OA\Property(property="present_addr_area", type="text"),
@@ -302,6 +331,7 @@ class EmployeeController extends Controller
      *               @OA\Property(property="permanent_addr_district", type="text"),
      *               @OA\Property(property="permanent_addr_postcode", type="text"),
      *               @OA\Property(property="department", type="text"),
+     *               @OA\Property(property="job_grade", type="text"),
      *               @OA\Property(property="job_location", type="text"),
      *               @OA\Property(property="joining_date", type="text"),
      *               @OA\Property(property="education_history", type="text"),
@@ -363,6 +393,7 @@ class EmployeeController extends Controller
                 'nid_number' => $request->nid_number ?? $target->nid_number,
                 'passport_number' => $request->passport_number ?? $target->passport_number,
                 'designation' => $request->designation ?? $target->designation,
+                'office' => $request->office ?? $target->office,
                 'present_addr_houseno' => $request->present_addr_houseno ?? $target->present_addr_houseno,
                 'present_addr_roadno' => $request->present_addr_roadno ?? $target->present_addr_roadno,
                 'present_addr_area' => $request->present_addr_area ?? $target->present_addr_area,
@@ -376,6 +407,7 @@ class EmployeeController extends Controller
                 'permanent_addr_district' => $request->permanent_addr_district ?? $target->permanent_addr_district,
                 'permanent_addr_postcode' => $request->permanent_addr_postcode ?? $target->permanent_addr_postcode,
                 'department' => $request->department ?? $target->department,
+                'job_grade' => $request->job_grade ?? $target->job_grade,
                 'job_location' => $request->job_location ?? $target->job_location,
                 'joining_date' => $request->joining_date ?? $target->joining_date,
                 'education_history' => $request->education_history ?? [],
@@ -406,17 +438,11 @@ class EmployeeController extends Controller
     /**
      * @OA\Post(
      *     tags={"PDS User Employee [Users]"},
-     *     path="/pds-backend/api/user/deleteEmployee/{empid}/{userid}",
+     *     path="/pds-backend/api/user/deleteEmployee/{userid}",
      *     operationId="deleteEmployee",
      *     summary="Delete User Employee",
      *     description="Delete both the User and Employee records associated with the given IDs.",
-     *     @OA\Parameter(
-     *         name="empid",
-     *         in="path",
-     *         required=true,
-     *         description="Employee ID to delete",
-     *         @OA\Schema(type="integer")
-     *     ),
+ 
      *     @OA\Parameter(
      *         name="userid",
      *         in="path",
@@ -436,7 +462,7 @@ class EmployeeController extends Controller
      */
 
 
-    public function deleteEmployee($empid, $userid)
+    public function deleteEmployee($userid)
     {
 
         // return $empid.'__'.$userid;
@@ -444,9 +470,9 @@ class EmployeeController extends Controller
 
         try {
 
-            $employee = Employee::find($empid);
+            $employee = User::find($userid);
             if ($employee->delete()) {
-                User::find($userid)->delete();
+                Employee::find($userid)->delete();
             }
 
 

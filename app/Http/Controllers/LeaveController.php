@@ -72,6 +72,7 @@ class LeaveController extends Controller
                     'leaves.id',
                     'leaves.employee_id',
                     'leaves.status',
+                    'leaves.description',
                     'employees.name'
                 )->get();
 
@@ -102,6 +103,7 @@ class LeaveController extends Controller
                     'id' => $leaveSetup->id,
                     'employee_id' => $leaveSetup->employee_id,
                     'employee_name' => $leaveSetup->name,
+                    'description' => $leaveSetup->description,
                     'status' => $leaveSetup->status,
                 ];
             }
@@ -174,6 +176,7 @@ class LeaveController extends Controller
                     'leaves.day',
                     'leaves.employee_id',
                     'leaves.status',
+                    'leaves.description',
                     'employees.name',
                     'employees.mobile_number',
                     'employees.email',
@@ -212,6 +215,7 @@ class LeaveController extends Controller
                     'mobile_number' => $leaveSetup->mobile_number,
                     'email' => $leaveSetup->email,
                     'designation_name' => $leaveSetup->designation_name,
+                    'description' => $leaveSetup->description,
                 ];
             }
             // dd($employeeLeaveArrays);
