@@ -1660,7 +1660,22 @@
                                     "joining_date": {
                                         "type": "text"
                                     },
+                                    "freedom_fighter_status": {
+                                        "type": "text"
+                                    },
+                                    "freedom_fighter_num": {
+                                        "type": "text"
+                                    },
+                                    "Sector": {
+                                        "type": "text"
+                                    },
+                                    "fighting_divi": {
+                                        "type": "text"
+                                    },
                                     "education_history": {
+                                        "type": "text"
+                                    },
+                                    "document": {
                                         "type": "text"
                                     },
                                     "father_name": {

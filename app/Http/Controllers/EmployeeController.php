@@ -334,7 +334,12 @@ class EmployeeController extends Controller
      *               @OA\Property(property="job_grade", type="text"),
      *               @OA\Property(property="job_location", type="text"),
      *               @OA\Property(property="joining_date", type="text"),
+     *               @OA\Property(property="freedom_fighter_status", type="text"),
+     *               @OA\Property(property="freedom_fighter_num", type="text"),
+     *               @OA\Property(property="Sector", type="text"),
+     *               @OA\Property(property="fighting_divi", type="text"),
      *               @OA\Property(property="education_history", type="text"),
+     *               @OA\Property(property="document", type="text"),
      *               @OA\Property(property="father_name", type="text"),
      *               @OA\Property(property="mother_name", type="text"),
      *               @OA\Property(property="spouse_name", type="text"),
@@ -425,11 +430,21 @@ class EmployeeController extends Controller
 
             $updateProfile = Employee::where('id', $Employee->id)->update($updateArr);
 
+            $freedomFighter = FreedomFighter::where('employee_id', $request->id)->first();
+
+            $target = FreedomFighter::find($freedomFighter->id);
+            $addFreedomFighter = [
+                'freedom_fighter_num' => $request->freedom_fighter_num ?? $target->freedom_fighter_num,
+                'Sector' => $request->Sector ?? $target->Sector,
+                'fighting_divi' => $request->fighting_divi ?? $target->fighting_divi,
+            ];
+            $updateaddFreedomFighter = FreedomFighter::where('id', $freedomFighter->id)->update($addFreedomFighter);
+
             return response()->json([
                 'status'  => true,
                 'message' => "Employee Update Successfully",
                 'errors'  => null,
-                'data'    => $updateProfile,
+                'data'    => $addFreedomFighter,
             ], 200);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
