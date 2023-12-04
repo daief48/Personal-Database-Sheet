@@ -1401,9 +1401,6 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "user_id": {
-                                        "type": "text"
-                                    },
                                     "image": {
                                         "type": "text"
                                     },

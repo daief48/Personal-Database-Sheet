@@ -46,6 +46,7 @@ class BloodGroupController extends Controller
                     'employees.id as emp_id',
                     'employees.name',
                     'employees.mobile_number',
+                    'employees.blood_group',
 
                 );
 

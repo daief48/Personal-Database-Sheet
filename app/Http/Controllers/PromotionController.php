@@ -51,12 +51,12 @@ class PromotionController extends Controller
                 ->select(
                     'promotions.*',
                     'employees.name as employee_name',
-                    'to_office.office_name as to_office',
-                    'from_office.office_name as from_office',
-                    'to_department.dept_name as to_department',
-                    'from_department.dept_name as from_department',
-                    'to_designation.designation_name as to_designation',
-                    'from_designation.designation_name as from_designation',
+                    'to_office.office_name as to_office_title',
+                    'from_office.office_name as from_office_title',
+                    'to_department.dept_name as to_department_title',
+                    'from_department.dept_name as from_department_title',
+                    'to_designation.designation_name as to_designation_title',
+                    'from_designation.designation_name as from_designation_title',
                     'promotions.promotion_date',
                 );
             // ->orderBy('id', 'desc')->get();
