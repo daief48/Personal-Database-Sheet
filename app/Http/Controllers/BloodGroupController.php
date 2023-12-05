@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 use App\Repositories\ResponseRepository;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class BloodGroupController extends Controller
 {
@@ -40,23 +41,35 @@ class BloodGroupController extends Controller
     {
         try {
 
+
             $getBloodGroup = BloodGroup::leftJoin('employees', 'employees.id', '=', 'blood_groups.employee_id')
                 ->select(
                     'blood_groups.*',
                     'employees.id as emp_id',
                     'employees.name',
                     'employees.mobile_number',
-                    'employees.blood_group',
-
+                    'employees.blood_group'
                 );
+            $latestBloodGroups = BloodGroup::select(
+                'employee_id',
+                \DB::raw('MAX(created_at) as latest_created_at')
+            )->groupBy('employee_id');
 
             $userRole = Auth::user()->role_id;
+
             if ($userRole == 1) {
-                $getBloodGroup = $getBloodGroup->get();
+                $getBloodGroup = $getBloodGroup->joinSub($latestBloodGroups, 'latest_blood_groups', function ($join) {
+                    $join->on('blood_groups.employee_id', '=', 'latest_blood_groups.employee_id');
+                    $join->on('blood_groups.created_at', '=', 'latest_blood_groups.latest_created_at');
+                })->get();
             } else {
+                // $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
+                // $getBloodGroup = $getBloodGroup->where('blood_groups.employee_id', $employeeInfo->id)->get();
                 $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
-                $getBloodGroup = $getBloodGroup->where('transfers.employee_id', $employeeInfo->id)->get();
+                $getBloodGroup = $getBloodGroup->where('blood_groups.employee_id', $employeeInfo->id)->get();
             }
+
+
 
             return response()->json([
                 'status' => 'success',
@@ -152,20 +165,21 @@ class BloodGroupController extends Controller
     {
         try {
             $rules = [
-                'employee_id' => 'required|unique:blood_groups',
-                'blood_group' => 'required',
+                // 'employee_id' => 'required|unique:blood_groups',
+                // 'blood_group' => 'required',
                 'last_donate' => 'required',
             ];
 
             $messages = [
-                'employee_id.unique' => 'The employee_id is already exists',
+                // 'employee_id.unique' => 'The employee_id is already exists',
 
-                'employee_id.required' => 'The employee_id field is required',
-                'blood_group.required' => 'The BloodGroup_ref_number field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
+                // 'blood_group.required' => 'The BloodGroup_ref_number field is required',
                 'last_donate.required' => 'The last_donate field is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
+
             if ($validator->fails()) {
                 return $this->responseRepository->ResponseError(null, $validator->errors(), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
@@ -225,8 +239,8 @@ class BloodGroupController extends Controller
         try {
 
             $rules = [
-                'employee_id' => 'required',
-                'blood_group' => 'required',
+                // 'employee_id' => 'required',
+                // 'blood_group' => 'required',
                 'last_donate' => 'required',
 
             ];
@@ -234,8 +248,8 @@ class BloodGroupController extends Controller
             $messages = [
                 // 'employee_id.unique' => 'The employee_id is already exists',
 
-                'employee_id.required' => 'The employee_id field is required',
-                'blood_group.required' => 'The BloodGroup_ref_number field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
+                // 'blood_group.required' => 'The BloodGroup_ref_number field is required',
                 'last_donate.required' => 'The last_donate field is required',
             ];
 

@@ -71,8 +71,6 @@ class TransferController extends Controller
                 );
 
             $userRole = Auth::user()->role_id;
-
-            exit;
             if ($userRole == 1) {
                 $getTransferList = $getTransferList->get();
             } else {
