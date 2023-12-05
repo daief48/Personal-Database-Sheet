@@ -51,10 +51,12 @@ class EmployeeController extends Controller
                 ->leftJoin('departments', 'departments.id', '=', 'employees.department')
                 ->leftJoin('designations', 'designations.id', '=', 'employees.designation')
                 ->leftJoin('offices', 'offices.id', '=', 'employees.office')
+                ->leftJoin('freedom_fighters', 'freedom_fighters.employee_id', '=', 'employees.id')
                 ->select(
                     'employees.*',
                     'departments.dept_name as department_name',
-                    'designations.designation_name as designation_name'
+                    'designations.designation_name as designation_name',
+                    'freedom_fighters.*'
                 )
                 ->orderBy('employees.id', 'desc');
 
@@ -334,7 +336,12 @@ class EmployeeController extends Controller
      *               @OA\Property(property="job_grade", type="text"),
      *               @OA\Property(property="job_location", type="text"),
      *               @OA\Property(property="joining_date", type="text"),
+     *               @OA\Property(property="freedom_fighter_status", type="text"),
+     *               @OA\Property(property="freedom_fighter_num", type="text"),
+     *               @OA\Property(property="Sector", type="text"),
+     *               @OA\Property(property="fighting_divi", type="text"),
      *               @OA\Property(property="education_history", type="text"),
+     *               @OA\Property(property="document", type="text"),
      *               @OA\Property(property="father_name", type="text"),
      *               @OA\Property(property="mother_name", type="text"),
      *               @OA\Property(property="spouse_name", type="text"),
@@ -411,6 +418,7 @@ class EmployeeController extends Controller
                 'job_location' => $request->job_location ?? $target->job_location,
                 'joining_date' => $request->joining_date ?? $target->joining_date,
                 'education_history' => $request->education_history ?? [],
+                'document' => $request->document ?? [],
                 'father_name' => $request->father_name ?? $target->father_name,
                 'mother_name' => $request->mother_name ?? $target->mother_name,
                 'spouse_name' => $request->spouse_name ?? $target->spouse_name,
@@ -425,11 +433,22 @@ class EmployeeController extends Controller
 
             $updateProfile = Employee::where('id', $Employee->id)->update($updateArr);
 
+            $freedomFighter = FreedomFighter::where('employee_id', $request->id)->first();
+
+            $target = FreedomFighter::find($freedomFighter->id);
+            $addFreedomFighter = [
+                'freedom_fighter_num' => $request->freedom_fighter_num ?? $target->freedom_fighter_num,
+                'Sector' => $request->Sector ?? $target->Sector,
+                'fighting_divi' => $request->fighting_divi ?? $target->fighting_divi,
+            ];
+            $updateaddFreedomFighter = FreedomFighter::where('id', $freedomFighter->id)->update($addFreedomFighter);
+
             return response()->json([
                 'status'  => true,
                 'message' => "Employee Update Successfully",
                 'errors'  => null,
-                'data'    => $updateProfile,
+                'profiledata'    => $updateProfile,
+                'freedomfighterdata'    => $updateaddFreedomFighter,
             ], 200);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);

@@ -1681,7 +1681,22 @@
                                     "joining_date": {
                                         "type": "text"
                                     },
+                                    "freedom_fighter_status": {
+                                        "type": "text"
+                                    },
+                                    "freedom_fighter_num": {
+                                        "type": "text"
+                                    },
+                                    "Sector": {
+                                        "type": "text"
+                                    },
+                                    "fighting_divi": {
+                                        "type": "text"
+                                    },
                                     "education_history": {
+                                        "type": "text"
+                                    },
+                                    "document": {
                                         "type": "text"
                                     },
                                     "father_name": {
@@ -3499,39 +3514,6 @@
                 "responses": {
                     "200": {
                         "description": "Successfully, In-active Promotion Record"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    }
-                }
-            }
-        },
-        "/pds-backend/api/specificUserPromotion/{id}": {
-            "get": {
-                "tags": [
-                    "PDS User Promotion"
-                ],
-                "summary": "Get Specific User Promotion Record",
-                "description": "",
-                "operationId": "specificUserPromotion",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"

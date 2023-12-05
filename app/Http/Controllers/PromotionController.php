@@ -51,12 +51,12 @@ class PromotionController extends Controller
                 ->select(
                     'promotions.*',
                     'employees.name as employee_name',
-                    'to_office.office_name as to_office',
-                    'from_office.office_name as from_office',
-                    'to_department.dept_name as to_department',
-                    'from_department.dept_name as from_department',
-                    'to_designation.designation_name as to_designation',
-                    'from_designation.designation_name as from_designation',
+                    'to_office.office_name as to_office_title',
+                    'from_office.office_name as from_office_title',
+                    'to_department.dept_name as to_department_title',
+                    'from_department.dept_name as from_department_title',
+                    'to_designation.designation_name as to_designation_title',
+                    'from_designation.designation_name as from_designation_title',
                     'promotions.promotion_date',
                 );
             // ->orderBy('id', 'desc')->get();
@@ -265,7 +265,7 @@ class PromotionController extends Controller
             $promotion->from_office = $request->from_office;
             $promotion->to_department = $request->to_department;
             $promotion->from_department = $request->from_department;
-            $promotion->o_designation = $request->to_designation;
+            $promotion->to_designation = $request->to_designation;
             $promotion->from_designation = $request->from_designation;
             $promotion->promotion_date = $request->promotion_date;
             $promotion->description = $request->description;
@@ -404,26 +404,7 @@ class PromotionController extends Controller
      * security={{"bearer_token":{}}}
      */
 
-    public function specificUserPromotion(Request $request)
-    {
-        try {
-            $specificUserPromotion = Promotion::leftJoin('designations', 'promotions.promoted_designation', '=', 'designations.id')
-                ->select(
-                    'promotions.*',
-                    'designations.designation_name',
-                )
-                ->findOrFail($request->id);
-            return response()->json([
-                'status' => 'success',
-                'data' => $specificUserPromotion,
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 401);
-        }
-    }
+   
 
 
     /**
