@@ -173,4 +173,141 @@ class MessageController extends Controller
             ], 500);
         }
     }
+    /**
+     * @OA\Get(
+     * tags={"PDS Send Message"},
+     * path="/pds-backend/api/getOfficeListAndPhoneNumberByDepartment/{id}",
+     * operationId="getOfficeListAndPhoneNumberByDepartment",
+     * summary="getOfficeListAndPhoneNumberByDepartment",
+     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
+
+    public function getOfficeListAndPhoneNumberByDepartment(Request $request, $id)
+    {
+        try {
+
+            $getDepartmentInfo = Employee::leftJoin('offices', 'offices.id', '=', 'employees.office')
+                ->select(
+                    'employees.id as employee_id',
+                    'employees.office',
+                    'employees.mobile_number',
+                    'offices.office_name'
+                )
+                ->where('employees.designation', $id)->get();
+
+            $officeListArr = [];
+            $phoneNumberArr = [];
+            foreach ($getDepartmentInfo as $empDepartmentInfo) {
+                $officeName = $empDepartmentInfo['office'];
+
+                $officeListArr[$officeName][] = $empDepartmentInfo->office_name;
+                $phoneNumberArr[] = $empDepartmentInfo->mobile_number;
+            }
+            return response()->json([
+                'status' => 'success',
+                'data'   => $officeListArr,
+                'phonedata'   => $phoneNumberArr
+
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+
+
+    /**
+     * @OA\Get(
+     *     tags={"PDS Send Message"},
+     *     path="/pds-backend/api/getPhoneNumberByOffice/{designationId}/{officeId}",
+     *     operationId="getPhoneNumberByOffice",
+     *     summary="getPhoneNumberByOffice",
+     *     @OA\Parameter(name="designationId", description="designationId", example=1, required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="officeId", description="officeId", example=1, required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     *     security={{"bearer_token":{}}}
+     * )
+     */
+
+    public function getPhoneNumberByOffice(Request $request, $designationId, $officeId)
+    {
+        try {
+            $getOfficeInfo = Employee::leftJoin('offices', 'offices.id', '=', 'employees.office')
+                ->select(
+                    'employees.id as employee_id',
+                    'employees.office',
+                    'employees.mobile_number',
+                    'offices.office_name'
+                )
+                ->where('employees.designation', $designationId)
+                ->where('employees.office', $officeId)
+                ->get();
+
+            $phoneNumberArr = [];
+            foreach ($getOfficeInfo as $empOfficeInfo) {
+                $phoneNumberArr[] = $empOfficeInfo->mobile_number;
+            }
+
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $getOfficeInfo,
+                'phonedata' => $phoneNumberArr
+
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+    /**
+     * @OA\Get(
+     *     tags={"PDS Send Message"},
+     *     path="/pds-backend/api/getPhoneNumberById/{id}",
+     *     operationId="getPhoneNumberById",
+     *     summary="getPhoneNumberById",
+     *     @OA\Parameter(name="id", description="id", example=1, required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     *     security={{"bearer_token":{}}}
+     * )
+     */
+
+    public function getPhoneNumberById(Request $request, $id)
+    {
+        try {
+            $getOfficeInfo = Employee::leftJoin('offices', 'offices.id', '=', 'employees.office')
+                ->select(
+                    'employees.mobile_number',
+                )
+                ->where('employees.id', $id)
+                ->get();
+            return response()->json([
+                'status' => 'success',
+                'data' => $getOfficeInfo,
+
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

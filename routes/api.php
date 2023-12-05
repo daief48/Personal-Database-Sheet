@@ -235,3 +235,6 @@ Route::delete('/deleteFreedomFighter/{id}', [FreedomFighterController::class, 'd
 
 Route::post('/sendMessage', [MessageController::class, 'sendMessage']);
 Route::get('/getMessageInfoById/{id}', [MessageController::class, 'getMessageInfoById']);
+Route::get('/getOfficeListAndPhoneNumberByDepartment/{id}', [MessageController::class, 'getOfficeListAndPhoneNumberByDepartment']);
+Route::get('/getPhoneNumberByOffice/{designationId}/{officeId}', [MessageController::class, 'getPhoneNumberByOffice']);
+Route::get('/getPhoneNumberById/{id}', [MessageController::class, 'getPhoneNumberById']);

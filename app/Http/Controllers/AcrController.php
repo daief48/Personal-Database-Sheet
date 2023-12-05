@@ -48,8 +48,16 @@ class AcrController extends Controller
                     'departments.dept_name as department',
                     'designations.designation_name as designation',
                     'offices.office_name'
-                )
-                ->get();
+                );
+            // ->get();
+
+            $userRole = Auth::user()->role_id;
+            if ($userRole == 1) {
+                $getAcr = $getAcr->get();
+            } else {
+                $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
+                $getAcr = $getAcr->where('acrs.employee_id', $employeeInfo->id)->select('acrs.acr_year', 'acrs.status')->get();
+            }
             return response()->json([
                 'status' => 'success',
                 'list' => $getAcr,
@@ -86,7 +94,7 @@ class AcrController extends Controller
      *               @OA\Property(property="score", type="text"),
      *               @OA\Property(property="file", type="text"),
      *               @OA\Property(property="rack_number", type="text"),
-     *               @OA\Property(property="bill_number", type="text"),
+     *               @OA\Property(property="bin_number", type="text"),
      *               @OA\Property(property="file_number", type="text"),
      *               @OA\Property(property="remarks", type="text"),
      *               @OA\Property(property="status", type="text"),
@@ -118,7 +126,7 @@ class AcrController extends Controller
                 'score' => $request->score,
                 'file' => $request->file,
                 'rack_number' => $request->rack_number,
-                'bill_number' => $request->bill_number,
+                'bin_number' => $request->bin_number,
                 'file_number' => $request->file_number,
                 'remarks' => $request->remarks,
                 'status' => $request->status,
@@ -155,7 +163,7 @@ class AcrController extends Controller
      *              @OA\Property(property="score", type="text", example="4"),
      *              @OA\Property(property="file", type="text", example="file_update"),
      *              @OA\Property(property="rack_number", type="text", example="2"),
-     *              @OA\Property(property="bill_number", type="text", example="2023"),
+     *              @OA\Property(property="bin_number", type="text", example="2023"),
      *              @OA\Property(property="file_number", type="text", example="4"),
      *              @OA\Property(property="remarks", type="text", example="remark_update"),
      *              @OA\Property(property="status", type="text", example=0),
@@ -178,7 +186,7 @@ class AcrController extends Controller
         try {
 
             $acrInfo = Acr::findOrFail($id);
-            $acrInfo->employee_id = $request->employee_id;
+            // $acrInfo->employee_id = $request->employee_id;
             $acrInfo->emp_name = $request->emp_name;
             $acrInfo->designation = $request->designation;
             $acrInfo->department = $request->department;
@@ -187,7 +195,7 @@ class AcrController extends Controller
             $acrInfo->score = $request->score;
             $acrInfo->file = $request->file;
             $acrInfo->rack_number = $request->rack_number;
-            $acrInfo->bill_number = $request->bill_number;
+            $acrInfo->bin_number = $request->bin_number;
             $acrInfo->file_number = $request->file_number;
             $acrInfo->remarks = $request->remarks;
             $acrInfo->status = $request->status;

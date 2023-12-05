@@ -63,14 +63,9 @@ class BloodGroupController extends Controller
                     $join->on('blood_groups.created_at', '=', 'latest_blood_groups.latest_created_at');
                 })->get();
             } else {
-                // $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
-                // $getBloodGroup = $getBloodGroup->where('blood_groups.employee_id', $employeeInfo->id)->get();
                 $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
                 $getBloodGroup = $getBloodGroup->where('blood_groups.employee_id', $employeeInfo->id)->get();
             }
-
-
-
             return response()->json([
                 'status' => 'success',
                 'list' => $getBloodGroup,
@@ -143,7 +138,7 @@ class BloodGroupController extends Controller
      *               required={},
      *               @OA\Property(property="employee_id", type="integer",example=1),
      *               @OA\Property(property="blood_group", type="integer"),
-     *                @OA\Property(property="last_donate", type="integer"),
+     *               @OA\Property(property="last_donate", type="date"),
      *               @OA\Property(property="status", type="integer"),
      *            ),
      *        ),
@@ -167,7 +162,7 @@ class BloodGroupController extends Controller
             $rules = [
                 // 'employee_id' => 'required|unique:blood_groups',
                 // 'blood_group' => 'required',
-                'last_donate' => 'required',
+                // 'last_donate' => 'required',
             ];
 
             $messages = [
@@ -175,7 +170,7 @@ class BloodGroupController extends Controller
 
                 // 'employee_id.required' => 'The employee_id field is required',
                 // 'blood_group.required' => 'The BloodGroup_ref_number field is required',
-                'last_donate.required' => 'The last_donate field is required',
+                // 'last_donate.required' => 'The last_donate field is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -185,7 +180,7 @@ class BloodGroupController extends Controller
             }
 
 
-            $total_amount = $request->last_donate + $request->medical_allowance + $request->house_rent + $request->others;
+            //$total_amount = $request->last_donate + $request->medical_allowance + $request->house_rent + $request->others;
 
             $BloodGroup = BloodGroup::create([
                 'employee_id' => $request->employee_id,
@@ -215,7 +210,6 @@ class BloodGroupController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="blood_group", type="integer", example=2),
      *              @OA\Property(property="last_donate", type="integer", example=2),
      *              @OA\Property(property="status", type="integer", example=1),
@@ -241,7 +235,7 @@ class BloodGroupController extends Controller
             $rules = [
                 // 'employee_id' => 'required',
                 // 'blood_group' => 'required',
-                'last_donate' => 'required',
+                // 'last_donate' => 'required',
 
             ];
 
@@ -250,7 +244,7 @@ class BloodGroupController extends Controller
 
                 // 'employee_id.required' => 'The employee_id field is required',
                 // 'blood_group.required' => 'The BloodGroup_ref_number field is required',
-                'last_donate.required' => 'The last_donate field is required',
+                // 'last_donate.required' => 'The last_donate field is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -259,7 +253,7 @@ class BloodGroupController extends Controller
             }
 
             $BloodGroup = BloodGroup::findOrFail($id);
-            $BloodGroup->employee_id = $request->employee_id;
+            // $BloodGroup->employee_id = $request->employee_id;
             $BloodGroup->blood_group = $request->blood_group;
             $BloodGroup->last_donate = $request->last_donate;
             $BloodGroup->status = $request->status;
