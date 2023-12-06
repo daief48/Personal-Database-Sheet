@@ -3070,6 +3070,65 @@
                 ]
             }
         },
+        "/pds-backend/api/getMessageInfo": {
+            "get": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "getMessageInfo",
+                "operationId": "getMessageInfo",
+                "parameters": [
+                    {
+                        "name": "department",
+                        "in": "query",
+                        "description": "Department",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "designations",
+                        "in": "query",
+                        "description": "Designation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "offices",
+                        "in": "query",
+                        "description": "office",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mobile_number",
+                        "in": "query",
+                        "description": "Mobile number",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/pds-backend/api/getOfficeMgt": {
             "get": {
                 "tags": [
@@ -4126,9 +4185,6 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "training_name": {
-                                        "type": "text"
-                                    },
                                     "training_center_name": {
                                         "type": "text"
                                     },
@@ -4204,10 +4260,6 @@
                                     "employee_id": {
                                         "type": "integer",
                                         "example": 1
-                                    },
-                                    "training_name": {
-                                        "type": "text",
-                                        "example": "Food"
                                     },
                                     "training_center_name": {
                                         "type": "text",

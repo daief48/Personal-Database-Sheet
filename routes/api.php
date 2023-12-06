@@ -238,3 +238,4 @@ Route::get('/getMessageInfoById/{id}', [MessageController::class, 'getMessageInf
 Route::get('/getOfficeListAndPhoneNumberByDepartment/{id}', [MessageController::class, 'getOfficeListAndPhoneNumberByDepartment']);
 Route::get('/getPhoneNumberByOffice/{designationId}/{officeId}', [MessageController::class, 'getPhoneNumberByOffice']);
 Route::get('/getPhoneNumberById/{id}', [MessageController::class, 'getPhoneNumberById']);
+Route::get('/getMessageInfo', [MessageController::class, 'getMessageInfo']);
