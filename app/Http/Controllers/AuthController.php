@@ -188,7 +188,7 @@ class AuthController extends Controller
                     ],
 
                     [
-                        'title' => 'ACR',
+                        'title' => 'Acr',
                         'slug' => '/admin-acr',
                         'icon' => 'fa fa-newspaper-o nav-icon',
                     ],
@@ -248,8 +248,13 @@ class AuthController extends Controller
                         'icon' => 'fa fa-file nav-icon',
                     ],
                     [
-                        'title' => 'ACR',
+                        'title' => 'Acr',
                         'slug' => '/acr',
+                        'icon' => 'fa fa-newspaper-o nav-icon',
+                    ],
+                    [
+                        'title' => 'Blood Group',
+                        'slug' => '/blood-group',
                         'icon' => 'fa fa-newspaper-o nav-icon',
                     ],
                     [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BloodGroup;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\ResponseRepository;
 use App\Models\Employee;
@@ -149,7 +150,7 @@ class EmployeeController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={},
-     *               @OA\Property(property="user_id", type="text"),
+   
      *               @OA\Property(property="image", type="text"),
      *               @OA\Property(property="name", type="text"),
      *                @OA\Property(property="gender", type="text"),
@@ -251,9 +252,9 @@ class EmployeeController extends Controller
             $addProfile->job_location = $request->job_location ?? '';
             $addProfile->job_grade = $request->job_grade ?? '';
             $addProfile->joining_date = $request->joining_date ?? '2000-02-22';
-            $addProfile->freedom_fighter_status = $request->freedom_fighter_status ?? '0';
-            $addProfile->education_history = $request->education_history ?? [];
-            $addProfile->document = $request->document ?? [];
+            $addProfile->freedom_fighter_status = $request->freedom_fighter_status ?? 0;
+            // $addProfile->education_history = $request->education_history ?? [];
+            // $addProfile->document = $request->document ?? [];
             $addProfile->father_name = $request->father_name ?? '';
             $addProfile->mother_name = $request->mother_name ?? '';
             $addProfile->spouse_name = $request->spouse_name ?? '';
@@ -272,18 +273,33 @@ class EmployeeController extends Controller
             //     $updateSpeaker->image = $speaker_image_name;
             // }
             $addProfile->save();
+
+            $freedom_fighter_num = $request->freedom_fighter_num;
+            $Sector = $request->Sector;
+            $fighting_divi = $request->fighting_divi;
             $addFreedomFighter = new FreedomFighter;
             $addFreedomFighter->employee_id = $addProfile->id;
-            $addFreedomFighter->freedom_fighter_num = $request->freedom_fighter_num ?? ''; //
-            $addFreedomFighter->Sector = $request->Sector ?? ''; //
-            $addFreedomFighter->fighting_divi = $request->fighting_divi ?? ''; //freedom_fighter_status
-            $addFreedomFighter->save();
+            $addFreedomFighter->freedom_fighter_num = $freedom_fighter_num ?? ''; //
+            $addFreedomFighter->Sector = $Sector ?? ''; //
+            $addFreedomFighter->fighting_divi = $fighting_divi ?? ''; //freedom_fighter_status
+            if (!empty($freedom_fighter_num) || !empty($Sector) || !empty($fighting_divi)) {
+                // Save the record if at least one of the specified fields is not empty
+                $addFreedomFighter->save();
+            }
 
+            $bloodGroup = $request->blood_group;
+            $addBloodGroud = new BloodGroup();
+            $addBloodGroud->employee_id = $addProfile->id;
+            $addBloodGroud->blood_group = $request->blood_group ?? ''; //
+            if (!empty($bloodGroup)) {
+                // Save the record if at least one of the specified fields is not empty
+                $addBloodGroud->save();
+            }
 
             return response()->json([
                 'success' =>  true,
                 'profileData' =>  $addProfile,
-                'freedomfighterData' =>  $addProfile,
+                // 'freedomfighterData' =>  $addProfile,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

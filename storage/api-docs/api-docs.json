@@ -616,10 +616,10 @@
                                         "example": 1
                                     },
                                     "blood_group": {
-                                        "type": "integer"
+                                        "type": "text"
                                     },
                                     "last_donate": {
-                                        "type": "integer"
+                                        "type": "text"
                                     },
                                     "status": {
                                         "type": "integer"
@@ -1422,9 +1422,6 @@
                             "schema": {
                                 "required": [],
                                 "properties": {
-                                    "user_id": {
-                                        "type": "text"
-                                    },
                                     "image": {
                                         "type": "text"
                                     },
