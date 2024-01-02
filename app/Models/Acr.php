@@ -18,7 +18,7 @@ class Acr extends Model
         'score',
         'file',
         'rack_number',
-        'bill_number',
+        'bin_number',
         'file_number',
         'remarks',
         'status',

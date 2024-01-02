@@ -223,6 +223,7 @@ Route::put('/updateBloodGroup/{id}', [BloodGroupController::class, 'updateBloodG
 Route::delete('/deleteBloodGroup/{id}', [BloodGroupController::class, 'deleteBloodGroup']);
 Route::patch('/activeBloodGroupRecord/{id}', [BloodGroupController::class, 'activeBloodGroupRecord']);
 Route::patch('/inactiveBloodGroupRecord/{id}', [BloodGroupController::class, 'inactiveBloodGroupRecord']);
+Route::get('/specificBloodGroupbyEmployee/{id}', [BloodGroupController::class, 'specificBloodGroupbyEmployee']);
 
 //Senior Employee 
 Route::get('/getSeniorEmployee', [SeniorEmployeeController::class, 'getSeniorEmployee']);
@@ -240,3 +241,7 @@ Route::delete('/deleteFreedomFighter/{id}', [FreedomFighterController::class, 'd
 
 Route::post('/sendMessage', [MessageController::class, 'sendMessage']);
 Route::get('/getMessageInfoById/{id}', [MessageController::class, 'getMessageInfoById']);
+Route::get('/getOfficeListAndPhoneNumberByDepartment/{id}', [MessageController::class, 'getOfficeListAndPhoneNumberByDepartment']);
+Route::get('/getPhoneNumberByOffice/{designationId}/{officeId}', [MessageController::class, 'getPhoneNumberByOffice']);
+Route::get('/getPhoneNumberById/{id}', [MessageController::class, 'getPhoneNumberById']);
+Route::get('/getMessageInfo', [MessageController::class, 'getMessageInfo']);

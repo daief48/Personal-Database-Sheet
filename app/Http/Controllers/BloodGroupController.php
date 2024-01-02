@@ -54,22 +54,10 @@ class BloodGroupController extends Controller
                 'employee_id',
                 \DB::raw('MAX(created_at) as latest_created_at')
             )->groupBy('employee_id');
-
-            $userRole = Auth::user()->role_id;
-
-            if ($userRole == 1) {
-                $getBloodGroup = $getBloodGroup->joinSub($latestBloodGroups, 'latest_blood_groups', function ($join) {
-                    $join->on('blood_groups.employee_id', '=', 'latest_blood_groups.employee_id');
-                    $join->on('blood_groups.created_at', '=', 'latest_blood_groups.latest_created_at');
-                })->get();
-            } else {
-                // $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
-                // $getBloodGroup = $getBloodGroup->where('blood_groups.employee_id', $employeeInfo->id)->get();
-                $employeeInfo = Employee::where('user_id', Auth::user()->id)->first();
-                $getBloodGroup = $getBloodGroup->where('blood_groups.employee_id', $employeeInfo->id)->get();
-            }
-
-
+            $getBloodGroup = $getBloodGroup->joinSub($latestBloodGroups, 'latest_blood_groups', function ($join) {
+                $join->on('blood_groups.employee_id', '=', 'latest_blood_groups.employee_id');
+                $join->on('blood_groups.created_at', '=', 'latest_blood_groups.latest_created_at');
+            })->get();
 
             return response()->json([
                 'status' => 'success',
@@ -142,8 +130,8 @@ class BloodGroupController extends Controller
      *               type="object",
      *               required={},
      *               @OA\Property(property="employee_id", type="integer",example=1),
-     *               @OA\Property(property="blood_group", type="text"),
-     *                @OA\Property(property="last_donate", type="text"),
+     *               @OA\Property(property="blood_group", type="integer"),
+     *               @OA\Property(property="last_donate", type="date"),
      *               @OA\Property(property="status", type="integer"),
      *            ),
      *        ),
@@ -167,7 +155,7 @@ class BloodGroupController extends Controller
             $rules = [
                 // 'employee_id' => 'required|unique:blood_groups',
                 // 'blood_group' => 'required',
-                'last_donate' => 'required',
+                // 'last_donate' => 'required',
             ];
 
             $messages = [
@@ -175,7 +163,7 @@ class BloodGroupController extends Controller
 
                 // 'employee_id.required' => 'The employee_id field is required',
                 // 'blood_group.required' => 'The BloodGroup_ref_number field is required',
-                'last_donate.required' => 'The last_donate field is required',
+                // 'last_donate.required' => 'The last_donate field is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -185,7 +173,7 @@ class BloodGroupController extends Controller
             }
 
 
-            $total_amount = $request->last_donate + $request->medical_allowance + $request->house_rent + $request->others;
+            //$total_amount = $request->last_donate + $request->medical_allowance + $request->house_rent + $request->others;
 
             $BloodGroup = BloodGroup::create([
                 'employee_id' => $request->employee_id,
@@ -215,7 +203,6 @@ class BloodGroupController extends Controller
      * @OA\RequestBody(
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="employee_id", type="integer", example=1),
      *              @OA\Property(property="blood_group", type="integer", example=2),
      *              @OA\Property(property="last_donate", type="integer", example=2),
      *              @OA\Property(property="status", type="integer", example=1),
@@ -241,7 +228,7 @@ class BloodGroupController extends Controller
             $rules = [
                 // 'employee_id' => 'required',
                 // 'blood_group' => 'required',
-                'last_donate' => 'required',
+                // 'last_donate' => 'required',
 
             ];
 
@@ -379,4 +366,38 @@ class BloodGroupController extends Controller
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    /**
+     * @OA\GET(
+     *     path="/pds-backend/api/specificBloodGroupbyEmployee/{id}",
+     *     tags={"PDS User BloodGroup"},
+     *     summary="In-active BloodGroup Record",
+     *     description="In-active Specific BloodGroup Record With Valid ID",
+     *     operationId="specificBloodGroupbyEmployee",
+     *     @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response( response=200, description="Successfully, In-active BloodGroup Record" ),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     *     security={{"bearer_token":{}}}
+     */
+
+     public function specificBloodGroupByEmployee($id)
+     {
+         try {
+             $bloodGroupInfo = BloodGroup::where('employee_id', $id)
+                 ->select('last_donate')
+                 ->get();
+                 
+             return response()->json([
+                 'status' => true,
+                 'data' => $bloodGroupInfo,
+             ], 200);
+     
+         } catch (\Exception $e) {
+             return $this->responseRepository->responseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+         }
+     }
+     
 }

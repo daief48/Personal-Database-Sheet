@@ -69,7 +69,7 @@
                                     "rack_number": {
                                         "type": "text"
                                     },
-                                    "bill_number": {
+                                    "bin_number": {
                                         "type": "text"
                                     },
                                     "file_number": {
@@ -169,7 +169,7 @@
                                         "type": "text",
                                         "example": "2"
                                     },
-                                    "bill_number": {
+                                    "bin_number": {
                                         "type": "text",
                                         "example": "2023"
                                     },
@@ -616,10 +616,11 @@
                                         "example": 1
                                     },
                                     "blood_group": {
-                                        "type": "text"
+                                        "type": "integer"
                                     },
                                     "last_donate": {
-                                        "type": "text"
+                                        "type": "string",
+                                        "format": "date"
                                     },
                                     "status": {
                                         "type": "integer"
@@ -674,10 +675,6 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "employee_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "blood_group": {
                                         "type": "integer",
                                         "example": 2
@@ -788,6 +785,39 @@
                 "summary": "In-active BloodGroup Record",
                 "description": "In-active Specific BloodGroup Record With Valid ID",
                 "operationId": "inactiveBloodGroupRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully, In-active BloodGroup Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/specificBloodGroupbyEmployee/{id}": {
+            "get": {
+                "tags": [
+                    "PDS User BloodGroup"
+                ],
+                "summary": "In-active BloodGroup Record",
+                "description": "In-active Specific BloodGroup Record With Valid ID",
+                "operationId": "specificBloodGroupbyEmployee",
                 "parameters": [
                     {
                         "name": "id",
@@ -2978,6 +3008,181 @@
                 }
             }
         },
+        "/pds-backend/api/getOfficeListAndPhoneNumberByDepartment/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "getOfficeListAndPhoneNumberByDepartment",
+                "operationId": "getOfficeListAndPhoneNumberByDepartment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/getPhoneNumberByOffice/{designationId}/{officeId}": {
+            "get": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "getPhoneNumberByOffice",
+                "operationId": "getPhoneNumberByOffice",
+                "parameters": [
+                    {
+                        "name": "designationId",
+                        "in": "path",
+                        "description": "designationId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "officeId",
+                        "in": "path",
+                        "description": "officeId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/pds-backend/api/getPhoneNumberById/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "getPhoneNumberById",
+                "operationId": "getPhoneNumberById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/pds-backend/api/getMessageInfo": {
+            "get": {
+                "tags": [
+                    "PDS Send Message"
+                ],
+                "summary": "getMessageInfo",
+                "operationId": "getMessageInfo",
+                "parameters": [
+                    {
+                        "name": "department",
+                        "in": "query",
+                        "description": "Department",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "designations",
+                        "in": "query",
+                        "description": "Designation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "offices",
+                        "in": "query",
+                        "description": "office",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "employee_id",
+                        "in": "query",
+                        "description": "employee_id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/pds-backend/api/getOfficeMgt": {
             "get": {
                 "tags": [
@@ -4001,9 +4206,6 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "training_name": {
-                                        "type": "text"
-                                    },
                                     "training_center_name": {
                                         "type": "text"
                                     },
@@ -4079,10 +4281,6 @@
                                     "employee_id": {
                                         "type": "integer",
                                         "example": 1
-                                    },
-                                    "training_name": {
-                                        "type": "text",
-                                        "example": "Food"
                                     },
                                     "training_center_name": {
                                         "type": "text",

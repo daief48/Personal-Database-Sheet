@@ -82,7 +82,6 @@ class TrainingController extends Controller
      *               type="object",
      *               required={},
      *               @OA\Property(property="employee_id", type="integer",example=1),
-     *               @OA\Property(property="training_name", type="text"),
      *               @OA\Property(property="training_center_name", type="text"),
      *               @OA\Property(property="training_score", type="text"),
      *               @OA\Property(property="training_feedback", type="text"),
@@ -110,8 +109,8 @@ class TrainingController extends Controller
 
             $rules = [
                 'employee_id' => 'required',
-                'training_name' => 'required',
                 'training_center_name' => 'required',
+                'training_name'=> 'required',
                 'training_score' => 'required',
                 'training_feedback' => 'required',
                 'training_strt_date' => 'required',
@@ -122,8 +121,8 @@ class TrainingController extends Controller
 
             $messages = [
                 'employee_id.required' => 'The employee_id field is required',
-                'training_name.required' => 'The training_name field is required',
                 'training_center_name.required' => 'The training_center_name field is required',
+                'training_name.required' => 'The training_name field is required',
                 'training_score.required' => 'The training_score field is required',
                 'training_feedback.required' => 'The training_feedback field is required',
                 'training_strt_date.required' => 'The training_strt_date field is required',
@@ -143,8 +142,8 @@ class TrainingController extends Controller
 
             $addTraining = Training::create([
                 'employee_id' => $request->employee_id,
-                'training_name' => $request->training_name,
                 'training_center_name' => $request->training_center_name,
+                'training_name' => $request->training_name,
                 'training_score' => $request->training_score,
                 'training_feedback' => $request->training_feedback,
                 'training_strt_date' => $request->training_strt_date,
@@ -169,7 +168,6 @@ class TrainingController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="employee_id", type="integer",example=1),
-     *              @OA\Property(property="training_name", type="text", example="Food"),
      *              @OA\Property(property="training_center_name", type="text", example="Mymensingh"),
      *              @OA\Property(property="training_score", type="text", example="80"),
      *              @OA\Property(property="training_feedback", type="text", example="better"),
@@ -196,8 +194,8 @@ class TrainingController extends Controller
 
             $rules = [
                 'employee_id' => 'required',
-                'training_name' => 'required',
                 'training_center_name' => 'required',
+                'training_name'=> 'required',
                 'training_score' => 'required',
                 'training_feedback' => 'required',
                 'training_strt_date' => 'required',
@@ -225,8 +223,9 @@ class TrainingController extends Controller
 
             $training = Training::findOrFail($id);
             $training->employee_id = $request->employee_id;
-            $training->training_name = $request->training_name;
             $training->training_center_name = $request->training_center_name;
+            // 'training_name' => $request->training_name,
+            $training->training_name = $request->training_name;
             $training->training_score = $request->training_score;
             $training->training_feedback = $request->training_feedback;
             $training->training_strt_date = $request->training_strt_date;
