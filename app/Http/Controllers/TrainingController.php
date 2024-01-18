@@ -108,26 +108,26 @@ class TrainingController extends Controller
         try {
 
             $rules = [
-                'employee_id' => 'required',
+                // 'employee_id' => 'required',
                 'training_center_name' => 'required',
                 'training_name'=> 'required',
-                'training_score' => 'required',
-                'training_feedback' => 'required',
-                'training_strt_date' => 'required',
-                'training_end_date' => 'required',
-                'description' => 'required',
+                // 'training_score' => 'required',
+                // 'training_feedback' => 'required',
+                // 'training_strt_date' => 'required',
+                // 'training_end_date' => 'required',
+                // 'description' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
                 'training_center_name.required' => 'The training_center_name field is required',
                 'training_name.required' => 'The training_name field is required',
-                'training_score.required' => 'The training_score field is required',
-                'training_feedback.required' => 'The training_feedback field is required',
-                'training_strt_date.required' => 'The training_strt_date field is required',
-                'training_end_date.required' => 'The training_end_date field is required',
-                'description.required' => 'The description field is required',
+                // 'training_score.required' => 'The training_score field is required',
+                // 'training_feedback.required' => 'The training_feedback field is required',
+                // 'training_strt_date.required' => 'The training_strt_date field is required',
+                // 'training_end_date.required' => 'The training_end_date field is required',
+                // 'description.required' => 'The description field is required',
 
 
             ];
@@ -193,25 +193,25 @@ class TrainingController extends Controller
         try {
 
             $rules = [
-                'employee_id' => 'required',
+                // 'employee_id' => 'required',
                 'training_center_name' => 'required',
                 'training_name'=> 'required',
-                'training_score' => 'required',
-                'training_feedback' => 'required',
-                'training_strt_date' => 'required',
-                'training_end_date' => 'required',
-                'description' => 'required',
+                // 'training_score' => 'required',
+                // 'training_feedback' => 'required',
+                // 'training_strt_date' => 'required',
+                // 'training_end_date' => 'required',
+                // 'description' => 'required',
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
                 'training_name.required' => 'The training_name field is required',
                 'training_center_name.required' => 'The training_center_name field is required',
-                'training_score.required' => 'The training_score field is required',
-                'training_feedback.required' => 'The training_feedback field is required',
-                'training_strt_date.required' => 'The training_strt_date field is required',
-                'training_end_date.required' => 'The training_end_date field is required',
-                'description.required' => 'The description field is required',
+                // 'training_score.required' => 'The training_score field is required',
+                // 'training_feedback.required' => 'The training_feedback field is required',
+                // 'training_strt_date.required' => 'The training_strt_date field is required',
+                // 'training_end_date.required' => 'The training_end_date field is required',
+                // 'description.required' => 'The description field is required',
 
 
             ];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -227,16 +228,25 @@ class UserController extends Controller
             $user->phone = $request->phone;
             $user->role_id = $request->role_id;
             $user->status = $request->status;
-            if (!empty($user->password)) {
+
+            if (!empty($request->password)) {
                 $user->password = Hash::make($request->password);
             }
             $user->save();
+            $employee = Employee::where('employees.user_id', '=', $id)->first();
+            $employee->name = $request->name;
+            $employee->email = $request->email ?? '';
+            $employee->mobile_number = $request->phone;
+            // $employee->status = $request->status;
 
+            // return $employee;
+            $employee->save();
             return response()->json([
                 'status'  => true,
                 'message' => "user updated successfully",
                 'errors'  => null,
                 'data'    => $request->all(),
+                'employee' => $employee
             ], 200);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -276,4 +286,100 @@ class UserController extends Controller
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-}
+
+/**
+ * @OA\Patch(
+ *     path="/pds-backend/api/activeUser/{id}",
+ *     tags={"User Management"},
+ *     summary="Activate User",
+ *     description="Activate a specific User with a valid ID",
+ *     operationId="activeUser",
+ *     @OA\Parameter(
+ *         name="id",
+ *         description="ID of the User",
+ *         example=1,
+ *         required=true,
+ *         in="path",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(response=200, description="Successfully activated User"),
+ *     @OA\Response(response=400, description="Bad Request"),
+ *     @OA\Response(response=404, description="Resource Not Found"),
+ *     security={{"bearer_token":{}}}
+ * )
+ */
+
+ public function activeUser($id)
+ {
+     try {
+         $user = User::find($id);
+ 
+         if (!is_null($user)) {
+             User::where('id', '=', $id)->update(['status' => 1]);
+ 
+             return response()->json([
+                 'status'  => true,
+                 'message' => "Activated User Successfully",
+                 'errors'  => null,
+                 'data'    => $user,
+             ], 200);
+         } else {
+             return $this->responseRepository->ResponseSuccess(null, 'User ID is not valid!');
+         }
+     } catch (\Exception $e) {
+         return $this->responseRepository->ResponseError(
+             null,
+             $e->getMessage(),
+             Response::HTTP_INTERNAL_SERVER_ERROR
+         );
+     }
+ }
+
+ /**
+ * @OA\Patch(
+ *     path="/pds-backend/api/inactiveUser/{id}",
+ *     tags={"User Management"},
+ *     summary="Activate User",
+ *     description="Activate a specific User with a valid ID",
+ *     operationId="inactiveUser",
+ *     @OA\Parameter(
+ *         name="id",
+ *         description="ID of the User",
+ *         example=1,
+ *         required=true,
+ *         in="path",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(response=200, description="Successfully activated User"),
+ *     @OA\Response(response=400, description="Bad Request"),
+ *     @OA\Response(response=404, description="Resource Not Found"),
+ *     security={{"bearer_token":{}}}
+ * )
+ */
+
+ public function inactiveUser($id)
+ {
+     try {
+         $user = User::find($id);
+ 
+         if (!is_null($user)) {
+             User::where('id', '=', $id)->update(['status' => 0]);
+ 
+             return response()->json([
+                 'status'  => true,
+                 'message' => "Activated User Successfully",
+                 'errors'  => null,
+                 'data'    => $user,
+             ], 200);
+         } else {
+             return $this->responseRepository->ResponseSuccess(null, 'User ID is not valid!');
+         }
+     } catch (\Exception $e) {
+         return $this->responseRepository->ResponseError(
+             null,
+             $e->getMessage(),
+             Response::HTTP_INTERNAL_SERVER_ERROR
+         );
+     }
+ }
+ }

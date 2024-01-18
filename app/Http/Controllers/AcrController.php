@@ -8,6 +8,9 @@ use App\Models\Acr;
 use App\Models\Employee;
 use App\Repositories\ResponseRepository;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 
 class AcrController extends Controller
@@ -112,36 +115,100 @@ class AcrController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
-    public function addAcr(Request $request)
-    {
-        try {
+public function addAcr(Request $request)
+{
+    // return $request->input();
+    // Validation rules
+    $rules = [
+        'employee_id' => 'required',
+        // 'emp_name' => 'required|string',
+        // 'designation' => 'nullable|string', // Adjust as needed
+        // 'department' => 'required|string',
+        // 'office_name' => 'required|string',
+        'acr_year' => 'required',
+        // 'acr_date' => 'required|date',
+        'score' => 'required',
+        // 'file' => 'nullable|mimes:jpeg,png,pdf|max:2048', // Adjust allowed file types and size
+        // 'rack_number' => 'required|string',
+        // 'bin_number' => 'required|string',
+        // 'file_number' => 'required|string',
+        // 'remarks' => 'nullable|string',
+        // 'status' => 'nullable|boolean',
+    ];
 
-            $acrInfo = Acr::create([
-                'employee_id' => $request->employee_id,
-                'emp_name' => $request->emp_name,
-                'designation' => $request->designation,
-                'department' => $request->department,
-                'office_name' => $request->office_name,
-                'acr_year' => $request->acr_year,
-                'score' => $request->score,
-                'file' => $request->file,
-                'rack_number' => $request->rack_number,
-                'bin_number' => $request->bin_number,
-                'file_number' => $request->file_number,
-                'remarks' => $request->remarks,
-                'status' => $request->status,
-            ]);
+    // Validation messages
+    $messages = [
+        // Add custom error messages for each field if needed
+    ];
 
-            return response()->json([
-                'status'  => true,
-                'message' => "ACR Mgt Created Successfully",
-                'errors'  => null,
-                'data'    => $acrInfo,
-            ], 200);
-        } catch (\Exception $e) {
-            return $this->responseRepository->ResponseError("Error", $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+    // Validate the request
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    // Check if validation fails
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Validation error',
+            'errors' => $validator->errors(),
+            'data' => null,
+        ], 422);
     }
+
+    try {
+        // Your existing code here...
+
+        $fileNameToStore = null;
+
+        // Rename and store the file
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $originalFileName = $file->getClientOriginalName();
+            $file_ext = $file->getClientOriginalExtension();
+            $fileNameToStore = 'new_name_' . time() . '.' . $file_ext;
+
+            // Move the file to the public path
+            $file->move(public_path('Acr_file'), $fileNameToStore);
+        }
+
+        $acrInfo = Acr::create([
+            'employee_id' => $request->employee_id,
+            'emp_name' => $request->emp_name,
+            'designation' => $request->designation ?? null,
+            'department' => $request->department,
+            'office_name' => $request->office_name,
+            'acr_year' => $request->acr_year,
+            'acr_date' => $request->acr_date,
+            'score' => $request->score,
+            'file' => $fileNameToStore,
+            'rack_number' => $request->rack_number,
+            'bin_number' => $request->bin_number,
+            'file_number' => $request->file_number,
+            'remarks' => $request->remarks,
+            'status' => $request->status ?? 1,
+        ]);
+
+        // Optional: Remove old file if it exists
+        if ($acrInfo->wasRecentlyCreated && $request->has('old_file')) {
+            $pFile = public_path("Acr_file/{$request->old_file}");
+            if (file_exists($pFile)) {
+                unlink($pFile);
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'ACR Mgt Created Successfully',
+            'errors' => null,
+            'data' => $acrInfo,
+        ], 200);
+    } catch (\Exception $e) {
+        return $this->responseRepository->ResponseError('Error', $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+}
+
+
+
+
 
 
     /**
@@ -180,25 +247,45 @@ class AcrController extends Controller
      *     security={{"bearer_token":{}}}
      */
 
+
     public function updateAcrMgt(Request $request, $id)
     {
-
         try {
-
             $acrInfo = Acr::findOrFail($id);
-            // $acrInfo->employee_id = $request->employee_id;
+
+            // Check if a new file is provided
+            if ($request->hasFile('file')) {
+                // Rename and store the file
+                $file = $request->file('file');
+                $originalFileName = $file->getClientOriginalName();
+                $newFileName = 'new_name_' . time() . '_' . $originalFileName;
+
+                // Move the file to the public path
+                $file->move(public_path('Acr_file'), $newFileName);
+
+                // Remove the old file if needed (optional)
+                $pFile = public_path("Acr_file/{$acrInfo->file}");
+                if (File::exists($pFile)) {
+                    unlink($pFile);
+                }
+
+                // Update the file name in the database
+                $acrInfo->file = $newFileName;
+            }
+
+            // Uncomment and adjust the following lines if needed
+            $acrInfo->employee_id = $request->employee_id;
             $acrInfo->emp_name = $request->emp_name;
             $acrInfo->designation = $request->designation;
             $acrInfo->department = $request->department;
             $acrInfo->office_name = $request->office_name;
             $acrInfo->acr_year = $request->acr_year;
+            $acrInfo->acr_date = $request->acr_year;
             $acrInfo->score = $request->score;
-            $acrInfo->file = $request->file;
             $acrInfo->rack_number = $request->rack_number;
             $acrInfo->bin_number = $request->bin_number;
             $acrInfo->file_number = $request->file_number;
             $acrInfo->remarks = $request->remarks;
-            $acrInfo->status = $request->status;
             $acrInfo->save();
 
             return response()->json([
@@ -211,6 +298,8 @@ class AcrController extends Controller
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     /**
      * @OA\Get(
@@ -231,7 +320,7 @@ class AcrController extends Controller
     {
         try {
             $specificAcrInfo = Acr::leftjoin('employees', 'employees.id', '=', 'acrs.employee_id')
-            ->select('employees.name','acrs.*')
+                ->select('employees.name', 'acrs.*')
                 ->findOrFail($request->id);
             return response()->json([
                 'status' => 'success',
@@ -356,6 +445,73 @@ class AcrController extends Controller
                 'errors'  => null,
                 'data'    => $AcrInfo,
             ], 200);
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    /**
+     * @OA\Patch(
+     *     path="/pds-backend/api/activeAcrRecord/{id}",
+     *     tags={"PDS Annual Confidential Report Management(ACR)"},
+     *     summary="Activate ACR Record",
+     *     description="Activate Specific ACR Record With Valid ID",
+     *     operationId="activateAcrRecord",
+     *     @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Successfully activated ACR Record"),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
+
+
+    public function activeAcrRecord($id)
+    {
+        try {
+            $leaveTypeInfo = Acr::find($id);
+
+            if (!($leaveTypeInfo === null)) {
+                $leaveTypeInfo = Acr::where('id', '=', $id)->update(['status' => 1]);
+                return response()->json([
+                    'status'  => true,
+                    'message' => "Actived Leave Type Record Successfully",
+                    'errors'  => null,
+                    'data'    => $leaveTypeInfo,
+                ], 200);
+            } else {
+                return $this->responseRepository->ResponseSuccess(null, 'ACR Id Are Not Valid!');
+            }
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+  /**
+ * @OA\Patch(
+ *     path="/pds-backend/api/inactiveAcrRecord/{id}",
+ *     tags={"PDS Annual Confidential Report Management(ACR)"},
+ *     summary="Inactivate ACR Record",
+ *     description="Inactivate Specific ACR Record With Valid ID",
+ *     operationId="inactiveAcrRecord",
+ *     @OA\Parameter(name="id", description="id", example=1, required=true, in="path", @OA\Schema(type="integer")),
+ *     @OA\Response(response=204, description="Successfully inactivated ACR Record"),
+ *     @OA\Response(response=400, description="Bad Request"),
+ *     @OA\Response(response=404, description="Resource Not Found"),
+ *     security={{"bearer_token":{}}}
+ * )
+ */
+
+
+    public function inactiveAcrRecord($id)
+    {
+        try {
+            $acrRecord = Acr::find($id);
+
+            if ($acrRecord) {
+                Acr::where('id', $id)->update(['status' => 2]);
+                return response()->json([], 204);
+            } else {
+                return $this->responseRepository->ResponseError(null, 'ACR Id is not valid!', Response::HTTP_NOT_FOUND);
+            }
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

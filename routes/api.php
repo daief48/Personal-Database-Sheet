@@ -48,16 +48,24 @@ Route::group(['prefix' => ''], function () {
     Route::post('addUser', [UserController::class, 'addUser']);
     Route::get('users/{id}', [UserController::class, 'userDetail']);
     Route::put('users/{id}', [UserController::class, 'updateUser']);
-    Route::delete('users/{id}/{empid}', [UserController::class, 'deleteUser']);
+    Route::delete('users/{id}', [UserController::class, 'deleteUser']);
+    Route::patch('activeUser/{id}', [UserController::class, 'activeUser']);
+    Route::patch('inactiveUser/{id}', [UserController::class, 'inactiveUser']);
+
 });
 
 //User Employee Information v1
 
 Route::get('/getEmployeesList', [EmployeeController::class, 'getEmployeesList']);
 Route::get('/user/getprofile/{id}', [EmployeeController::class, 'getprofile']);
+Route::get('/user/getEmployeeById/{id}', [EmployeeController::class, 'getEmployeeById']);
 Route::post('/user/addProfile', [EmployeeController::class, 'addProfile']);
 Route::post('/user/updateProfile', [EmployeeController::class, 'updateProfile']);
 Route::post('/user/deleteEmployee/{empid}/{userid}', [EmployeeController::class, 'deleteEmployee']);
+Route::get('/user/activeEmployeeType/{id}', [EmployeeController::class, 'activeEmployeeType']);
+Route::get('/user/inactiveEmployeeType/{id}', [EmployeeController::class, 'inactiveEmployeeType']);
+Route::post('/user/fileUpload/', [EmployeeController::class, 'fileUpload']);
+
 
 //User Transfer Information v1
 
@@ -182,11 +190,14 @@ Route::get('/specificLeaveType/{id}', [LeaveTypeController::class, 'specificLeav
 
 Route::get('/getAcr', [AcrController::class, 'getAcr']);
 Route::post('/addacr', [AcrController::class, 'addacr']);
-Route::put('/updateAcrMgt/{id}', [AcrController::class, 'updateAcrMgt']);
+Route::post('/updateAcrMgt/{id}', [AcrController::class, 'updateAcrMgt']);
 Route::get('/specificAcrInfo/{id}', [AcrController::class, 'specificAcrInfo']);
 Route::get('/getprofileForAcr/{id}', [AcrController::class, 'getprofileForAcr']);
 Route::get('/getAcrListByEmployeeId/{id}', [AcrController::class, 'getAcrListByEmployeeId']);
 Route::delete('/deleteAcrInfo/{id}', [AcrController::class, 'deleteAcrInfo']);
+Route::patch('/activeAcrRecord/{id}', [AcrController::class, 'activeAcrRecord']);
+Route::patch('/inactiveAcrRecord/{id}', [AcrController::class, 'inactiveAcrRecord']);
+
 
 
 // Mail Controller
@@ -233,6 +244,7 @@ Route::get('/getSeniorEmployeeById/{id}', [SeniorEmployeeController::class, 'get
 // Freedom Fighter
 
 Route::get('/getFreedomFighter', [FreedomFighterController::class, 'getFreedomFighter']);
+Route::get('/getFreedomFighterByEmpId/{id}', [FreedomFighterController::class, 'getFreedomFighterByEmpId']);
 Route::post('/addFreedomFighter', [FreedomFighterController::class, 'addFreedomFighter']);
 Route::put('/updateFreedomFighter/{id}', [FreedomFighterController::class, 'updateFreedomFighter']);
 Route::delete('/deleteFreedomFighter/{id}', [FreedomFighterController::class, 'deleteFreedomFighter']);

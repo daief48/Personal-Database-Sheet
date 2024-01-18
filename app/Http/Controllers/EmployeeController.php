@@ -55,6 +55,8 @@ class EmployeeController extends Controller
                 ->leftJoin('freedom_fighters', 'freedom_fighters.employee_id', '=', 'employees.id')
                 ->select(
                     'employees.*',
+                    'employees.id as emp_id',
+                    'employees.status as emp_status',
                     'departments.dept_name as department_name',
                     'designations.designation_name as designation_name',
                     'freedom_fighters.*'
@@ -106,13 +108,15 @@ class EmployeeController extends Controller
             $getProfile = Employee::leftJoin('designations', 'designations.id', '=', 'employees.designation')
                 ->leftJoin('departments', 'departments.id', '=', 'employees.department')
                 ->leftJoin('offices', 'offices.id', '=', 'employees.office')
+                ->leftJoin('grades', 'grades.id', '=', 'employees.job_grade')
                 ->select(
                     'employees.*',
                     'designations.id as designation_id',
                     'designations.designation_name as designation',
                     'departments.id as department_id',
                     'departments.dept_name as department',
-                    'offices.office_name as office_name'
+                    'offices.office_name as office_name',
+                    'grades.job_grade as job_grade_name'
 
                 )
                 ->where('employees.user_id', $id)->first();
@@ -134,7 +138,43 @@ class EmployeeController extends Controller
             ], 500);
         }
     }
+    /**
+     * @OA\Get(
+     * tags={"PDS User Employee [Users]"},
+     * path="/pds-backend/api/user/getEmployeeById/{id}",
+     * operationId="getEmployeeById",
+     * summary="Get User Employee List",
+     * @OA\Parameter(name="id", description="id", example = 1, required=true, in="path", @OA\Schema(type="integer")),
+     * @OA\Response(response=200, description="Success" ),
+     * @OA\Response(response=400, description="Bad Request"),
+     * @OA\Response(response=404, description="Resource Not Found"),
+     * ),
+     * security={{"bearer_token":{}}}
+     */
 
+    public function getEmployeeById(Request $request, $id)
+    {
+        try {
+
+            $getProfile = Employee::find($id);
+
+            // $imgContent = public_path('/images/' . $getProfile->image);
+            // $contents = file_get_contents($imgContent);
+            // $baseEncode = 'data:image/png; base64,' . base64_encode($contents);
+
+
+            return response()->json([
+                'status' => 'success',
+                'data'   => $getProfile,
+                // 'encodeImg' => $baseEncode
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 
     /**
      * @OA\Post(
@@ -383,10 +423,14 @@ class EmployeeController extends Controller
 
     public function updateProfile(Request $request)
     {
-
+    
         try {
 
+
+
+            //  return $request->input(); 
             $Employee = Employee::where('user_id', $request->user_id)->first();
+
             $target = Employee::find($Employee->id);
 
             $image = $target->image ?? '';
@@ -397,74 +441,177 @@ class EmployeeController extends Controller
                     $constraint->aspectRatio();
                 })->save(public_path('/images/' . $fileName));
                 $image = $fileName;
+                $updateArr['image'] = $image;
 
                 if (File::exists(public_path('/images/' . $target->image))) {
                     File::delete(public_path('/images/' . $target->image));
                 }
             }
 
-            $updateArr = [
-                'image' => $image ?? $target->image,
-                'name' => $request->name,
-                'gender' => $request->gender,
-                'status' => $request->status,
-                'user_id' => $request->user_id,
-                'mobile_number' => $request->mobile_number ?? $target->mobile_number,
-                'email' => $request->email ?? $target->email,
-                'date_of_birth' => $request->date_of_birth ?? $target->date_of_birth,
-                'blood_group' => $request->blood_group ?? $target->blood_group,
-                'nid_number' => $request->nid_number ?? $target->nid_number,
-                'passport_number' => $request->passport_number ?? $target->passport_number,
-                'designation' => $request->designation ?? $target->designation,
-                'office' => $request->office ?? $target->office,
-                'present_addr_houseno' => $request->present_addr_houseno ?? $target->present_addr_houseno,
-                'present_addr_roadno' => $request->present_addr_roadno ?? $target->present_addr_roadno,
-                'present_addr_area' => $request->present_addr_area ?? $target->present_addr_area,
-                'present_addr_upazila' => $request->present_addr_upazila ?? $target->present_addr_upazila,
-                'present_addr_district' => $request->present_addr_district ?? $target->present_addr_district,
-                'present_addr_postcode' => $request->present_addr_postcode ?? $target->present_addr_postcode,
-                'permanent_addr_houseno' => $request->permanent_addr_houseno ?? $target->permanent_addr_houseno,
-                'permanent_addr_roadno' => $request->permanent_addr_roadno ?? $target->permanent_addr_roadno,
-                'permanent_addr_area' => $request->permanent_addr_area ?? $target->permanent_addr_area,
-                'permanent_addr_upazila' => $request->permanent_addr_upazila ?? $target->permanent_addr_upazila,
-                'permanent_addr_district' => $request->permanent_addr_district ?? $target->permanent_addr_district,
-                'permanent_addr_postcode' => $request->permanent_addr_postcode ?? $target->permanent_addr_postcode,
-                'department' => $request->department ?? $target->department,
-                'job_grade' => $request->job_grade ?? $target->job_grade,
-                'job_location' => $request->job_location ?? $target->job_location,
-                'joining_date' => $request->joining_date ?? $target->joining_date,
-                'education_history' => $request->education_history ?? [],
-                'document' => $request->document ?? [],
-                'father_name' => $request->father_name ?? $target->father_name,
-                'mother_name' => $request->mother_name ?? $target->mother_name,
-                'spouse_name' => $request->spouse_name ?? $target->spouse_name,
-                'number_of_child' => $request->number_of_child ?? $target->number_of_child,
-                'emergency_name' => $request->emergency_name ?? $target->emergency_name,
-                'emergency_relation' => $request->emergency_relation ?? $target->emergency_relation,
-                'emergency_phn_number' => $request->emergency_phn_number ?? $target->emergency_phn_number,
-                'emergency_email' => $request->emergency_email ?? $target->emergency_email,
-                'emergency_addr' => $request->emergency_addr ?? $target->emergency_addr,
-                'emergency_district' => $request->emergency_district ?? $target->emergency_district,
-            ];
+
+
+
+            if ($request->designation != 'null') {
+                $updateArr['designation'] = $request->designation;
+            }
+
+            if ($request->department != 'null') {
+                $updateArr['department'] = $request->department;
+            }
+            if ($request->nid_number != 'null') {
+                $updateArr['nid_number'] = $request->nid_number;
+            }
+
+            if ($request->passport_number != 'null') {
+                $updateArr['passport_number'] = $request->passport_number;
+            }
+
+            if ($request->office != 'null') {
+                $updateArr['office'] = $request->office;
+            }
+            if ($request->name != 'null') {
+                $updateArr['name'] = $request->name;
+            }
+            if ($request->gender != 'null') {
+                $updateArr['gender'] = $request->gender;
+            }
+            if ($request->status != 'null') {
+                $updateArr['status'] = $request->status;
+            }
+            if ($request->user_id != 'null') {
+                $updateArr['user_id'] = $request->user_id;
+            }
+            if ($request->mobile_number != 'null') {
+                $updateArr['mobile_number'] = $request->mobile_number;
+            }
+            if ($request->email != 'null') {
+                $updateArr['email'] = $request->email;
+            }
+            if ($request->date_of_birth != 'null') {
+                $updateArr['date_of_birth'] = $request->date_of_birth;
+            }
+            if ($request->blood_group != 'null') {
+                $updateArr['blood_group'] = $request->blood_group;
+            }
+            if (($request->present_addr_houseno != 'null')) {
+                $updateArr['present_addr_houseno'] = $request->present_addr_houseno;
+            }
+            if ($request->present_addr_roadno != 'null') {
+                $updateArr['present_addr_roadno'] = $request->present_addr_roadno;
+            }
+            if ($request->present_addr_area != 'null') {
+                $updateArr['present_addr_area'] = $request->present_addr_area;
+            }
+            if ($request->present_addr_upazila != 'null') {
+                $updateArr['present_addr_upazila'] = $request->present_addr_upazila;
+            }
+            if ($request->present_addr_district != 'null') {
+                $updateArr['present_addr_district'] = $request->present_addr_district;
+            }
+            if ($request->present_addr_postcode != 'null') {
+                $updateArr['present_addr_postcode'] = $request->present_addr_postcode;
+            }
+            if ($request->permanent_addr_houseno != 'null') {
+                $updateArr['permanent_addr_houseno'] = $request->permanent_addr_houseno;
+            }
+            if ($request->permanent_addr_roadno != 'null') {
+                $updateArr['permanent_addr_roadno'] = $request->permanent_addr_roadno;
+            }
+            if ($request->permanent_addr_area != 'null') {
+                $updateArr['permanent_addr_area'] = $request->permanent_addr_area;
+            }
+            if ($request->permanent_addr_upazila != 'null') {
+                $updateArr['permanent_addr_upazila'] = $request->permanent_addr_upazila;
+            }
+            if ($request->permanent_addr_district != 'null') {
+                $updateArr['permanent_addr_district'] = $request->permanent_addr_district;
+            }
+            if ($request->permanent_addr_postcode != 'null') {
+                $updateArr['permanent_addr_postcode'] = $request->permanent_addr_postcode;
+            }
+            if ($request->job_grade != 'null') {
+                $updateArr['job_grade'] = $request->job_grade;
+            }
+            if ($request->job_location != 'null') {
+                $updateArr['job_location'] = $request->job_location;
+            }
+            if ($request->joining_date != 'null') {
+                $updateArr['joining_date'] = $request->joining_date;
+            }
+            if ($request->education_history != 'null') {
+                $updateArr['education_history'] = $request->education_history ?? [];
+            }
+            if ($request->document != 'null') {
+                $updateArr['document'] = $request->document ?? [];
+            }
+            if ($request->father_name != 'null') {
+                $updateArr['father_name'] = $request->father_name;
+            }
+            if ($request->mother_name != 'null') {
+                $updateArr['mother_name'] = $request->mother_name;
+            }
+            if ($request->spouse_name != 'null') {
+                $updateArr['spouse_name'] = $request->spouse_name;
+            }
+            if ($request->number_of_child != 'null') {
+                $updateArr['number_of_child'] = $request->number_of_child;
+            }
+            if ($request->emergency_name != 'null') {
+                $updateArr['emergency_name'] = $request->emergency_name;
+            }
+            if ($request->emergency_relation != 'null') {
+                $updateArr['emergency_relation'] = $request->emergency_relation;
+            }
+            if ($request->emergency_phn_number != 'null') {
+                $updateArr['emergency_phn_number'] = $request->emergency_phn_number;
+            }
+            if ($request->emergency_email != 'null') {
+                $updateArr['emergency_email'] = $request->emergency_email;
+            }
+            if ($request->emergency_addr != 'null') {
+                $updateArr['emergency_addr'] = $request->emergency_addr;
+            }
+            if ($request->emergency_district != 'null') {
+                $updateArr['emergency_district'] = $request->emergency_district;
+            }
 
             $updateProfile = Employee::where('id', $Employee->id)->update($updateArr);
 
-            $freedomFighter = FreedomFighter::where('employee_id', $request->id)->first();
+            $bloodGroup = BloodGroup::where('employee_id', $Employee->id)->first();
 
-            $target = FreedomFighter::find($freedomFighter->id);
-            $addFreedomFighter = [
-                'freedom_fighter_num' => $request->freedom_fighter_num ?? $target->freedom_fighter_num,
-                'Sector' => $request->Sector ?? $target->Sector,
-                'fighting_divi' => $request->fighting_divi ?? $target->fighting_divi,
-            ];
-            $updateaddFreedomFighter = FreedomFighter::where('id', $freedomFighter->id)->update($addFreedomFighter);
+            // return $bloodGroup
+            if ($bloodGroup) {
+                // If the record exists, update its values
+                $bloodGroup->blood_group = $request->blood_group;
+                $bloodGroup->last_donate = now();
+                $bloodGroup->save();
+            } else {
+                // If the record does not exist, create a new one
+                $bloodGroup = new BloodGroup();
+                $bloodGroup->employee_id = $Employee->id;
+                $bloodGroup->blood_group = $request->blood_group;
+                $bloodGroup->last_donate = now();
+                $bloodGroup->save();
+            }
+
+
+
+            // $freedomFighter = FreedomFighter::where('employee_id', $request->id)->first();
+
+            // $target = FreedomFighter::find($freedomFighter->id);
+            // $addFreedomFighter = [
+            //     'freedom_fighter_num' => $request->freedom_fighter_num ?? $target->freedom_fighter_num,
+            //     'Sector' => $request->Sector ?? $target->Sector,
+            //     'fighting_divi' => $request->fighting_divi ?? $target->fighting_divi,
+            // ];
+            // $updateaddFreedomFighter = FreedomFighter::where('id', $freedomFighter->id)->update($addFreedomFighter);
 
             return response()->json([
                 'status'  => true,
                 'message' => "Employee Update Successfully",
                 'errors'  => null,
                 'profiledata'    => $updateProfile,
-                'freedomfighterdata'    => $updateaddFreedomFighter,
+                // 'freedomfighterdata'    => $updateaddFreedomFighter,
             ], 200);
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -526,4 +673,166 @@ class EmployeeController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * @OA\Get(
+     *     path="/pds-backend/api/user/activeEmployeeType/{id}",
+     *     tags={"PDS User Employee [Users]"},
+     *     summary="Activate Transfer Type Record",
+     *     description="Activate a specific Transfer Type Record with a valid ID",
+     *     operationId="activeEmployeeType",
+     *     @OA\Parameter(
+     *         name="id",
+     *         description="ID of the Transfer Type",
+     *         example=1,
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Successfully activated Transfer Type Record"),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     *     security={{"bearer_token":{}}}
+     * )
+     */
+
+    public function activeEmployeeType($id)
+    {
+        try {
+            $transferTypeInfo = Employee::find($id);
+
+            $transferTypeInfo;
+            if (!is_null($transferTypeInfo)) {
+                Employee::where('id', '=', $id)->update(['status' => 1]);
+
+                return response()->json([
+                    'status'  => true,
+                    'message' => "Activated Transfer Type Record Successfully",
+                    'errors'  => null,
+                    'data'    => $transferTypeInfo,
+                ], 200);
+            } else {
+                return $this->responseRepository->ResponseSuccess(null, 'Transfer Type ID is not valid!');
+            }
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(
+                null,
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/pds-backend/api/user/inactiveEmployeeType/{id}",
+     *     tags={"PDS User Employee [Users]"},
+     *     summary="Activate Transfer Type Record",
+     *     description="Inactivate a specific Transfer Type Record with a valid ID",
+     *     operationId="inactiveEmployeeType",
+     *     @OA\Parameter(
+     *         name="id",
+     *         description="ID of the Transfer Type",
+     *         example=1,
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Successfully activated Transfer Type Record"),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     *     security={{"bearer_token":{}}}
+     * )
+     */
+
+    public function inactiveEmployeeType($id)
+    {
+        try {
+            $transferTypeInfo = Employee::find($id);
+
+            $transferTypeInfo;
+            if (!is_null($transferTypeInfo)) {
+                Employee::where('id', '=', $id)->update(['status' => 0]);
+
+                return response()->json([
+                    'status'  => true,
+                    'message' => "Activated Transfer Type Record Successfully",
+                    'errors'  => null,
+                    'data'    => $transferTypeInfo,
+                ], 200);
+            } else {
+                return $this->responseRepository->ResponseSuccess(null, 'Transfer Type ID is not valid!');
+            }
+        } catch (\Exception $e) {
+            return $this->responseRepository->ResponseError(
+                null,
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+/**
+ * @OA\Post(
+ *     path="/pds-backend/api/user/fileUpload",
+ *     tags={"PDS User Employee [Users]"},
+ *     summary="Upload a Document File",
+ *     description="Upload a document file to the server",
+ *     operationId="fileUpload",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="File to upload",
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 type="object",
+ *                 @OA\Property(
+ *                     property="document_file",
+ *                     description="File to be uploaded",
+ *                     type="string",
+ *                     format="binary",
+ *                 ),
+ *             ),
+ *         ),
+ *     ),
+ *     @OA\Response(response=200, description="Successfully uploaded file"),
+ *     @OA\Response(response=400, description="Bad Request"),
+ *     @OA\Response(response=500, description="Internal Server Error"),
+ *     security={{"bearer_token":{}}}
+ * )
+ */
+public function fileUpload(Request $request)
+{
+    try {
+        if ($request->hasFile('document_file')) {
+            $file = $request->file('document_file');
+            $file_name = $file->getClientOriginalName();
+
+            $destinationPath = public_path("/document_files/");
+            $file->move($destinationPath, $file_name);
+
+            // You can add additional logic or response here if needed
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'Successfully uploaded file',
+                'errors'  => null,
+                'data'    => $file_name,
+            ], 200);
+        } else {
+            return $this->responseRepository->ResponseError(
+                null,
+                'No file uploaded',
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+    } catch (\Exception $e) {
+        return $this->responseRepository->ResponseError(
+            null,
+            $e->getMessage(),
+            Response::HTTP_INTERNAL_SERVER_ERROR
+        );
+    }
 }
+
+ }

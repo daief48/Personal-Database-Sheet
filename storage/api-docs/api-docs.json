@@ -340,6 +340,77 @@
                 }
             }
         },
+        "/pds-backend/api/activeAcrRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Annual Confidential Report Management(ACR)"
+                ],
+                "summary": "Activate ACR Record",
+                "description": "Activate Specific ACR Record With Valid ID",
+                "operationId": "activateAcrRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully activated ACR Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/pds-backend/api/inactiveAcrRecord/{id}": {
+            "patch": {
+                "tags": [
+                    "PDS Annual Confidential Report Management(ACR)"
+                ],
+                "summary": "Inactivate ACR Record",
+                "description": "Inactivate Specific ACR Record With Valid ID",
+                "operationId": "inactiveAcrRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successfully inactivated ACR Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/pds-backend/api/auth/login": {
             "post": {
                 "tags": [
@@ -1438,6 +1509,38 @@
                 }
             }
         },
+        "/pds-backend/api/user/getEmployeeById/{id}": {
+            "get": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Get User Employee List",
+                "operationId": "getEmployeeById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/pds-backend/api/user/addProfile": {
             "post": {
                 "tags": [
@@ -1822,6 +1925,126 @@
                 ]
             }
         },
+        "/pds-backend/api/user/activeEmployeeType/{id}": {
+            "get": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Activate Transfer Type Record",
+                "description": "Activate a specific Transfer Type Record with a valid ID",
+                "operationId": "activeEmployeeType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Transfer Type",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully activated Transfer Type Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/pds-backend/api/user/inactiveEmployeeType/{id}": {
+            "get": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Activate Transfer Type Record",
+                "description": "Inactivate a specific Transfer Type Record with a valid ID",
+                "operationId": "inactiveEmployeeType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Transfer Type",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully activated Transfer Type Record"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/pds-backend/api/user/fileUpload": {
+            "post": {
+                "tags": [
+                    "PDS User Employee [Users]"
+                ],
+                "summary": "Upload a Document File",
+                "description": "Upload a document file to the server",
+                "operationId": "fileUpload",
+                "requestBody": {
+                    "description": "File to upload",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "document_file": {
+                                        "description": "File to be uploaded",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully uploaded file"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/pds-backend/api/getFreedomFighter": {
             "get": {
                 "tags": [
@@ -1841,6 +2064,48 @@
                         "description": "Resource Not Found"
                     }
                 }
+            }
+        },
+        "/pds-backend/api/getFreedomFighterByEmpId/{id}": {
+            "get": {
+                "tags": [
+                    "PDS Freedom Fighter list"
+                ],
+                "summary": "Get Freedom Fighter by ID",
+                "description": "Retrieve information about a specific Freedom Fighter by ID",
+                "operationId": "getFreedomFighterByEmpId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Freedom Fighter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/pds-backend/api/addFreedomFighter": {
@@ -5606,6 +5871,82 @@
                         "description": "Resource Not Found"
                     }
                 }
+            }
+        },
+        "/pds-backend/api/activeUser/{id}": {
+            "patch": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "Activate User",
+                "description": "Activate a specific User with a valid ID",
+                "operationId": "activeUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the User",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully activated User"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/pds-backend/api/inactiveUser/{id}": {
+            "patch": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "Activate User",
+                "description": "Activate a specific User with a valid ID",
+                "operationId": "inactiveUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the User",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully activated User"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         }
     },

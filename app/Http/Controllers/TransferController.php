@@ -137,37 +137,37 @@ class TransferController extends Controller
         try {
             $rules = [
 
-                'employee_id' => 'required',
+                // 'employee_id' => 'required',
                 'transfer_type' => 'required',
-                'transfer_order' => 'required',
+                // 'transfer_order' => 'required',
                 'transfer_order_number' => 'required',
-                'to_office' => 'required',
-                'from_office' => 'required',
-                'to_department' => 'required',
-                'from_department' => 'required',
-                'to_designation' => 'required',
-                'from_designation' => 'required',
-                'transfer_date' => 'required',
-                'join_date' => 'required',
-                'transfer_letter' => 'required',
+                // 'to_office' => 'required',
+                // 'from_office' => 'required',
+                // 'to_department' => 'required',
+                // 'from_department' => 'required',
+                // 'to_designation' => 'required',
+                // 'from_designation' => 'required',
+                // 'transfer_date' => 'required',
+                // 'join_date' => 'required',
+                // 'transfer_letter' => 'required',
                 // Add validation rules for other fields here
             ];
 
             $messages = [
 
-                'employee_id.required' => 'The employee_id field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
                 'transfer_type.required' => 'The transfer_type field is required',
-                'transfer_order.required' => 'The transfer_order field is required',
+                // 'transfer_order.required' => 'The transfer_order field is required',
                 'transfer_order_number.required' => 'The transfer_order_number field is required',
-                'to_office.required' => ' The to_office field is required',
-                'from_office.required' => 'The from_office field is required',
-                'to_department.required' => 'The to_department field is required',
-                'from_department.required' => 'The from_department field is required',
-                'to_designation.required' => 'The to_designation field is required',
-                'from_designation.required' => 'The from_designation field is required',
-                'transfer_date.required' => 'The transfer_date field is required',
-                'join_date.unique' => 'This Join Date',
-                'transfer_letter.required' => 'The Transfer Letterfield is required',
+                // 'to_office.required' => ' The to_office field is required',
+                // 'from_office.required' => 'The from_office field is required',
+                // 'to_department.required' => 'The to_department field is required',
+                // 'from_department.required' => 'The from_department field is required',
+                // 'to_designation.required' => 'The to_designation field is required',
+                // 'from_designation.required' => 'The from_designation field is required',
+                // 'transfer_date.required' => 'The transfer_date field is required',
+                // 'join_date.unique' => 'This Join Date',
+                // 'transfer_letter.required' => 'The Transfer Letterfield is required',
                 // Add custom error messages for other fields if needed
             ];
 
@@ -202,7 +202,7 @@ class TransferController extends Controller
                 'from_designation' => $request->from_designation,
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
-                'transfer_letter' => $fileNameToStore,
+                'transfer_letter' => $fileNameToStore ?? null,
                 'status' => $request->status ?? 0,
             ]);
             return $this->responseRepository->ResponseSuccess($addTransfer, 'Transfer Record Added Successfully !');
@@ -253,35 +253,35 @@ class TransferController extends Controller
     {
         try {
             $rules = [
-                'employee_id' => 'required',
+                // 'employee_id' => 'required',
                 'transfer_type' => 'required',
-                'transfer_order' => 'required',
+                // 'transfer_order' => 'required',
                 'transfer_order_number' => 'required',
-                'to_office' => 'required',
-                'from_office' => 'required',
-                'to_department' => 'required',
-                'from_department' => 'required',
-                'to_designation' => 'required',
-                'from_designation' => 'required',
-                'transfer_date' => 'required',
-                'join_date' => 'required',
-                'transfer_letter' => 'required',
+                // 'to_office' => 'required',
+                // 'from_office' => 'required',
+                // 'to_department' => 'required',
+                // 'from_department' => 'required',
+                // 'to_designation' => 'required',
+                // 'from_designation' => 'required',
+                // 'transfer_date' => 'required',
+                // 'join_date' => 'required',
+                // 'transfer_letter' => 'required',
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
                 'transfer_type.required' => 'The transfer_type field is required',
-                'transfer_order.required' => 'The transfer_order field is required',
+                // 'transfer_order.required' => 'The transfer_order field is required',
                 'transfer_order_number.required' => 'The transfer_order_number field is required',
-                'to_office.required' => ' The to_office field is required',
-                'from_office.required' => 'The from_office field is required',
-                'to_department.required' => 'The to_department field is required',
-                'from_department.required' => 'The from_department field is required',
-                'to_designation.required' => 'The to_designation field is required',
-                'from_designation.required' => 'The from_designation field is required',
-                'transfer_date.required' => 'The transfer_date field is required',
-                'join_date.required' => 'The join_date field is required',
-                'transfer_letter.required' => 'The transfer_letter field is required',
+                // 'to_office.required' => ' The to_office field is required',
+                // 'from_office.required' => 'The from_office field is required',
+                // 'to_department.required' => 'The to_department field is required',
+                // 'from_department.required' => 'The from_department field is required',
+                // 'to_designation.required' => 'The to_designation field is required',
+                // 'from_designation.required' => 'The from_designation field is required',
+                // 'transfer_date.required' => 'The transfer_date field is required',
+                // 'join_date.required' => 'The join_date field is required',
+                // 'transfer_letter.required' => 'The transfer_letter field is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -321,7 +321,7 @@ class TransferController extends Controller
                 'from_designation' => $request->from_designation,
                 'transfer_date' => $request->transfer_date,
                 'join_date' => $request->join_date,
-                'transfer_letter' => $fileNameToStore,
+                'transfer_letter' => $fileNameToStore ?? "",
                 'status' => $request->status ?? 0,
             ]);
 
@@ -329,6 +329,8 @@ class TransferController extends Controller
         } catch (\Exception $e) {
             return $this->responseRepository->ResponseError(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+
     }
 
 

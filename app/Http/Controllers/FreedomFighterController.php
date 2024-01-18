@@ -61,6 +61,54 @@ class FreedomFighterController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     tags={"PDS Freedom Fighter list"},
+     *     path="/pds-backend/api/getFreedomFighterByEmpId/{id}",
+     *     operationId="getFreedomFighterByEmpId",
+     *     summary="Get Freedom Fighter by ID",
+     *     description="Retrieve information about a specific Freedom Fighter by ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the Freedom Fighter",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success", @OA\JsonContent()),
+     *     @OA\Response(response=400, description="Bad Request"),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     *     security={{"bearer_token":{}}}
+     * )
+     */
+
+    public function getFreedomFighterByEmpId($id)
+    {
+        try {
+            $getFreedomFighter = FreedomFighter::where('freedom_fighters.employee_id','=',$id)
+                ->first();
+
+            
+
+            if (!$getFreedomFighter) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Freedom Fighter not found.',
+                ], 404);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $getFreedomFighter,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
      * @OA\Post(
      * tags={"PDS Freedom Fighter list"},
      * path="/pds-backend/api/addFreedomFighter",

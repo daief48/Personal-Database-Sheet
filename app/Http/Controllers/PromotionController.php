@@ -126,28 +126,28 @@ class PromotionController extends Controller
     {
         try {
             $rules = [
-                'employee_id' => 'required',
+                // 'employee_id' => 'required',
                 'promotion_ref_number' => 'required',
-                'to_office' => 'required',
-                'from_office' => 'required',
-                'to_department' => 'required',
-                'from_department' => 'required',
-                'to_designation' => 'required',
-                'from_designation' => 'required',
+                // 'to_office' => 'required',
+                // 'from_office' => 'required',
+                // 'to_department' => 'required',
+                // 'from_department' => 'required',
+                // 'to_designation' => 'required',
+                // 'from_designation' => 'required',
                 'promotion_date' => 'required',
                 'description' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
+                // 'employee_id.required' => 'The employee_id field is required',
                 'promotion_ref_number.required' => 'The promotion_ref_number field is required',
-                'to_office.required' => ' The to_office field is required',
-                'from_office.required' => 'The from_office field is required',
-                'to_department.required' => 'The to_department field is required',
-                'from_department.required' => 'The from_department field is required',
-                'to_designation.required' => 'The to_designation field is required',
-                'from_designation.required' => 'The from_designation field is required',
+                // 'to_office.required' => ' The to_office field is required',
+                // 'from_office.required' => 'The from_office field is required',
+                // 'to_department.required' => 'The to_department field is required',
+                // 'from_department.required' => 'The from_department field is required',
+                // 'to_designation.required' => 'The to_designation field is required',
+                // 'from_designation.required' => 'The from_designation field is required',
                 'promotion_date.required' => 'The promotion_date field is required',
                 'description.required' => 'The description field is required',
 
@@ -226,30 +226,30 @@ class PromotionController extends Controller
         try {
 
             $rules = [
-                'employee_id' => 'required',
-                'promotion_ref_number' => 'required',
-                'to_office' => 'required',
-                'from_office' => 'required',
-                'to_department' => 'required',
-                'from_department' => 'required',
-                'to_designation' => 'required',
-                'from_designation' => 'required',
-                'promotion_date' => 'required',
-                'description' => 'required',
+                   // 'employee_id' => 'required',
+                   'promotion_ref_number' => 'required',
+                   // 'to_office' => 'required',
+                   // 'from_office' => 'required',
+                   // 'to_department' => 'required',
+                   // 'from_department' => 'required',
+                   // 'to_designation' => 'required',
+                   // 'from_designation' => 'required',
+                   'promotion_date' => 'required',
+                   'description' => 'required',
 
             ];
 
             $messages = [
-                'employee_id.required' => 'The employee_id field is required',
-                'promotion_ref_number.required' => 'The promotion_ref_number field is required',
-                'to_office.required' => ' The to_office field is required',
-                'from_office.required' => 'The from_office field is required',
-                'to_department.required' => 'The to_department field is required',
-                'from_department.required' => 'The from_department field is required',
-                'to_designation.required' => 'The to_designation field is required',
-                'from_designation.required' => 'The from_designation field is required',
-                'promotion_date.required' => 'The promotion_date field is required',
-                'description.required' => 'The description field is required',
+            // 'employee_id.required' => 'The employee_id field is required',
+            'promotion_ref_number.required' => 'The promotion_ref_number field is required',
+            // 'to_office.required' => ' The to_office field is required',
+            // 'from_office.required' => 'The from_office field is required',
+            // 'to_department.required' => 'The to_department field is required',
+            // 'from_department.required' => 'The from_department field is required',
+            // 'to_designation.required' => 'The to_designation field is required',
+            // 'from_designation.required' => 'The from_designation field is required',
+            'promotion_date.required' => 'The promotion_date field is required',
+            'description.required' => 'The description field is required',
 
             ];
 
