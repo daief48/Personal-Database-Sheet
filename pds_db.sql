@@ -56,17 +56,12 @@ CREATE TABLE IF NOT EXISTS `blood_groups` (
   `status` int NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pds_db.blood_groups: ~5 rows (approximately)
+-- Dumping data for table pds_db.blood_groups: ~2 rows (approximately)
 INSERT INTO `blood_groups` (`id`, `employee_id`, `blood_group`, `last_donate`, `updated_at`, `status`, `created_at`) VALUES
-	(31, 52, 'AB+', '2024-01-16', '2024-01-16 10:59:56', 0, '2024-01-16 10:37:48'),
-	(32, 52, 'AB+', '2024-01-27', '2024-01-16 10:59:37', 0, '2024-01-16 10:59:37'),
-	(36, 54, 'AB+', '2024-01-16', '2024-01-16 11:22:34', 0, '2024-01-16 11:21:45'),
-	(37, 55, 'B-', '2024-01-17', '2024-01-17 06:03:33', 0, '2024-01-17 04:31:55'),
-	(38, 58, 'null', '2024-01-18', '2024-01-18 08:59:22', 0, '2024-01-17 11:48:15'),
-	(39, 59, 'null', '2024-01-18', '2024-01-18 09:04:04', 0, '2024-01-18 09:02:00'),
-	(40, 60, 'null', '2024-01-18', '2024-01-18 09:47:35', 0, '2024-01-18 09:16:18');
+	(41, 60, 'AB+', '2024-01-18', '2024-01-18 11:25:27', 0, '2024-01-18 11:25:27'),
+	(42, 60, 'AB+', '2024-10-31', '2024-01-18 11:25:45', 0, '2024-01-18 11:25:45');
 
 -- Dumping structure for table pds_db.contacts
 CREATE TABLE IF NOT EXISTS `contacts` (
@@ -187,11 +182,11 @@ CREATE TABLE IF NOT EXISTS `employees` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Dumping data for table pds_db.employees: ~3 rows (approximately)
+-- Dumping data for table pds_db.employees: ~2 rows (approximately)
 INSERT INTO `employees` (`id`, `user_id`, `image`, `name`, `gender`, `mobile_number`, `email`, `date_of_birth`, `blood_group`, `nid_number`, `passport_number`, `department`, `designation`, `office`, `present_addr_houseno`, `present_addr_roadno`, `present_addr_area`, `present_addr_upazila`, `present_addr_district`, `present_addr_postcode`, `permanent_addr_houseno`, `permanent_addr_roadno`, `permanent_addr_area`, `permanent_addr_upazila`, `permanent_addr_district`, `permanent_addr_postcode`, `job_grade`, `job_location`, `joining_date`, `freedom_fighter_status`, `father_name`, `education_history`, `document`, `mother_name`, `spouse_name`, `number_of_child`, `emergency_name`, `emergency_relation`, `emergency_phn_number`, `emergency_email`, `emergency_addr`, `emergency_district`, `status`, `created_at`, `updated_at`, `document_file`) VALUES
 	(54, 143, '', 'Ovi', 'Male', '01751684550', 'ovi@gmail.com', NULL, 'AB+', 1223, 1221, 6, 5, 7, '123', '23', '23', 'Amtali', 'Barguna', '23', '23', '23', '32', 'Betagi', 'Pirojpur', '23', 6, 'Dhaka', '2024-01-16', 0, 'Abul Akter', NULL, NULL, 'Moriyom', 'Laila', 2, 'Daief Sikder', NULL, '01924529986', 'daiefsikder425@gmail.com', '34', 'Dhaka', 1, '2024-01-16 11:06:00', '2024-01-17 10:23:52', NULL),
 	(55, 145, '', 'Medza Vi', 'Male', '01920519595', '', '2024-01-26', 'B-', 2, 4, 6, 4, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'a', '[{"exam_name":"","institute_name":"a","district":"","upazila":"","subject":"c","passing_year":2202,"grade":"33","board":"b","group":"d"}]', '[{"document_name":"test ","document_file":"Md Nafis Rabbi.doc"},{"document_name":"3w332","document_file":"PMS & GIT  (1).pdf"}]', 'b', 'as', 2, 'Daief Sikder', 'Sister', '01924529986', 'hr@gmail.com', '34', NULL, 0, '2024-01-17 04:29:24', '2024-01-17 10:31:41', NULL),
-	(60, 151, '', 'Daief Sikder', NULL, '01924529986', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '[{"exam_name":"4343","institute_name":"54","district":"g","upazila":"34","subject":"gf","passing_year":2343,"grade":"3443"}]', '[{"document_name":"4343","document_file":"document (8).pdf"},{"document_name":"3434","document_file":"PMS & GIT  (1).pdf"}]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-01-18 09:05:36', '2024-01-18 09:47:35', NULL);
+	(60, 151, '', 'Daief Sikder', NULL, '01924529986', NULL, NULL, 'AB+', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '[{"exam_name":"4343","institute_name":"54","district":"g","upazila":"34","subject":"gf","passing_year":2343,"grade":"3443"}]', '[{"document_name":"4343","document_file":"document (8).pdf"},{"document_name":"3434","document_file":"PMS & GIT  (1).pdf"}]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-18 09:05:36', '2024-01-18 11:25:27', NULL);
 
 -- Dumping structure for table pds_db.failed_jobs
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
